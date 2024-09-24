@@ -1,0 +1,862 @@
+\documentclass{tufte-handout}
+
+%\geometry{showframe}
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% Defines colors
+\usepackage{xcolor}
+\definecolor{blue}{cmyk}{0.63, 0.37, 0, 0.57}     
+\definecolor{ltblue}{RGB}{78,150,179}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+% Package for title style
+\usepackage{sectsty}
+\usepackage[utf8]{inputenc}
+
+% Sets section number style
+\setcounter{secnumdepth}{3} % uncomment this, if desired
+\renewcommand\thesection{\color{white}\arabic{section}}
+
+% Sets title style
+\makeatletter
+  \renewcommand{\paragraph}{\@startsection{paragraph}%
+    {4}{\z@}{-1ex \@plus -1ex \@minus -.3ex}%
+    {0.5ex \@plus .2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\subsection}{\@startsection{subsection}%
+    {3}{-1.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{ltblue}{ltblue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\large\itshape\color{ltblue}}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{-1.01em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{blue}{blue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+
+% Sets theorem style
+\usepackage{thmtools}
+\usepackage{transparent}
+\definecolor{theb}{rgb}{0.67, 0.80, 0.91}
+
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Definition} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Theorem} % Colorbox-styled Theorem 
+\declaretheorem[shaded={rulecolor=Lavender,
+    rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{Example-1} % Colorbounded-styled Theorem
+\declaretheorem[thmbox=L]{boxtheorem L} % Theorem box L-size
+\declaretheorem[thmbox=M]{Example} % Theorem box M-size
+\declaretheorem[thmbox=S]{Formula} % Theorem box S-size
+\declaretheorem[thmbox=S]{Statement} % Theorem box S-size
+
+% set up pdf bookmark depth
+\hypersetup{bookmarksdepth=3}
+
+% -----------------------------------------------------------------------
+
+\title{Survey of Probability Concepts}
+\author[Matthew He]{Matthew He}
+  % if the \date{} command is left out, the current date will be used
+
+% Beginning of the document
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+% abstract
+\begin{abstract}
+\noindent This is meant to be a quick survey of important concepts in introductory probability theory. 
+It goes faster and more in-depth than elementary probability class,
+but not as technical as those pure math courses, which might be 
+good for people just getting into research like me.\\
+
+\textbf{Reference textbook:} \\
+\textit{Introduction to Probability} by David F. Anderson, Timo Seppäläinen, and Benedek Valkó (2017)\\
+\textit{Mathematical Statistics with Applications }by Dennis Wackerly, William Mendenhall, and Richard L. Scheaffer (2007)\\
+\textit{MATH447 Stochastic Process notes} by Jana Kurrek
+\end{abstract}
+
+% main text
+\section{Experiments with random outcomes}
+
+    \subsection{Ingredients of a Probability Model}
+        \marginnote{    \vspace*{20ex}
+
+            \textbf{Kolmogorov Axioms (early 1930s)}
+
+        \begin{enumerate}
+            \item $0 \leq P(A) \leq 1 $ for event A.
+            \item $P(\Omega) = 1$ and $ P(\emptyset) =0$.
+            \item If $ A_1, A_2 ......$ is a sequence of pairwise disjoint events \\
+            ($E_i \cap E_j = \emptyset $) for $ i \neq j$, \\
+            then \\ $ P(E_1 \cup E_2 \cup E_3 ......) = \sum_{i=1}^{\infty} P(E_i)$ \\
+            or \[P(\bigcup_{i=1}^{\infty})=\sum_{i=1}^{\infty}P(A_{i})\]
+        \end{enumerate}
+        *Axiom 3 can also be stated in terms of finite union of events as\\
+        $ P(E_1 \cup E_2 \cup E_3 ......) = \sum_{i=1}^{n}P(E_i)$\\
+        *Axiom 3 states that we can calculate probability of an event by summing up probabilities of its
+        disjoint decomposed events.}
+
+
+        \begin{Definition}
+            These are ingredients of a probability model. \\
+            \begin{itemize}
+                \item The \textbf{sample space} $\Omega$ is the set of all possible outcomes of
+                the experiment. Elements of $ \Omega $ are called \textbf{sample points} 
+                and typically denoted by $ \omega $.
+                \item Subsets of $ \Omega $ are called \textbf{events}. 
+                The collection of events in $ \Omega $ is denoted by $ \mathcal{F} $.
+                \item The \textbf{probability measure} 
+                (also called \textbf{probability distribution} or simply \textbf{probability})
+                P is a function from $ \mathcal{F} $ into the real numbers. 
+                Each event A has a probability of \textit{P(A)}, and
+                P satisfies the axioms on the right. 
+            \end{itemize}
+            The triple $ (\Omega, \mathcal{F}, \mathit{P}) $ is called a \textbf{probablity space}. 
+            Every mathematically precise model of a random experiment or collection of experiments must be 
+            of this kind.
+
+        \end{Definition}
+
+
+    \subsection{Random Sampling}
+        \begin{Theorem}[Random Sampling]
+            Let S be a finite sample space with N equally likely events and let E be an 
+            event in S. Then \newline 
+            \begin{center}
+                $P(E) = \frac{n}{N}$
+            \end{center}
+        \end{Theorem} 
+
+        \marginnote{This important theorem can reduce the problem of finding probabilities 
+        to a counting problem.}
+
+        \paragraph{Counting Rule 1: Multiplication Rule}
+            \textbf{Sampling with replacement, order matters.}
+            Consider k sets, Set 1 and Set 2 ... Set k. Set 1 has $n_{1}$, Set 2 has $n_{2}$ ... Set k has $n_{k}$
+            distinct objects. Then the number of ways to form a set by choosing one object from each set is $n_{1}n_{2}...n_{k}$.
+
+        \paragraph{Counting Rule 2: Factorial Rule}
+            \textbf{Sampling without replacement, order matters.}
+            The number of ways to arrange \textit{n} distinct objects is $n!$. \\
+            $0! = 1 $and $1! = 1$
+
+        \paragraph{Counting Rule 3: Permutation Rule }
+            \textbf{Sampling without replacement, order matters.}
+            The number of ways to arrange \textit{r} chosen from \textit{n} distinct object at a time without 
+            replacement, where the order matters, is known as \textbf{permutations} of \textit{n} objects taken \textit{r} at a time.\\
+            It is given by: $^{n}P_{r}=\dfrac{n!}{(n-r)!}$
+
+        \paragraph{Counting Rule 4: Combination Rule}
+            \textbf{Sampling without replacement, order irrelevant.}
+            The number of ways to select \textit{r} object from \textit{n} distinct total objects at a time without replacement,
+            where order does not matter, is known as \textbf{combination} of \textit{n} objects taken \textit{r} at a time.
+            It is given by: $\binom{n}{r} = \dfrac{n!}{(n-r)!r!}$
+            \marginnote{$\binom{n}{r}$ is also called binomial coefficient.}
+            
+    \subsection{Consequences of the rules of probability}
+        \paragraph{Decomposing an event}
+        If $ A_{1}, A_{2},..... $ are pairwise disjoint events and A is their union, then \\
+        $ P(A) = P(A_{1}) + P(A_{2}) + .... $. Calculation of the probability of a complicated event A 
+        almost always involves decomposing A into smaller disjoint pieces whose probabilities are easier to find.
+        Both finite and infinite decomposition is possible.
+        \begin{Theorem}[Events and complements]\phantom{xx} \\
+            For \it any event A \rm ,$ P(A)^c = 1 - P(A)$
+        \end{Theorem}
+
+        \begin{Theorem}
+            $P(\emptyset) =0$
+        \end{Theorem}
+
+        \begin{Theorem} 
+            $P(A\cup B^C) = P(A) - P(A \cap B^c)$
+        \end{Theorem}
+
+        \marginnote{\bf Proof: \rm \newline
+            Express A as the union of disjoint events as
+            $A = (A \cap B^C) \cup (A \cap B)$ \newline
+            $P(A) = P(A \cap B^C) + P(A \cap B)$ \newline by Axiom 3, \newline
+            $\Rightarrow P(A\cup B^C) = P(A) - P(A \cap B^c)$}
+
+        \begin{Theorem}[Monotonicity of probability]
+            If $A \subset B$ then $P(A) \leq P(B)$
+        \end{Theorem}
+
+        \noindent  \bf Proof: \rm \newline
+        $B = A \cup (A^C \cap B)$, $P(B)=P(A) + P(A^C \cap B)$ -- Axiom 3 \newline
+        As $P(A^C \cap B) \geq 0$ -- Axiom 1, $\Rightarrow P(B) \geq P(A) or P(A) \leq P(B)$
+
+        \begin{Theorem}[Inclusion-exclusion formulas]
+            \[P(A\cup B) = P(A) + P(B) - P(A \cap B)\]
+            \begin{align*}
+            P(A\cup B\cup C ) = P(A) + P(B)+P(C) - P(A\cap B) - P(A \cap C) \\
+            - P(B \cap C) + P(A\cap B \cap C)
+            \end{align*}
+            General Formula:
+            \begin{flalign*}
+                \begin{split}
+                P(A_{1}\cup ... \cup A_{n}) = \sum_{i=1}^{n }P(A_{i }) - \sum_{1 \leq i_{1} < i_{2}\leq n }P(A_{i_{1}}\cap A_{i_{2}})\\
+                +\sum_{1 \leq i_{1} < i_{2} < i_{3} \leq n }P(A_{i_{1}}\cap A_{i_{2}}\cap A_{i_{3}})\\
+                -\sum_{1 \leq i_{1} < i_{2} < i_{3} \leq i_{4} \leq n }P(A_{i_{1}}\cap A_{i_{2}}\cap A_{i_{3}} \cap A_{i_{4}})\\
+                + ... 
+                +(-1)^{n+1}P(A_{i_{1}}\cap ... \cap A_{i_{n}}) \\
+                = \sum_{k=1}^{n }(-1)^{k+1} \sum_{1\leq i_{1} < ... < i_{k } \leq n } P(A_{i_{1}}\cap ...\cap A_{i_{k}})
+            \end{split} 
+            \end{flalign*}
+            
+        \end{Theorem}
+
+        \noindent \textbf{Proof:} \newline
+            $A \cup B = (A \cap B^C) \cup (A \cap B) \cup (A^C \cap B)$ \newline
+            $P(A \cup B) = P(A \cap B^C) + P(A \cap B) + P(A^C \cap B)$ \newline
+            $P(A \cup B) = (P(A) - P(A \cap B)) + P(A \cap B) + (P(B) - P(A \cap B))$ \newline
+            By Theorem 3, therefore $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+
+
+        
+
+    
+        \noindent \textbf{Proof} : \newline
+            Write E as the union of its simple events (elementary outcomes). \\
+            $E = \cup ^{n} _{i = 1} E_{i}$ \\
+            As the simple events are disjoint,\\
+            \noindent  $P(E) = \sum_{n}^{i=1} P(E_{i})$ by Axiom 3.\\
+            \noindent Similarly, $S = \cup^{N} _{i=1} E_{i}$ and $P(S) = \sum_{N}^{i=1} P(E_{i})$ by Axiom 3. \\
+            Since all event $E_{i}$ are equally likely (have the same probability of occurrence) \\
+            $\sum_{i=1}^{N}P(E_{i}) = NP(E_{i})$ also $P(S) =1$ by Axiom 2 \\
+            Hence, $NP(E_{i}) = 1$ and $P(E_{i}) = \frac{1}{N} $\\
+            Therefore, $P(E) = \sum_{i=1}^{n}P(E_{i}) = \sum_{i=1}^{n} \frac{1}{N} = \frac{n}{N}$ 
+
+
+    \marginnote{\textit{\textbf{Side notes ssss}}}
+
+    \subsection{Continuity of the probability measure}
+        \begin{Theorem}
+            Suppose we have an infinite sequence of events $ A_{1}, A_{2},\dots $ that are nested increasing:
+            $ A_{1} \subset A_2 \subset \cdots \subset A_n \subset \cdots $. Let $ A_{\infty} = \cup_{k=1}^{\infty}A_k  $
+            denote the union. Then
+            \[\lim_{n\rightarrow\infty}P(A_n)=P(A_{\infty}).\]
+        \end{Theorem}
+
+        Another way to state this is as follows: if we have increasing events then 
+        the probability of the union 
+        of all the events(the probability that at least one of them happens) is equal to
+         the limit of the individual probabilities.\\
+
+        \marginnote{
+        Recall from calculus that a function $ f: \mathbb{R} \rightarrow \mathbb{R } $ is continuous at x 
+        if and only if for each sequence of point $ x_1, x_2, \dots $ that converge to x, we have 
+        $ f(x_n) \rightarrow f(x) $ as $ x \rightarrow \infty $. In a natural way increasing sets $ A_n  $ converge to 
+        their union $ A_{\infty} $, because the 
+        difference $ A_{\infty} \backslash A_n $ shrinks away as n $ n \rightarrow \infty $.}
+
+        \textit{Proof.} To take advantage of the additivity axiom of probability, we break up the events 
+        $ A_n $ into disjoint pieces. For $ n=2,3,4,\dots $ let $ B_n = A_n \backslash A_{n-1} $.\\
+        Now we have the disjoint decomposition of $ A_n  $ as 
+        \[A_n=A_{n-1}\cup B_n = A_{n-2} \cup B_{n-1} \cup B_n = \cdots = A_1 \cup B_2 \cup \cdots \cup B_n.\]
+        Taking union of all the events $ A_n $ gives us the disjoint decomposition
+        \[\cup_{n=1}^{\infty}A_n=A_1 \cup B_2 \cup B_2 \cup B_3 \cup \cdots\]
+        By the additivity of probability, and by expressing the infinite series as the limit of partial sums,
+        \[P(\cup_{n=1}^{\infty}A_n)=\lim_{n \rightarrow \infty}(P(A_1)+P(B_2)+\cdot+P(B_{n}))=\lim_{n \rightarrow \infty}P(A_n).\]
+        Q.E.D
+
+    \subsection{Measurability}
+
+        Every subset of a discrete sample space $ \Omega $ is a legitimate event. For example,
+        the sample space of flipping a single coin is $ \Omega = \left\{H,T \right\}$ and the collection of 
+        events is $ \mathcal{F} = \left\{\emptyset, \left\{H \right\}, \{T\}, \{H,T\}  \right\} $, which is 
+        exactly the collection of all subsets of $ \Omega $, namely the power set of $ \Omega $.
+
+        This all seems very straightforward. But there can be good reasons to use smaller collection $ \mathcal{F } $
+         of events. It can be useful for modeling purposes, and solve the technical problems with uncountable sample spaces 
+         preventing us from taking the $ \mathcal{F } $ as the power set.
+
+         To put the theory on a sound footing, we extend the axiomatic framework to impose the following requirements
+         on the collection of event $ \mathcal{F } $:
+
+         \begin{Definition}[$ \sigma-algebra $] \
+            Any collection $ \mathcal{F } $ of sets satisfying the following properties is call $ \sigma-algebra $ or $ \sigma-field$.
+             \begin{enumerate}
+                \item the empty set $ \emptyset $ is a member of $ \mathcal{F}$,
+                \item if A is in $ \mathcal{F } $, then $ A^c  $ is also in $ \mathcal{F } $,
+                \item if $ A_1, A_2, A_3, \cdots $ is a sequence of events in $ \mathcal{F }$, then 
+                their union $ \cup_{i=1}^{\infty}A_i  $ is also in $ \mathcal{F } $.
+            \end{enumerate}
+         \end{Definition}
+
+        The members of a $ \sigma-algebra $ are called \textit{measurable} sets.
+        The properties of a $ \sigma-algebra $ imply that countably many applications of the usual
+        set operations to events is a safe way to produce new events.
+
+        Fortunately all reasonable sets and functions encountered in practice are measurable.
+
+         Another aspect of the collection $ \mathcal{F } $ of events is that it can represent \textit{information}.
+
+
+
+\section{Conditional probability and independence}
+    \subsection{Condition probability}
+        \marginnote{\textbf{Fact:}\\
+        Let B be an event in the sample space $ \Omega $ such that $ P(B) > 0 $. 
+        Then, as a function of the event A, the conditional probability $ P(A|B) $ satisfies the Kolmogorov Axioms.
+        Especially, we have \\
+        $ P(\cup_{i=1}^{\infty}B_{i }|A) = \sum_{i=1}^{\infty}P(B_{i }|A)$ \\
+        where, $ B_{i } \cap B_{j } = \emptyset $ for $ i \neq j $}
+        
+        \begin{Definition}[Conditional probability] \phantom{text} \\
+            Let B be an event in the sample space $ \Omega $ such that $ P(B) > 0 $. Then for all 
+            events A the \textbf{conditional probability} of A given B is defined as 
+            \[P(A|B )=\frac{P(AB )}{P(B )}\]
+        \end{Definition}\
+        
+        \begin{Theorem}
+            Suppose that we have an experiment with \textbf{finitely many equally likely outcomes} and B is not the empty set.
+            Then, for any event A 
+            \[P(A|B ) = \frac{\#AB }{\#B}\]
+        \end{Theorem}
+
+        \marginnote{Or simply, we have \[P(A\cap B) = P(B|A)P(A) = P(A|B)P(B)\] \\
+        \textbf{Hints:}
+            \begin{enumerate}
+                \item If required to find $ P(A\cap B) $, look for either $ P(A ) $ or $ P(B ) $ and one 
+                of the conditional probabilities.
+                \item In word problems "of those that" implies a conditional probability.
+                \item Do not confuse "and" with "given that"
+            \end{enumerate}}
+        
+
+        \begin{Theorem}[Multiplication rule for n events]
+            If $ A_{1}, ... , A_{n } $ are events and all the conditional probabilities below make sense then we 
+            have
+            \[P(A_{1}\cdot \cdot \cdot A_{n })=P(A_{1})P(A_{2}|A_{1})P(A_{3}|A_{2}A_{1})\cdot \cdot \cdot P(A_{n }|A_{1}\cdot \cdot \cdot A_{n-1}) \]\\
+        \end{Theorem}
+        
+        \textbf{Nots:} This implies that problems involving the intersection of several events can be 
+        simplified to a great extent by conditioning backwards.
+
+        \paragraph{Three special cases of connditional probability}
+        \begin{enumerate}
+            \item Let A and B be two disjoint events, then, $ A \cap B = \emptyset $ and \\
+                    $ P(B|A)=0 $, since $ P(A\cap B ) = 0 $ 
+            \item Let A and B be two events, such that $ B \subset A  $. Then, \\
+            $ P(B|A ) = \frac{P(A \cap B )}{P(A)} = \frac{P(B )}{P(A )} $ 
+            \item Let A and B be two events, such that $ A \subset B  $. Then, \\
+            $ P(B|A ) = \frac{P(A \cap B )}{P(A)} = \frac{P(A )}{P(A )} = 1 $ 
+            
+        \end{enumerate}
+
+        \paragraph{Calculating probability by decomposition}
+        For example, a general version of the reasoning can be: 
+        \begin{flalign}
+            P(A) = P(AB) + P(AB^{c })= P(A|B)P(B) +P(A|B^{c })P(B^{c }).
+        \end{flalign}
+        The idea is the decomposition of a complicated event A into disjoint pieces that are 
+        easier to deal with. Above we used the pair $ \left\{ B, B^{c } \right\} $ to split A into two pieces. 
+        $ \left\{ B, B^{c } \right\} $ is an example of a \textit{partition}.
+        
+        \begin{Definition}[Partition]
+            A finite collection of event $ \left\{ B_{1}, \dots, B_{n } \right\} $ is a \textbf{partition}
+            of $ \Omega $ if the sets $ B_{i } $ are pairwise disjoint and together they make up $ \Omega $. That is
+            , $ B_{i }B_{ j} = \emptyset $ whenever $ i \neq  j$ and $ \cup_{i=1}^{n }B_{i }= \Omega $
+        \end{Definition}
+        
+        \marginnote{This equation is true for the same reason as the eq. (1). \\
+        Namely, set algebra gives 
+        \[A = A \cap \Omega = A \cap \left( \bigcup_{i=1}^{n }B_{i } \right) = \bigcup_{i=1}^{n} A B_{i }\]
+        \[P(A) = P(\bigcup_{i=1}^{n} A B_{i }) \]}
+        
+
+        \begin{Theorem}[The Law of Total Probability]
+            Suppose that $ B_{1}, \dots , B_{n } $ is a partition of $ \Omega $ with $ P(B_{i }) >0$
+            for $ i = 1, \dots, n $. Then for any event A we have 
+            \[P(A) = \sum_{i=1}^{n }P(AB_{i }) = \sum_{i=1}^{n }P(A|B_{i })P(B_{i })\]
+            More generally, $ P(A )=\mathbb{E }\left[ P(A|X ) \right] $.
+        \end{Theorem}
+
+        \marginnote{\textbf{Bayes' formula for two events.}\\
+            For events A and B,
+            \[P(A|B ) =\frac{P(AB)}{P(B)}= \frac{P(B|A)P(A)}{P(B )}\]}
+        \marginnote{post = likehood * prior/marginization }
+        
+        \begin{Definition}[General Version of Bayes' Formula]
+            Let $ B_{1}, \dots, B_{n } $ be a partition of the sample space $ \Omega $ such that
+            each $ P(B_{i }) > 0 $. Then for any event A with $ P(A ) > 0 $, and any $ k = 1,\dots,n $.
+            \[P(B_{k } |A ) =\frac{P(AB_{k})}{P(A)} = \frac{P(A|B_{k })P(B_{k })}{\sum_{j}(A|B_{j})P(B_{j})}\]
+        \end{Definition}
+
+\section{Random Variables}
+    \subsection{A First Look}
+    In addition to basic outcomes themselves, we are often 
+    interested in various numerical values derived from the outcomes.
+    \begin{Definition}[Random Variable]
+        Let $ \Omega $ be a sample space. A \textbf{random variable }is a \textbf{function} 
+        from $ \Omega $ into the real number.
+    \end{Definition}
+    \marginnote{\textbf{Some conventions:}\\
+    Random variables, not variables but functions, are usually denoted by capital 
+    letters such as X, Y and Z. The value of a random variable X at sample point $ \omega $ is $ X(\omega) $.}
+    
+    \begin{Definition}[Probability Distribution]
+        Let X be a random variable. The \textbf{probability distribution} of the random 
+        variable X is the collection of probabilities $ P(X\in B) $ for sets B of real numbers.
+    \end{Definition}
+    The probability distribution of a random variable is an assignment of probability to subsets of $ \mathbb{R } $
+    that satisfies again the axioms of probability. 
+
+    \marginnote{\vspace*{5ex} \newline That said, if the range of the random variable X is finite or countably infinite, then 
+    X is a discrete variable. Those k for which $ P(X=k ) >0$ are the possible values of X.}
+    
+    \begin{Definition}[Discrete Random Variable]
+        A random variable X is a \textbf{discrete random variable }is there exists a finite or countably 
+        infinite set $ \left\{ k_1, k_2, k_3, \dots \right\} $ of real numbers such that 
+        \[\sum_{i }^{}P(X=k_i )=1\]
+        where the sum ranges over the entire set of points $\left\{ k_1, k_2, k_3, \dots \right\}   $.
+    \end{Definition}
+    
+
+    \subsection{Probability Distributions of Random Variables}
+
+    \marginnote{\vspace*{5ex}\\The function $ p_X  $ gives the probability of each possible value of X. Probabilities of
+    other events of X then come by additivity: for any subset $ B \subset \mathbb{R} $
+    \[P(X\in B ) = \sum_{k\in B }P(X=k) = \sum_{k\in B }p_X(k)\]}
+
+    \begin{Definition}[Probability Mass Function]
+        The \textbf{probability mass function }(p.m.f) of a discrete random variable X 
+        is the function p (or $ p_X  $) defined by
+        \[p(k)=P(X=k)\]
+        for possible values k of X.
+    \end{Definition}
+
+    \marginnote{\vspace*{5ex}\\In fact, if f satisfies this definition, then 
+    \[P(X\in B ) = \int_{B}f(x)dx\]
+    for any subset B of the real line for which integration makes sense.}
+
+    \begin{Definition}[Probability Density Function]
+        Let X be a random variable. If a function f satisfies 
+        \[P(X \leq b ) = \int_{-\infty}^{b}f(x)dx\]
+        for all real values b, then f is the \textbf{probability density function}(p.d.f) of X.
+    \end{Definition}
+
+    
+    \begin{Theorem}
+        If a random variable X has density function f then point values have probability zero:
+        \[P(X=c) = \int_{c }^{c }f(x)dx = 0 \qquad \text{for any real c}\]
+    \end{Theorem}
+    It follows that a random variable with a density function is not discrete, and the 
+    probabilities of interval are not changed by including or excluding endpoints.
+
+    \textbf{Remark.} A random variable X can not have two different density functions.
+
+    \subsection{Cumulative Distribution Function}
+    \begin{Definition}[Cumulative Distribution Function]
+        The cumulative distribution function (c.d.f) of a random variable X is defined by
+        \[F(s) = P(X \leq s) \qquad \text{for all } s \in \mathbb{R}\]
+    \end{Definition}
+    \marginnote{Be mindful of the convention that the inequality is $ \leq $ in the equation.}
+    
+    The cumulative distribution function gives a way to describe the probability distribution of any 
+    random variable, including those that do not fall into the discrete or continuous categories.
+    The cumulative distribution function give probabilities of left-open right-closed intervals of the form (a,b]:
+    \[P(a < X \leq b) = P(X \leq b) - P(X \leq a) = F(b) - F(a)\]
+    Knowing these probabilities is enough to determin the distribution of X completely.
+
+    \paragraph{Cumulative distribution function of a discrete random variable}
+    \[F(s) = P(X \leq s) = \sum_{k:k\leq s} P(X=k)\]
+    where the sum extends over those possible values k of X that are less than or equal to s.
+
+    \paragraph{Cumulative distribution function of a continuous random variable}
+    \[F(s) = P(X \leq s) = \int_{-\infty}^{s }f(x)dx\]
+    This equation comes from the definition of probability density function.
+
+    \begin{Theorem}
+        Let the random variable X have cumulative distribution function F.\\
+        \begin{enumerate}
+            \item Suppose F is piecewise constant. Then X is a discrete random variable.
+            The possible values of X are the locations where F has jumps, and if x is such a point, then 
+            P(X = x) equals the magnitude of the jump of F at X. 
+            \item Suppose F is continuous and the derivative $ F'(x) $ exists everywhere on the real line,
+            except possibly at finitely many points. \\ Then X is continuous random variable and f(x) = F'(x) is the density function of X.
+            If F is not differentiable at x, then the value f(x) can be set arbitrarily.
+        \end{enumerate}
+    \end{Theorem}
+
+    \subsection{Expectation}
+    \paragraph{Expectation of a discrete random variable}
+    \begin{Definition}
+        The expectation or mean of a discrete random variable X is defined by
+        \[E(X) = \sum_k k P(X=k)\]
+        where the sum ranges over all the possible values k of X.
+    \end{Definition}
+    The expectation is also called the first moment, conventionally denoted as $ \mu =E(X) $.
+    The expectation is the weighted average of the possible outcomes, where the weights are given by probabilities.
+
+    \paragraph{Expectation of a continuous random variable}
+    In continuous case averaging is naturally done via integrals. The weighting is given by the density function.
+    
+    \marginnote{\vspace*{7ex}\\It is important to keep separate the random variable (X on the left) and the integration variable(x on the right).}
+    
+    \begin{Definition}
+        The expectation or mean of a continuous random variable X with density function f is 
+        \[E[X]=\int_{-\infty}^{\infty} x f(x) dx\]
+        An alternative symbol is $ \mu = E[X] $.
+    \end{Definition}
+
+    \paragraph{Expectation of a function of a random variable}
+    Taking a function of an existing random variable creates a new random variable.
+    \begin{Theorem}
+        Let g be a real-valued function defined on the range of a random variable X. If X is a discrete random 
+        variable then 
+        \[E[g(X)]=\sum_k g(k) P(X=k)\]
+        while if X is a continuous random variable with density function f then
+        \[E[g(X)]=\int_{-\infty}^{\infty}g(x)f(x)dx\]
+    \end{Theorem}
+
+    \textit{Proof.} The key is that the event {g(X)=y} is the disjoint union of the 
+    events {X=k} over those values k that satisfy g(k)=y:
+    \begin{align*}
+        E[g(X)] &= \sum_y y P(g(X)=y) = \sum_y y \sum_{k:g(k)=y}P(X=k)\\
+        &= \sum_y \sum_{k:g(k)=y} y P(X=k) = \sum_y \sum_{k:g(k)=y} g(k)P(X=k)\\
+        &= \sum_k g(k) P(X=k)
+    \end{align*}
+
+    \begin{Theorem}
+        The n \textbf{th moment} of the random variable X is the expectation $ E(X^n) $. 
+        In the discrete case the nth moment is calculated by 
+        \[E(X^n)=\sum_k k^n P(X=k)\]
+        If X has density functino f its nth moment is given by
+        \[E(X^n)=\int_{-\infty}^{\infty}x^n f(x) dx\]
+    \end{Theorem}
+    \marginnote{The second moment, $ E(X^2) $, is also called the mean square.}
+    
+
+
+
+
+\section{Conditional Distributions and Expectation}
+
+    \subsection{Conditioning on an event}
+    First new definition comes by applying $ P(A|B) = \frac{P(AB)}{P(B)} $ to an event $ A = \left\{ X=k \right\} $ for
+    a discrete random variable X.
+
+    \begin{Definition}[Conditional probability mass function of X, given B]
+        Let X be a discrete random variable and B an event with P(B)>0, Then the conditional
+        probability mass function of X, given B is the function $ p_{X|B } $ defined as follows for all
+        possible values k of X:
+        \[p_{X|B}(k)=P(X=k|B)=\frac{P(\left\{ X = k \right\}\cap B)}{P(B)}.\]
+    \end{Definition}
+    \marginnote{Just like a regular probability mass function, its values are nonnegative and sum up to one.}
+    
+    The key point above was that the events $ \left\{ X = k \right\} \cap B$ are disjoint for different 
+    values of k and their union over k is B.\\
+    We can use the conditional probability mass function to compute an expectation.
+    
+    \begin{Definition}[Conditional expectation of X, given the event B]
+        Let X be a discrete random variable and B an event with P(B)>0, Then the conditional
+        expectation of X, given the event B is the function, is denoted by $ E[X|B ] $and defined as
+        \[E[X|B]=\sum_k k p_{X|B }(k) = \sum_k k P(X=k|B)\]
+        where the sum ranges over all possible values k of X.
+    \end{Definition}
+    
+    Applying the averaging principle $ P(A)=\sum_{i=1}^{n}P(A|B_i)P(B_i) $ to an event $ A = \left\{ X=k \right\} $ gives
+    the following identity:
+    
+    \begin{Theorem}
+        Let $ \Omega $ be a sample space, X a discrete random variable on $ \Omega $, and $ B_1, \dots, B_n  $
+        a partition of $ \Omega $ such that each $ P(B_i)>0 $. Then the (unconditional) 
+        probabilities mass function of X can be calculated by averaging the conditional
+        probabilities mass function:
+        \[p_X(k) = \sum_{i=1}^{n }p_{X|B_i }P(B_i ).\]
+    \end{Theorem}
+
+    The averaging idea extends to expectations.
+    \begin{Theorem}
+        Let $ \Omega $ be a sample space, X a discrete random variable on $ \Omega $, and $ B_1, \dots, B_n  $
+        a partition of $ \Omega $ such that each $ P(B_i )>0 $. Then
+        \[E[X]=\sum_{i=1}^{n }E[X|B_i]P(B_i).\]
+    \end{Theorem}
+
+
+
+    \subsection{Conditioning on a random variable}
+    Let the partition in "Conditioning on an event" part come from another discrete randomvariable Y, 
+    then we followings.
+    \begin{Definition}[Conditional Probability Mass Function]
+        Let X and Y be discrete random variables. The conditional probability mass function of Y given X = x is
+        the folloing two-variable function:
+        \[p_{Y|X}(y|x)=P(Y=y|X=x)=\frac{P(Y=y,X=x )}{P(X=x)}=\frac{p_{Y,X}(y,x)}{p_X(x)}.\]
+        The conditional expectation of Y given X = x is
+        \[\mathbb{E }[Y|X=x ] = \sum_y y \cdot P(Y = y \mid X = x)=\sum_y y \cdot p_{Y|X}(y|x).\]
+        The definition above are valid for y such that $P(X=x)>0$.
+    \end{Definition}
+    \marginnote{The conditional probability mass function $ p_{Y|X}(y|x) $ is just a probability mass function 
+    in x for each fixed value of y, whenever $ p_X(x) >0 $.\\
+    The conditional expectation also satisfies familiar properties of usual expectation. For example:
+    \[\mathbb{E }[g(Y)|X=x ]=\sum_y g(y) \cdot p_{Y|X}(y|x)\]}
+
+    \noindent  As y varies, the events {Y=y} form a partition of $ \Omega $. Hence, we have
+    \begin{Theorem}
+        Let X and Y be discrete random variables. Then
+        \[p_X(x)=\sum_y p_{X|Y}(x|y)p_{Y}(y)\]
+        and
+        \[E(X) = \sum_y E[X|Y=y]p_Y(y).\]
+        The sums extend over those values y such that $ p_Y(y)>0 $
+    \end{Theorem}
+
+    \subsection{Conditional distribution for jointly continuous random variables}
+
+    \begin{Definition}[Conditional Probability Density Function]
+        Let X and Y be jointly continuous random variables with joint density function $ f_{X,Y}(x,y).$
+         The conditional probability density function of Y given X = x is,
+        \[f_{Y|X }(y|x ) = \frac{f_{X,Y}(x,y)}{f_{X }(x)}\]
+    \end{Definition}
+
+    Just as an ordinary density function, a conditional one can also be used to calculated conditional 
+    probabilities and expectations. The definition below gives the continuous counterpart of the discrete formula.
+
+    \begin{Definition}
+        The conditional probability that $ X \in A  $, given Y = y, is 
+        \[P(X\in A|Y=y)=\int_A f_{X|Y}(x|y)dx.\]
+        The conditional expectation of g(X), given Y = y, is
+        \[E[g(X)|Y=y]=\int_{-\infty}^{\infty}g(x)f_{X|Y }(x|y)dx.\]
+        The quantities above are defined for y such that $ f_Y(y)>0 $.
+    \end{Definition}
+
+    The averaging identities also works in the continuous case.
+
+    \begin{Theorem}
+        Let X and Y be jointly continuous. Then
+        \[f_X(x) =\int_{\infty}^{\infty}f_{X|Y}(x|y)f_Y(y)dy. \]
+        For any function g for which the expectations below make sense,
+        \[E[g(X)]=\int_{\infty}^{\infty}E[g(X)|Y=y]f_Y(y)dy.\]
+    \end{Theorem}
+
+    \marginnote{\textbf{Summary of conditional probability} 
+       \begin{itemize}
+        \item Total Probability \[P(A) = \mathbb{E }[P(A|X )]\]
+        \item Total Expectation \[\mathbb{E }[Y] = \mathbb{E }[\mathbb{E }[Y|X]]\]
+        \item Total Conditional Expectation \[P(Y|A ) = \mathbb{E }[P(Y|X,A )|A]\]
+        \item Total Conditional Probability \[\mathbb{E}[Y|A] = \mathbb{E}[\mathbb{E }[Y|X,A]|A]\]
+    \end{itemize}
+     }
+
+    \subsection{Conditional expectation}
+    In this section we discuss a conditional expectation that achieves some degree of unification of 
+    treatment of discrete and continuous random variables. A quick recap:
+    \begin{Definition}[Conditional Expectation]
+        Let X and Y be discrete or jointly continuous random variables. 
+        The conditional expectation of Y given X = x, denoted by $\mathbb{E }[Y|X=x ](x) $,
+        is a function of x,
+        \[\mathbb{E }[Y|X=x ](x) = 
+        \begin{cases}
+            \sum_y y \cdot P(Y = y \mid X = x) & \Omega \text{ is discrete} \\
+            \int_{-\infty}^{\infty} y \cdot f_{Y|X}(y \mid x) dy & \Omega \text{ is continuous}
+            \end{cases}\]
+    \end{Definition}
+
+    Before, we have the conditional expectation of X given Y = y, denoted by $ E[X|Y=y] $. \textbf{For each legitimate
+    y-value, $ E[X|Y=y] $ is a real number. }We think of it as a function of y, denoted by $ v(y)=E[X|Y] $.
+    We can summarize the construction also by saying that the random variable $ E(X|Y) $ takes the value $ E[X|Y=y] $ when Y = y.
+
+    \marginnote{The key idea is that $ E[X|Y=y] $ is a real number, and it's a possible value of the function $ E(X|Y) $.}
+    
+
+    \begin{Definition}[Conditional expection as a random variable]
+        Let X and Y be discrete or jointly continuous random variables. 
+        The conditional expectation of X given Y, denoted by $ E(X|Y) $, is by definition the 
+        random variable $ v(Y) $ where the function v is defined by $ v(y)=E(X|Y=y ) $.
+    \end{Definition}
+
+    \begin{Definition}
+        The \textbf{conditional expectation} of Y  given A, for discrete case, is,
+        \[E(Y|A ) = \frac{1}{P(A)}\sum_{y }yP(\left\{ Y=y \right\}\cap A)=\sum_{y }yP(Y=y|A)\]
+    \end{Definition}
+
+    \begin{Definition}[Law of Total Expectation]
+        If $ A_{1},\dots,A_{k } $ partitions $ \Omega $ and Y is a random variable, 
+        then the \textbf{law of total expectation } states that,
+        \[\mathbb{E }\left[ Y\right]= \sum_{i=1}^{k }\mathbb{E }[Y|A_{i }]P(A_{i})
+        \]
+        More generally, $\mathbb{E }\left[ Y\right]= \mathbb{E}[\mathbb{E }[Y|X]]  $
+    \end{Definition}
+    \textit{Proof.} For the discrete case,
+    \begin{align*}
+        \mathbb{E}[\mathbb{E }[Y|X]] &= \sum_{x}\mathbb{E }[Y|X=x ] \cdot P(X=x ) \\
+        &= \sum_{x} \left( \sum_y y \cdot P(Y = y \mid X = x) \right)P(X=x )\\
+        &= \sum_y y \sum_x P(Y = y \mid X = x)\cdot P(X=x )\\
+        &=\sum_y y \sum_x P(Y = y , X = x)\\
+        &= \sum_y y \cdot P(Y=y)\\
+        &= \mathbb{E }(Y)
+    \end{align*}
+
+
+    \subsection{Conditioning on multiple random variables}
+    \marginnote{\textbf{A prelude to stochastic processes!}\\
+                Finally we're about to get there.}
+    
+    A stochastic process in discrete time is a sequence of random variables $ X_0, X_1, X_2,\dots $.
+    One can think of this sequence as the time evolution of a random quantity. The random variable $ X_n  $
+    is called the state of the process at time n.\\
+
+    
+    \begin{align*}
+        P(X_0=x_0, X_1=x_1,\dots,X_n=x_n)=P(X_0=x_0)P(X_1=x_1|X_0=x_0)\\
+        \cdots P(X_n=x_n|X_0=x_0,\dots,X_{n-1}=x_{n-1})
+    \end{align*}
+
+    A larger important class of stochastic processes have the property that, at any given time, the past 
+    influences the future only through the present state. Concretely speaking, all but the last state
+    can be drop from the conditioning side of each conditional probability in the equation above. 
+
+    \begin{Definition}[Markov Chain]
+        Let $ X_0,X_1,X_2,\dots $ be a stochastic process oif discrete random variables. This 
+        process is a Markov chain if 
+        \[P(X_{n+1}=x_{n+1}|X_0=x_0,\dots,X_n=x_n)=P(X_{n+1}=x_{n+1}|X_n=x_n)\]
+        for all $ n \geq 0 $ and all $ x_0,\dots,x_n  $ such that $P(X_0=x_0, X_1=x_1,\dots,X_n=x_n)$.
+    \end{Definition}
+
+
+
+\section{Time-Homogeneous Markov Chains}
+    \subsection{Finite State, Time-Homogeneous Chains}
+    
+    \begin{Definition}[Finite State Stochastic Process]
+        A \textbf{finite state stochastic process} $ (X_n)_{n \geq 0} $ has time steps in 
+        $ \mathbb{N } $ and values in $ S = [N-1] $.
+    \end{Definition}
+
+    \begin{Definition}[Markov Property]
+        The \textbf{Markov property } claims that for every 
+        $ n \in \mathbb{N } $ and every sequence of states $ (i_0, i_1, \dots) $
+        where $ i_j \in S  $, the behavior of a system depends only on the previous state,
+        \[ P(X_n = i_n | X_0 = i_0, \dots, X_{n-1}=i_{n-1}) = P(X_n = i_n | X_{n-1} = i_{n-1})
+        \]
+    \end{Definition}
+
+    \begin{Definition}[Time Homogeneity]
+        A markov chain is \textbf{time-homogenous} if the probabilities
+        in definition above do not depend on n,
+        \[ P(X_n = i_n | X_{n-1} = i_{n-1}) = P(X_1 = i_1 | X_0 = i_0) \quad (n\in \mathbb{N})
+        \]
+    \end{Definition}
+
+    \begin{Definition}[Transition Matrix]
+        The \textbf{transition matrix P} for a time-homogeneous 
+        Markov chain is the $ N \times N $ matrix whose $ (i,j)th $ entry 
+        $ P_{ij} $ is the one-step transition probability $ p(i,j) = P(X_1 = j|X_0 = i) $
+    \end{Definition}
+
+    \marginnote{\textbf{Remark.} The transition matrix P 
+    is stochastic, that is,
+    \begin{itemize}
+        \item (Non-Negative Entries) $ 0 \leq P_{ij} \leq 1$ for 
+        $ 1 \leq i,j \leq N  $.
+        \item (Row Sum Equal to 1) $ \sum_{j=1}^{N } P_{ij } = 1 $ for $ 1 \leq i \leq N  $.
+    \end{itemize}}
+    % \vspace*{3ex}
+    \begin{Example}
+        Let $(X_n)_{n \geq 0}$ denote a sequence of coin flips where,
+            \[
+            P(X_{n+1} = H \mid X_n) =
+            \begin{cases}
+            0.51 & \text{if } X_n = H \\
+            0.49 & \text{if } X_n = T
+            \end{cases}
+            \]            and,
+            \[
+            P(X_{n+1} = T \mid X_n) =
+            \begin{cases}
+            0.51 & \text{if } X_n = T \\
+            0.49 & \text{if } X_n = H
+            \end{cases}
+            \]            Then,            
+            \[
+            \mathbf{P} = 
+            \begin{pmatrix}
+            0.51 & 0.49 \\
+            0.49 & 0.51
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+            P_{HH} & P_{HT} \\
+            P_{TH} & P_{TT}
+            \end{pmatrix}
+            \]
+    \end{Example}
+
+    \subsection{Transition Probabilities }
+    \begin{Definition}[Probability Distribution Vector]
+        The \textbf{distribution }of a discrete random variable X is the vector $ \vec {\phi}$ if,
+        \[\phi_j = P(X=j) \quad \forall j \in \mathbb{N }\]
+    \end{Definition}
+
+    \begin{Definition}[Initial Distribution Vector]
+        The \textbf{initial probability distribution} of a Markov chain $ (X_n)_{n \geq 0}  $ 
+        is the distribution $ \vec {\phi}$ of $ X_0 $.
+    \end{Definition}
+
+    \begin{Definition}[Transition Probabilities]
+        The n-step transition probability $ p_n(i,j)=P(X_n = i |X_0 = j) $
+         is the (i,j)th entry in the matrix $ \mathbf{P}^n $.
+    \end{Definition}
+
+
+
+
+% end of main text
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{0.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{Periwinkle}{Periwinkle}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+\bibliography{marginnotes}
+\bibliographystyle{plainnat}
+
+\end{document}
