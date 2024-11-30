@@ -1,0 +1,283 @@
+\documentclass{tufte-handout}
+
+%\geometry{showframe}
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% Defines colors
+\usepackage{xcolor}
+\definecolor{blue}{cmyk}{0.63, 0.37, 0, 0.57}     
+\definecolor{ltblue}{RGB}{78,150,179}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+% Package for title style
+\usepackage{sectsty}
+\usepackage[utf8]{inputenc}
+
+% Sets section number style
+\setcounter{secnumdepth}{3} % uncomment this, if desired
+\renewcommand\thesection{\color{white}\arabic{section}}
+
+% Sets title style
+\makeatletter
+  \renewcommand{\paragraph}{\@startsection{paragraph}%
+    {4}{\z@}{-1ex \@plus -1ex \@minus -.3ex}%
+    {0.5ex \@plus .2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\subsection}{\@startsection{subsection}%
+    {3}{-1.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{ltblue}{ltblue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\large\itshape\color{ltblue}}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{-1.01em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{blue}{blue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+% Sets theorem style
+\usepackage{thmtools}
+\usepackage{transparent}
+\definecolor{theb}{rgb}{0.67, 0.80, 0.91}
+
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Definition} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Theorem} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Corollary} % Colorbox-styled Theorem
+    \declaretheorem[shaded={bgcolor=PeachPuff,
+        textwidth=30em}]{Proposition} % Colorbox-styled Proposition
+\declaretheorem[shaded={rulecolor=Lavender,
+    rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{Example-1} % Colorbounded-styled Theorem
+\declaretheorem[thmbox=L]{boxtheorem L} % Theorem box L-size
+\declaretheorem[thmbox=M]{Example} % Theorem box M-size
+\declaretheorem[thmbox=S]{Formula} % Theorem box S-size
+\declaretheorem[thmbox=S]{Statement} % Theorem box S-size
+
+% set up pdf bookmark depth
+\hypersetup{bookmarksdepth=3}
+
+% ------------------------------------------------------------
+\title{MATH240: Discrete Structures}
+\author[Matthew He]{Matthew He}
+  % if the \date{} command is left out, the current date will be used
+
+% Beginning of the document
+\begin{document}
+
+\maketitle% this prints the handout title, author, and date
+
+% abstract
+\begin{abstract}
+\noindent Abstract
+\end{abstract}
+
+% main text
+\section{Predicate Logic}
+    \begin{Definition}[Predicate]
+    A \it predicate \rm is a statement containing some number
+    of variable coming from a universe \textbf{u}. aaa
+    \end{Definition}
+
+\subsection{Tutorial}
+\begin{enumerate}
+    \item $ p \Rightarrow p $: tautology, since 
+    $ \equiv \neg p \vee p = 1$ 
+    \item $(p \Rightarrow q) \Rightarrow p$: contingency,
+    true if $ p=q=1 $, false if $ p=0 $. 
+    \marginnote{When $ p = 0 $, $ p \Rightarrow q  $is always true, and 
+    a $ture \Rightarrow false (p)$ is always false.}
+    
+    \item $ (\neg (p \wedge \neg q)) \vee p \equiv 1 $: tautology. 
+    \item $ (p \Leftrightarrow q) \wedge (p \Leftrightarrow \neg q )$: contradictory. 
+    \item to be filled
+\end{enumerate}
+
+\begin{Example}
+    Prove that a logical formula is satisfiable iff. its 
+    negation is falsifiable.
+\end{Example}
+\textit{Proof.} A logical formula is satisfiable iff there is an assignment of 
+all the variables which makes the formula true. By definition of the negation, this assignment makes the negation of our formula false, 
+which means the negation is falsifiable. Proof of the converse is analogous.
+
+\paragraph{Prove or disprove:}
+\begin{enumerate}
+  \item $ \forall n \in \mathbb{N }, \exists m \in \mathbb{N }, n + m = 0 $ \\
+  False. Let's proof its negation: $ \exists n \in \mathbb{N }, \forall m \in \mathbb{N },
+  n + m \neq 0$, it's true, e.g., we can let $ n = 2 $.
+  \item $ \forall n \in \mathbb{N }, \exists m \in \mathbb{Z }, n + m = 0 $\\
+  Ture, Let $ n \in \mathbb{N } $, then choose $ m = -n \in \mathbb{Z }  $, and we get $ m+n=0 $. 
+  \item $ \forall n \in \mathbb{N }, \exists k \in \mathbb{N }, (k \geq m) \Rightarrow (k \geq 5n) $: \\
+  The statment is equivalent to $ (k < m) \vee (k \geq 5n)$. \\
+  For any $ n \in \mathbb{N }$, choose $m = 5n $, then for all $ k \in \mathbb{N } $, we have that statement is true.
+\end{enumerate}
+
+\subsection{Proofing statement of the form $ p \Rightarrow q $}
+    We assume p is true, prove q, which is showing the case that p is true 
+    be q is false can't happen.
+    \begin{Example}
+        \textit{prop.} If n is an odd integer, then $n^{2} $ is an odd integer.
+    \end{Example}
+    Write the proposition in predicate formula:
+    \[u = \mathbb{Z }, \phantom{x} \forall n: ((\exists k : n = 2k+1) \Rightarrow (\exists n^{2} = 2l+1))\]
+    \textit{proof.} Let n be ana integer. Assume that n is odd, that is, there exist k such that $ n = 2k+1 $.\\
+    Then, $ n^{2} = (2k+1)^{2} = 2(2k^{2} + 2k) + 1 $. Let $ l = 2k^{2} + 2k $,
+    then $ n^{2} = 2l + 1 $, thus, it's odd.
+
+\subsection{To disprove a statement: prove its negation is true}
+
+
+
+\begin{Example}
+    disprove $ \exists x \forall y: x + y \neq 0  $. \\
+    prove $ \forall x \exists y : x+ y = 0 \equiv \neg (\exists x \forall y: x + y \neq 0) $
+\end{Example}
+\textit{proof.} Let $ x \in \mathbb{R } $ be given. Pick $ y = -x  $, then 
+$ x + y = 0 $. Q.E.D
+
+\marginnote{Since $ p \wedge \neg p \equiv 0 $}
+
+\subsection{Converse and Contrapositive}
+
+\begin{Definition}\phantom{x }\\
+    \begin{enumerate}
+        \item the \textbf{converse} of $ p \Rightarrow q  $ is $  q \Rightarrow p  $\\
+        NB. $ p \Rightarrow q  \not\equiv  q \Rightarrow p  $
+        \item the \textbf{contrapositive} of $ p \Rightarrow q  $ is$\neg q \Rightarrow \neg p  $ \\
+        $ p \Rightarrow q  \equiv \neg p \vee q \equiv \neg q \Rightarrow \neg p$
+    \end{enumerate}
+\end{Definition}
+
+\subsection{Proofs by contradiction}
+You assume something is true, and get something nonsense.\\
+\[\neg p \Rightarrow 0 \equiv \neg (\neg p) \vee 0 \equiv p\]
+
+\begin{Example}
+    \textit{prop.} there is no least positive rational number.\\
+    \[u = \mathbb{Q }: \neg (\exists x : x>0 \wedge (\forall y: y > 0 \Rightarrow x \leq y))\]
+\end{Example}
+\textit{proof.} Suppose, for a contradiction that the proposition is false, that is,
+there exist $  x \in \mathbb{ Q } $ such that $ x>0 $ and for all $ y \in \mathbb{Q } $ with $ y>0, x \leq y  $.\\
+Let $ y = \frac{x }{2}$, we have $ \frac{x }{2} > 0 $ since $ x>0 $. Then $ x \leq y  $, so $ x \leq \frac{x }{2} $.\\
+Divide through by x ( because x > 0) to get $ 1 \leq \frac{1}{2}$.\\
+the contradiction completes the proof. Q.E.D
+
+\subsection{Case Analysis}
+\begin{Example}
+    \textit{prop.} There exists irrational numbers a,b such that a is rational.
+\end{Example}
+
+If 
+
+\section{Functions}
+\begin{Definition}[Surjective and injective]
+    A function is surjective if 
+    \[\forall b \in B, \exists a \in A, f(a) = b\]
+    A function is injective if 
+    \[\forall a_1, a_2 \in A, a_1 \neq a_2 \rightarrow f(a_1) \neq f(a_2)\]
+    or $ a_1 = a_2 \rightarrow f(a_1) = f(a_2) $.
+\end{Definition}
+
+
+\section{Graph Theory}
+\subsection{Definitions}
+A graph is a pair $ G = (V,E) $, where V is a nonempty set and \[E \subseteq \left\{ {u,v}: u,v \in V, u \neq v\right\}.\]
+
+\marginnote{The graph \( G \) is said to be \textit{finite} if both \( V \) are finite sets.
+A simple graph is a graph that does not have more than one edge between any two vertices and no edge
+starts and ends at the same vertex.}
+
+\textbf{Degrees and k-regularity}
+The \textit{neighbors} of a vertex \( v \) are all \( u \in V \) such that \( uv \in E \). The 
+\textit{degree} of a vertex \( v \) is the number of neighbors of \( v \), denoted by \( deg(v) \).
+A graph is said to be \( k-regular \) for some \( k\in \mathbb{N} \) if every \( v \in V \) has degree \( k \).
+
+The following theorem relates vertex degree to the number of edges.
+\begin{Theorem}
+    Let G = (V,E) be a finite graph. Then \[\sum_{v \in V} \deg(v) = 2 \left|E\right|.\]
+\end{Theorem}
+
+\begin{Corollary}[Handshaking Lemma]
+    In every finite simple graph, the number of vertices having odd degree is even.
+\end{Corollary}
+
+From Theorem above, we can derive a corollary that counts the number of edges in k-regular graphs.
+
+\begin{Corollary}
+    Let G = (V,E) be k-regular. Then \[\left|E\right| = \frac{k\left|V\right|}{2}.\]
+\end{Corollary}
+
+\textbf{Walks, paths, and cycles.} A \textit{walk} in a graph \( G = (V,E) \)
+is a sequence of vertices \( \sigma = (v_0, v_1, \ldots, v_k) \) such that \( v_i v_{i+1} \in E \) for all \( i \) with \( 0 \leq i < k \). 
+The \textit{endpoints} of the walk are \( v_0 \) and \( v_k \), and the \textit{lenght} of the walk \( \sigma \) is \( \left|\sigma\right| \)
+The walk is said to be \textit{closed} if \( v_0 = v_k \) and \textit{open} otherwise. 
+\clearpage
+
+A walk is a \textit{path} if no vertices are repeated. 
+\begin{Theorem}
+    Let G = (V,E) be a graph. If \( u \) and \( v \) are 
+    vertices such that there exists a walk from \( u \) to \( v \), then there exists a path from \( u \) to \( v \).
+\end{Theorem}
+
+A \textit{cycle} is a walk of length at least 3 and no vertices repeated except for \( v_0 = v_k \).
+
+\begin{Proposition}
+    Let G = (V,E). If G contains a closed walk of odd length, then G contains a cycle of odd length.
+\end{Proposition}
+
+% end of main text
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{0.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{Periwinkle}{Periwinkle}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+\bibliography{marginnotes}
+\bibliographystyle{plainnat}
+
+\end{document}
