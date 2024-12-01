@@ -4,6 +4,19 @@
 %\geometry{showframe}% for debugging purposes -- displays the margins
 
 \usepackage{amsmath}
+\usepackage{cleveref}
+\crefname{Proposition}{Proposition}{Propositions}
+\Crefname{Proposition}{Proposition}{Propositions}
+\crefname{Theorem}{Theorem}{Theorems}
+\Crefname{Theorem}{Theorem}{Theorems}
+\crefname{Definition}{Definition}{Definitions}
+\Crefname{Definition}{Definition}{Definitions}
+\crefname{Corollary}{Corollary}{Corollaries}
+\Crefname{Corollary}{Corollary}{Corollaries}
+\crefname{Lemma}{Lemma}{Lemmas}
+\Crefname{Lemma}{Lemma}{Lemmas}
+\crefname{Example}{Example}{Examples}
+\Crefname{Example}{Example}{Examples}
 \usepackage{amsthm}
 
 % Set up the images/graphics package
@@ -86,8 +99,10 @@
     textwidth=30em}]{Theorem} % Colorbox-styled Theorem 
 \declaretheorem[shaded={bgcolor=Thistle,
     textwidth=30em}]{Corollary} % Colorbox-styled Theorem
-    \declaretheorem[shaded={bgcolor=PeachPuff,
-        textwidth=30em}]{Proposition} % Colorbox-styled Proposition
+\declaretheorem[shaded={bgcolor=PeachPuff,
+    textwidth=30em}]{Proposition} % Colorbox-styled Proposition
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Lemma} % Colorbox-styled Lemma
 \declaretheorem[shaded={rulecolor=Lavender,
     rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{Example-1} % Colorbounded-styled Theorem
 \declaretheorem[thmbox=L]{boxtheorem L} % Theorem box L-size
@@ -220,6 +235,23 @@ If
     or $ a_1 = a_2 \rightarrow f(a_1) = f(a_2) $.
 \end{Definition}
 
+\section{Modular Arithmetic}
+
+\subsection{Division}
+\begin{Proposition}
+    Let a and b be nonzero integers. The set
+    \[X = \left\{s'a+t'b:s',t'\in \mathbb{Z}\right\}\]
+    is exactly the set of multiples of $ d = \gcd(a,b) $.
+\end{Proposition}
+\textit{Proof.} By Bezout's identity, there exist integers $ s,t $ such that \( d = sa+tb \).
+First let \( n \in \mathbb{Z} \) be a multiple of \( d \), so \( n = kd \) for some \( k \in \mathbb{Z} \).
+Then we have \[n=kd=d(sa+tb)=(ds)a+(dt)b,\]
+which means that \( n\in \mathbf{X} \), since \( ds,dt \in \mathbb{Z} \).
+
+Conversely, suppose that \( n \in \mathbf{X} \). Then \( n = s'a+t'b \) for some \( s',t' \in \mathbb{Z} \).
+Then since \( d \) divides \( a \) and \( b \), we can write \( a=ld \) and \( b=md \) for some integers \( l,m \in \mathbb{Z}\).
+So we have \[n=s'a+t'b=s'ld+t'md=(s'l+t'm)d,\]
+which shows that \( d|n \), since \( s'l+t'm \in \mathbb{Z} \). \qedsymbol
 
 \section{Graph Theory}
 \subsection{Definitions}
@@ -253,7 +285,6 @@ From Theorem above, we can derive a corollary that counts the number of edges in
 is a sequence of vertices \( \sigma = (v_0, v_1, \ldots, v_k) \) such that \( v_i v_{i+1} \in E \) for all \( i \) with \( 0 \leq i < k \). 
 The \textit{endpoints} of the walk are \( v_0 \) and \( v_k \), and the \textit{lenght} of the walk \( \sigma \) is \( \left|\sigma\right| \)
 The walk is said to be \textit{closed} if \( v_0 = v_k \) and \textit{open} otherwise. 
-\clearpage
 
 A walk is a \textit{path} if no vertices are repeated. 
 \begin{Theorem}
@@ -261,11 +292,270 @@ A walk is a \textit{path} if no vertices are repeated.
     vertices such that there exists a walk from \( u \) to \( v \), then there exists a path from \( u \) to \( v \).
 \end{Theorem}
 
+\marginnote{There we proform a minimality argument. Note that this theorem is about existence of path, a walk is not necessary a path.}
+
+\textit{Proof.} Let \( \sigma = (v_0, v_1, \ldots, v_n) \) be a walk from \( u \) to \( v \) of shortest length.
+We claim that \( \sigma \) is a path. Indeed, suppose for a contradiction that it is not a path; then there is some repeated vertex,
+so there exist \( i,j \in {0,1,\ldots,n}\) such that \(i < j \) and \( v_i = v_j \).  Hence
+there is no need to visit any of the vertices between \( v_i \) and \( v_j \) in the walk,
+since \( v_i = v_j\) is connected to \( v_{j+1} \). Concretely, consider the walk 
+\[\sigma'=(v_0, v_1, \ldots, v_i, v_{j+1}, \ldots, v_n).\]
+Note that \( \left|\sigma'\right| = \left|\sigma\right| - (j-i) \), and \( j-i>0 \), so \( \sigma' \) is a
+shorter walk from \( u \) to \( v \). But this contradicts our choice of \( \sigma \) as a walk of shortest length.
+We conclude that \( \sigma \) is a path.
+\qedsymbol
+
 A \textit{cycle} is a walk of length at least 3 and no vertices repeated except for \( v_0 = v_k \).
 
 \begin{Proposition}
+    \label{prop:odd_cycle}
     Let G = (V,E). If G contains a closed walk of odd length, then G contains a cycle of odd length.
 \end{Proposition}
+
+\marginnote{The idea is similar to the proof of the previous theorem.}
+
+\textit{Proof.} Let \( \sigma = (v_0, v_1, \ldots, v_n) \) be an odd-length closed walk
+in G, and choose this walk to have minimal odd length (i.e, any shorter closed walk has even length).
+We shall prove that \( \sigma \) is a cycle.
+
+For a contradiction, suppose that \( \sigma \) is not a cycle, so that there exist indices \( i,j \) with \( 0 \leq i < j \leq n \)
+such that \( v_i = v_j \). Consider the two closed walks
+\[\sigma_1 = (v_0, v_1, \ldots, v_i, v_{j+1},\ldots , v_{n})\] and
+\[\sigma_2 = (v_i, v_{j+1}, \ldots, v_j).\]
+Both are shorter than \( \sigma \), so by the minimality of \( \sigma \), they must have even length.
+But this implies that \( \left|\sigma\right| = \left|\sigma_1\right| + \left|\sigma_2\right| \) is even.
+This leads to a contradiction.
+
+We conclude that \( \sigma \) is a cycle. \qedsymbol
+
+\textbf{Connectedness.} We say a graph \( G = (V,E) \) is \textit{connected} if for all \( u,v \in V \),
+there exists a walk from \( u \) to \( v \).
+\marginnote{ This is a disconnected graph:
+\includegraphics*[width=\linewidth]{graphics/Disconnected_Graph}
+}
+
+\begin{Proposition}
+    For all \( n \geq 1 \), the graph \( K_n \) and \( Q_n \) are connected.
+\end{Proposition}
+
+\textit{Proof.} Any two vertices \( u \) and \( v \) in \( K_n \) are connected by an edge, so
+we have a path \( (u,v) \) of length 1 between \( u \) and \( v \). This shows that \( K_n \)
+is connected.
+
+Now let \( u \) and \( v \) be any two vertices in \( Q_n \). Suppose there are m 
+bits that differ between \( u \) and \( v \), Then we can flip them one by one to change \( u \) to \( v \).
+This gives us a walk of length \( m \) between \( u \) and \( v \), since there is an
+edge in \( Q_n \) between any two strings in \( Q_n \) that differ at exactly one bit. \qedsymbol
+
+Here is an example:
+\begin{Example}[Disconnected Graph and Modular Arithmetic]
+    Let \( G = (V,E) \), where for \( i,j \in \mathbb{Z} \) with \( i<j \), we have \( ij \in E \)
+    if and only if \( j-i \in {9,15} \). Then \( G \) is disconnected.
+\end{Example}
+\textit{Proof.}
+Starting at \( n \in \mathbb{Z} \), we can reach any vertex \( m \) that is of the form \[m=n+15s+9t\]
+for some \( s,t \in \mathbb{Z} \). By proposition in division section, the integers representable as
+\( n+15s+9t \) are exactly the multiples of \( \gcd(15,9) = 3 \). So in fact, from \( n \) one can reach any integer \( m \)
+of the form \( n+3k \) for some \( k \in \mathbb{Z} \). That is, one can reach any integer \( m \) with
+\( m \equiv n \mod 3 \). Hence the three connected components of \( G \) are \( [0]_3, [1]_3,[2]_3\),
+the equivalence classes of integers modulo 3. \qedsymbol
+
+\subsection{Triangles and bipartite graphs}
+A \textit{subgraph} of a graph \( G = (V,E) \) is a graph \( G' = (V',E') \) such that \( V' \subseteq V \) and \( E' \subseteq E \)
+where for all \( e=uv \in E' \), we have \( u,v \in V' \).
+
+\textbf{The extremal question} An extremal question asks for the extermal (maximum or minimum) number of objects
+we can have, subject to some restrictions.
+
+We now want to derive the maximum number of edges in a triangle-free graph on \( n \) vertices.
+
+\begin{Theorem}[Cauchy-Schwarz Inequality] \hfill\\
+    For all \( u_1, \ldots, u_n, v_1, \ldots, v_n \in \mathbb{R} \), we have\[\left(\sum_{i=1}^{n} u_i v_i\right)^2 \leq \left(\sum_{i=1}^{n} u_i^2\right)\left(\sum_{i=1}^{n} v_i^2\right).\]
+\end{Theorem}
+
+\begin{Theorem}[Mantel's theorem]
+    Let \( G = (V,E) \) be a graph not containing a triangle as a subgraph. Then
+    \[ \left|E\right| \leq \lfloor \frac{\left|V\right|^2}{4} \rfloor.\]
+\end{Theorem}
+
+\textit{Proof.} Consider the sum \[ \sum_{uv\in E}\left(\deg(u)+\deg(v)\right).\]
+The term \( \deg(u) \) appears in the sum exactly once for every edge incident on u; that is, it
+appears \( \deg(u) \) times. This is true for all \( u \in V \), so we conclude that
+\[ \sum_{uv\in E}\left(\deg(u)+\deg(v)\right) = \sum_{u\in V}\deg(u)^2.\]
+On the other hand, since G contains no triangle, for every pair of vertices \( u\) and \( v \), the set
+of neighbors of \( u \) is disjoint from the set of neighbors of \( v \). So \( \deg(u) +\deg(v) \leq \left|V\right| \), and we have
+\[ \sum_{u\in V}\deg(u)^2=\sum_{uv\in E}\left(\deg(u)+\deg(v)\right) \leq \left|E\right|\left|V\right|.\]
+\marginnote{
+Derivation using Cauchy-Schwarz inequality:
+\begin{align}
+    (2\left|E\right|)^2 & = \left(\sum_{u\in V}\left(\deg(u)\right)\right)^2 \\
+    &= \left(\sum_{u\in V}\deg(u)\cdot 1\right)^2 \\
+    & \leq \left(\sum_{u\in V}\deg(u)^2\right)\left(\sum_{u\in V}1^2\right) \\
+    &= \left|V\right|\left(\sum_{u\in V}\deg(u)^2\right).
+\end{align}}
+By the Cauchy-Schwarz inequality, we have
+\[(2\left|E\right|)^2\leq \left|V\right|\left(\sum_{u\in V}\deg(u)^2\right)\]
+Hence \[4\left|E\right|^2\leq\left|V\right|\left(\sum_{u\in V}\deg(u)^2\right)\leq \left|V\right|^2\left|E\right|.\]
+This implies that \( \left|E\right|\leq \frac{\left|V\right|^2}{4} \).
+We can take the floor function on the R.H.S, since \( \left|E\right| \) must be an integer.\qedsymbol
+
+So if a graph has \(\left|E\right| > \lfloor \left|V\right|^2\slash 4 \rfloor \), there must be a triangle subgraph in G.
+\marginnote{This is the converse of the proposition we just proved. Pay attention here, because that means the theorem does not assert
+any graph has edges less or equal to \(\lfloor \left|V\right|^2\slash 4\rfloor \) is triangle-free.}
+
+How about the case a graph has exactly \(\left|V\right|^2\slash 4 \) edges? 
+The Mantel's theorem does not assert that it must have triangles.
+This brings us to the definition of a bipartite graph.
+
+\textbf{Bipartite graphs} A graph \( G = (V,E) \) is \textit{bipartite} if there exists
+a partition of \( V = A \cup B \) of the vertex set (\( A\cap B = \emptyset\)) called the \textit{bipartition}
+such that each edge has one endpoint in \( A \) and the other in \( B \).
+For example, hypercubes \( Q_n \) are bipartite.
+
+\begin{Proposition}
+    For all \( n \geq 1 \), the graph \( Q_n \) is bipartite.
+\end{Proposition}
+\textit{Proof.} Let \( Q_n = (V,E) \). Every elements \( s\in V \) corresponds to a binary string of length \( n \),
+\( S = (s_1, s_2, \ldots, s_n) \) where each \( s_i \) is either 0 or 1. Define
+\[V_0 = \left\{s\in V: s_1 + \dots + s_n \equiv 0 \pmod 2\right\}\]
+and
+\[V_1 = \left\{s\in V: s_1 + \dots + s_n \equiv 1 \pmod 2\right\}.\]
+It's clear that \( V_0 \cup V_1 =V \) and \( V_0 \cap V_1 = \emptyset \), so this is a bipartition of the vertex set.
+For every \( e = s_1s_2 \in E \), the strings \( s_1 \) and \( s_2 \) differ in exactly on bit, so if
+\( s_1 \in V_0 \), then \( s_2 \in V_1 \) and vice versa. Hence \( Q_n \) is bipartite. \qedsymbol
+
+The \textit{complete bipartite graph} \( K_{m,n} \) is a bipartite graph with bipartition \( V = V_m \cup V_n \), where
+\marginnote{
+\includegraphics*[width=\linewidth]{graphics/complete_bipartite}
+}
+\( \left|V_m\right| = m \) and \( \left|V_n\right| = n \), and E is the set \( {uv: u\in V_m, v\in V_n} \) of
+all possible edges between the two sets.
+
+When \( n \) is even, the graph \( K_{n/2,n/2} \) has n vertices and exactly \( n^2\slash 4 \) edges.
+When \( n \) is odd, the graph \( K_{(n-1)/2,(n+1)/2} \) has n vertices and 
+\[\frac{n+1}{2}\cdot \frac{n-1}{2} = \frac{n^2-1}{4} = \frac{n^2}{4}-\frac{1}{4} = \lfloor \frac{n^2}{4} \rfloor\]
+\marginnote{\( K_{n/2,n/2} \) has the largest possible number of edge shuch that the Mantel's theorem does not apply. But adding
+a single edge to \( K_{n/2,n/2} \) results in a graph that must contain a triangle by Mantel's theorem.}
+edges. (The last equality here follows from the fact that any odd \( n \) is congruent to either 1 or 3 modulo 4,
+which means its square is congruent to 1 modulo 4.)
+
+\begin{Lemma}
+    A graph \( G = (V,E) \) is bipartite if and only if its connected components are bipartite.
+\end{Lemma}
+
+\textit{Proof.} Let \(G_1 = (V_1,E_1), \ldots, G_k = (V_k,E_k) \) be the connected components of \( G \).
+
+If each connected component is bipartite, then we can bipartition each \( V_i \) into \( A_i \cup B_i \).
+Then \( A = \bigcup_{i=1}^{n} A_i \) and \( B = \bigcup_{i=1}^{n} B_i \) is a bipartition of \( V \).
+And every edge in \( G \) has one endpoint in \( A \) and the other in \( B \), so \( G \) is bipartite.
+
+Now suppose that there is some connected component \( G_i \) that is not bipartite. Now let
+\(V = A\cup B \) be any partition of \( V \) into disjoint nonempty sets. Then \(A_i=A\cap V\) and
+\(B_i = B\cap V\)  form a partition of \( V_i \) into disjoint nonempty sets. But since \( G_i \) is not bipartite,
+there must be an edge \( uv \in E_i \) with both endpoints in \( A_i \) or both in \( B_i \).
+This means that \( A \cup B \) is not a bipartition of \( V \), and since A and B were arbitrary, we conclude that
+\( G \) is not bipartite either. \qedsymbol
+
+As a matter of fact, we shall prove something much stronger than just the fact that \( K_{n/2,n/2} \)
+does not contain any triangles. 
+\begin{Theorem}
+    A graph is bipartite if and only if it does not contain any cycles of odd length.
+\end{Theorem}
+\marginnote{Proof of this theorem requires the metric of distance imposed on a graph G. For all 
+\( u,v \in V \), the distance \( dist(u,v) \) is the length of the shortest path from \( u \) to \( v \).
+If no such path exists, then \( dist(u,v) = \infty \).}
+\textit{Proof.} First, assume that G = (V,E) is bipartite with bipartition \( V = A \cup B \).
+Let \(\sigma\) be a cycle in G. Each edge changes sides between A and B, so in order
+for starting and ending vertices of this cycle to be the same, \(\left|\sigma\right|\)
+must be even.
+
+Now suppose that G does not contain any cycles of odd length. To show that G is bipartite,
+it suffices to show that each of its connected components is bipartite by the lemma above.
+So without loss of generality we may assume that G is connected.
+That means \(dist(u,v) < \infty\) for all \(u,v \in V\).
+
+Select on vertex \( h\in V   \) and set
+\[V_0 = \{v\in V: dist(h,v) \equiv 0 \pmod2\}\]
+and
+\[V_1 = \{v\in V: dist(h,v) \equiv 1 \pmod2\}.\]
+Let \( e = uv \in E \). Consider a closed walk \(\sigma\) that follows a shortest path from \( u \) to \( h \)
+then a shortest path from \( h \) to \( v \), and finally the edge \( uv \). The length of \(\sigma\) is
+\[ \left|\sigma\right| = dist(u,h) + dist(h,v) + 1 \]
+But since G contains no cycles of odd length, \(\left|\sigma\right|\) must be even, by (the Contrapositive of) \Cref{prop:odd_cycle},
+any closed walk in G must have even length. This means that \( dist(u,h),dist(h,v)\) are not the same modulo 2.
+That is, either \(u \in V_0\) and \(v \in V_1\) or vice versa. \qedsymbol
+
+\subsection{Trees}
+
+\begin{Proposition}
+    Let F be a forest with at least one edge (and hence at least two vertices). There are at least two leaves in F.
+\end{Proposition}
+
+\begin{Proposition}
+    A graph G = (V,E) is a tree if and only if for all \( u,v \in V \), there
+    exist a unique path from \( u \) to \( v \).
+\end{Proposition}
+
+\begin{Lemma}[Detour Lemma]
+    Let G = (V,E) be a connected graph and let \(\sigma\) be a cycle in \( G \),
+    If \( G' \) is the graph obtained by deleting on edge from \(\sigma\), then \( G' \) is still connected.
+\end{Lemma}
+
+\begin{Lemma}
+    A graph G = (V,E) is a tree if and only if it is connected and \(\left|E\right| = \left|V\right|-1\).
+\end{Lemma}
+
+\begin{Corollary}
+    Let F = (V,E) be a forest, then \(\left|E\right| \leq \left|V\right| - 1\).
+\end{Corollary}
+
+
+\subsection{Eulerian trails and circuits}
+
+\begin{Theorem}
+    Let G = (V,E) be a connected graph with a finite number of vertices and edges, where
+    multiple edges between the same pair of vertices are allowed. Then G has an Eulerian circuit
+    if and only if every vertex in G has even degree.
+\end{Theorem}
+
+\begin{Theorem}
+    Let G = (V,E) be a connected graph (with multiple edges allowed). Then G contains an Eulerian trail
+    that isn't an Eulerian circuit if and only if exactly two vertices of G have odd degree.
+\end{Theorem}
+
+\subsection{Planar graphs}
+\begin{Proposition}
+    If G is planar then any subgraph H of G is also planar.
+\end{Proposition}
+
+\begin{Theorem}[Euler's formula]
+    Let G = (V,E) be a connected planar graph, let \(f\) be the number of faces in a planar embedding of G.
+    Then \( \left|V\right| - \left|E\right| + f = 2 \).
+\end{Theorem}
+
+\begin{Theorem}[Jordan curve theorem]
+    Every closed curve in the plane \(\mathbb{R}^2 \) that does not intersect itself divides the plane into two regions.
+\end{Theorem}
+
+\begin{Theorem}
+    Let G = (V,E) be a connected planar graph with \( \left|V\right| \geq 5 \). The
+    \[\left|E\right| \leq 3\left|V\right| - 6.\]
+    Under the further assumption that G contains no triangles, we have a better bound
+    \[\left|E\right| \leq 2\left|V\right| - 4.\]
+\end{Theorem}
+
+\begin{Corollary}
+    The complete graph \( K_5 \) and the complete bipartite graph \( K_{3,3} \) are nonplanar.
+\end{Corollary}
+
+\begin{Theorem}[Wagner's theorem]
+    A graph G is nonplanar if and only if either \(K_5\) or \(K_{3,3}\) is a minor of G.
+\end{Theorem}
+
+\begin{Theorem}[Kuratowski's theorem]
+    A graph \(G\) is nonplanar if and only if it contains a subdivision of either \(K_5\) or \(K_{3,3}\) as a subgraph.
+    
+\end{Theorem}
 
 % end of main text
 
