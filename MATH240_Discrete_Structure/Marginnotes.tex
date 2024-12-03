@@ -487,14 +487,49 @@ That is, either \(u \in V_0\) and \(v \in V_1\) or vice versa. \qedsymbol
 
 \subsection{Trees}
 
+A graph G is called a \textit{forest} if it contains no cycles. A \textit{tree} is a connected forest.
+A vertex of degree 1 in a forest is called a \textit{leaf}.
+\marginnote{\includegraphics[width=\linewidth]{Tree.png}\\
+A tree with 25 leaves.}
+
 \begin{Proposition}
+    \label{prop:tree_leaves}
     Let F be a forest with at least one edge (and hence at least two vertices). There are at least two leaves in F.
 \end{Proposition}
 
-\begin{Proposition}
+\textit{Proof.} Let \( \sigma = (v_0, v_1, \ldots, v_k) \) be a path of maximum length in F.
+SInce there is at least one edge in F, we have \(\left|\sigma\right| \geq 1\).
+The claim is that \( \deg(v_0) = \deg(v_k) = 1 \). Suppose for a contradiction that \( \deg(v_0) \geq 2 \).
+So there exists \( u \in V\) such that \( uv_0\) is an edge. If \( u = v_i\) for some \( i \),
+then there is a cycle \(v_i, v_0, \ldots, v_i\) contradicting the fact that F is a forest.
+Hence for all \( 1 \leq i \leq k \), we have \( u \neq v_i \). But this a path of length \( k+1 \) exists.
+This contradicts the maximality of \( \sigma \). \qedsymbol
+\marginnote{The intuition is that, a tree should have at least two ends, if not, either there is a cycle or there is
+an extending part (a new end) that can be added to the tree.}
+
+
+\begin{Proposition}[A characterization of trees]
     A graph G = (V,E) is a tree if and only if for all \( u,v \in V \), there
     exist a unique path from \( u \) to \( v \).
 \end{Proposition}
+
+\textit{Proof.} First, suppose that G is a tree. Let \( u,v \in V \),
+since G is a tree, it is connected, so there must exist some path \(\sigma\) from \( u \) to \( v \).
+Now we prove that this path is unique. For a contradiction, let \(\sigma'\) be another path from \( u \) to \( v \).
+Both \(\sigma\) and \(\sigma'\) starts at \( u \), but eventually they must diverge.
+Let \(v_1\) be the last vertex where \(\sigma\) and \(\sigma'\) have in common (this should be \( u \)).
+Eventually they must meet again, since they both end at \( v \). Let \( v_2 \) be the first vertex where they meet again.
+Now let \(\sigma''\) be the path obtained by following \(\sigma\) from \( v_1 \) to \( v_2 \), then following
+\(\sigma'\) from \( v_2 \) to \( v \). This is a cycle, by choice of \( v_1 \) and \( v_2 \).
+But this give us a contradiction, since G is a tree and contains no cycles. 
+
+Now suppose that for all \( u,v \in V \), there exists a unique path from \( u \) to \( v \).
+The fact that there exists a path at all between every two vertices immediately implies that G is connected.
+It remains to prove that there is no cycle in G. But this is clear, since if
+\(\sigma\) is a cycle in G, then picking any two distinct vertices \( u,v \) on \(\sigma\),
+we have two distinct paths from \( u \) to \( v \) (clockwise and counterclockwise along \(\sigma\)). \qedsymbol
+
+We can prove another characterization of trees, but we need a lemma first.
 
 \begin{Lemma}[Detour Lemma]
     Let G = (V,E) be a connected graph and let \(\sigma\) be a cycle in \( G \),
@@ -505,12 +540,56 @@ That is, either \(u \in V_0\) and \(v \in V_1\) or vice versa. \qedsymbol
     A graph G = (V,E) is a tree if and only if it is connected and \(\left|E\right| = \left|V\right|-1\).
 \end{Lemma}
 
+\textit{Proof.} We prove the forward implication by induction on \( n = \left|V\right| \).
+Concretely, the statement we shall prove is, for all \(n \geq 1\), for all \(G = (V,E)\) with \(\left|V\right| = n\),
+if G is a tree, then \(\left|E\right| = n-1\) and G is connected.
+
+The base case in \( n=1 \), where the only possible graph G is simply a single vertex with no edges.
+This is a tree, since it is connected and concains no cycles. We have \(\left|E\right| = 0 = 1-1\).
+
+For the inductive step, let \( n \geq 1 \) and suppose that the statement holds \( n \). Let
+\( G = (V,E) \) be a tree with \(\left|V\right| = n+1\). Since \( n\geq 1  \), \( \left|V\right| \geq 2 \),
+there are at least two vertices, and the connectedness of G means that there is at least one edge in G.
+Hence G is a firest with at least one edge, and by \Cref{prop:tree_leaves}, there are at least two
+leaves in G. Pick one of these leaves and call it \( u \). Form a new graph \( G' = (V',E') \) by removing
+the leaf \( u \) and the edge incident on it. We have \(\left|V'\right| = n\) and \(\left|E'\right| = \left|E\right|-1\).
+The graph \( G' \) is a tree, because for each pair of vertices \( v,w \in V' \), there is a unique path from \( v \) to \( w \)
+in G, and this path does not pass through \( u \) (since \( u \) is a leaf). Hence
+\[ \left|E\right| = \left|E'\right| + 1 = \left|V'\right| - 1 + 1 = \left|V\right| - 1, \]
+where in the second equality we have to used the inductive hypothesis. 
+
+Now assume that G is connected and \(\left|E\right| = \left|V\right| - 1\). We want to show
+that G has no cycles. For a contradiction, suppose that \(\sigma\) is a cycle in G. 
+Remove an edge from \(\sigma\), by detour lemma, the resulting graph is still connected.
+If this graph still has a cycle, remove an edge from it again, and repeat this process until now cycles remain.
+This graph G' still has \(\left|V\right|\) vertices, but it has a new edge set \( E' \) with \(\left|E'\right| < \left|E\right|\).
+But G' is now a tree, since it contains no cycles but is still connected. So by the
+previous paragraph, we have \(\left|E'\right| = \left|V\right| - 1 = \left|E\right|\).
+The contradiction completes the proof. \qedsymbol
+
+Now we are ablt the answer the following extremal question: How many edges
+can a graph on \( n \) vertices have if it does not contain a cycle (i.e., is a forest)?
+
 \begin{Corollary}
     Let F = (V,E) be a forest, then \(\left|E\right| \leq \left|V\right| - 1\).
 \end{Corollary}
-
+\textit{Proof.} Let \( k \geq 1\) denote the number of connected components of F, and
+number the connected components as \( C_1, \ldots, C_k \). Join \( C_1 \) to \( C_2 \) by an edge,
+then join \( C_2 \) to \( C_3 \) by an edge, and so on. This creates a connected graph G = (V,E')
+with \( \left|E'\right| = \left|E\right| + k - 1 \), and G must be a tree, since adding
+these edges does not introduce a cycle. By the previous theorem, 
+\(\left|E'\right| = \left|V\right| - 1\), so \(\left|E\right| \leq \left|E'\right| = \left|V\right| - 1\). \qedsymbol
 
 \subsection{Eulerian trails and circuits}
+
+Recall that a wak that des not repeat any vertex is called a path. Now we introduce the concept of
+\textit{trail}: this is a walk that does not repeat any \textit{edge}.
+A walk is called an \textit{Eulerian trail} if it uses every edge of G exactly once, and an
+\textit{Eulerian circuit} if it is an Eulerian trail and it is closed.
+
+\marginnote{\includegraphics{seven_bridges_of_konigsberg.png}
+The graph representing the seven bridges of Konigsberg}
+
 
 \begin{Theorem}
     Let G = (V,E) be a connected graph with a finite number of vertices and edges, where
@@ -518,44 +597,224 @@ That is, either \(u \in V_0\) and \(v \in V_1\) or vice versa. \qedsymbol
     if and only if every vertex in G has even degree.
 \end{Theorem}
 
+\textit{Proof.} Suppose G has an Eulerian circuit \(\sigma = (v_0, v_1, \ldots, v_k)\) where \( v_0=v_n \)
+For each \( v_i \neq v_0 \), each visit uses two edges, one edge to enter \( v_i \) and one edge to leave \( v_i \).
+So \( \deg(v_i) \) is even for all \( 0\leq i < n \). For \( v_0 = n \), there is one edge that leaves it at the
+beginning, two edges for each visit during the circuit, and then one returning to it at the end. 
+So \( \deg(v_0) \) is even as well.
+
+We prove the reverse implication by induction on \( m = \left|E\right| \). That is,
+we prove that for all integers \( m \geq 0 \), if G = (V,E) with \(\left|E\right| = m\) and all
+vertices in G have even degree, then G has an Eulerian circuit.
+
+For the base case \( m = 0 \), the graph G is a single vertex with no edges, and it has an Eulerian circuit.
+
+Now let \( m \geq 1 \) and suppose the statement holds for all integers less than or equal to \( m \).
+Let G = (V,E) with \(\left|E\right| = m +1 \). Since there is at least one edge in G,
+G cannot be a tree. This is because every tree with at least one edge contains at least two leaves,
+and leaves have (odd) degree 1. Let \(\sigma\) be a cycle in G
+and form a new graph G' = (V,E') by deleting every edge in \(\sigma\). This graph
+may no longer be connected, but since we remove a cycle, every vertex in G' either has the
+same degree as in G, or degree two less than in G. So all vertices in G' have even degree as well.
+Let k be the number of connected components of G'; number them as \( H_1, \ldots, H_k \).
+\marginnote{\textbf{Process of building an Eulerian circuit in G:}
+\begin{itemize}
+    \item Start at any vertex \( \sigma \)
+    \item Follow \( \sigma \)
+    \item Each time we reach a vertex of a connected component \( H_i \) of G' for
+    the first time, follow its Eulerian circuit. 
+    \textit{(We know that each connected component has an Eulerian circuit by the inductive hypothesis.)}
+    \item Once we return to the beginning of the Eulerian circuit, continue along \( \sigma \).
+    \item Repeat this process until we return to the vertex of \( \sigma \) we started at.
+\end{itemize}}
+Each has at most \( m \) edges, so by the inductive hypothesis, each has an Eulerian circuit.
+
+We build an Eulerian circuit in G using the process to the right.
+Eventually, this gives us an Eulerian circuit in G. \qedsymbol
+
 \begin{Theorem}
     Let G = (V,E) be a connected graph (with multiple edges allowed). Then G contains an Eulerian trail
     that isn't an Eulerian circuit if and only if exactly two vertices of G have odd degree.
 \end{Theorem}
 
+\textit{Proof.} Suppose that G contains an Eulerian trail \( \sigma = (v_0, v_1, \ldots, v_k) \) in which \( v_0 \neq v_k \).
+By a similar reasoning to the first paragraph of the previous proof, every vertex in the walk has even degree, except both \( v_0 \) and \( v_k \)
+must have odd degree, since starting at \( v_0 \) we must leave for the first time via an edge, and at the end we enter
+\( v_k \) one last time without exiting.
+
+Now assume that G contains exactly two odd-degree vertices. By the previous theorem, there does not exist an
+Eulerian circuit in G. Let \( u \) and \( v \) be the two odd-degree vertices. Add a new edge \( uv \), even if there was
+already an edge between \( u \) and \( v \) before. We get G' in which every vertex has even degree.
+So G' must have an Eulerian circuit \( \sigma' \). It contains the edge \( uv \), but we can remove it
+to get an Eulerian trail in G. \qedsymbol
+
 \subsection{Planar graphs}
+
+A graph G is called \textit{planar} if it can be drawn in the plane without any edges crossing.
+If we can, such a drawing is called a \textit{planar embedding} of G.
+\marginnote{\includegraphics{planar_embeddings.png}
+Planar embeddings of \( K_4 \) and \( Q_{3}\)}
+
+Planarity is a property that passes down to subgraphs.
+
 \begin{Proposition}
+    \label{prop:planar_subgraph}
     If G is planar then any subgraph H of G is also planar.
 \end{Proposition}
 
+\textit{Proof.} If G is drawn in the plane without edges crossing, and we erase some
+edges and vertices to create a drawing of H, we cannot introduce any edge crossings along the way. \qedsymbol
+
+A planar embedding of a graph determins regions, or \textit{faces} bounded by edges, 
+including on region outside the graph.
+We define the \textit{Euler characteristic} of a planar embedding of G to be the quantity
+\[\chi = \left|V\right| - \left|E\right| + f,\]
+where \( f \) is the number of faces in the embedding.
+
+From the figure above, we notice that both \( K_4 \) and \( Q_3 \) have \(\chi = 2\), this is not just a coincidence.
+
 \begin{Theorem}[Euler's formula]
+    \label{thm:euler_formula}
     Let G = (V,E) be a connected planar graph, let \(f\) be the number of faces in a planar embedding of G.
     Then \( \left|V\right| - \left|E\right| + f = 2 \).
 \end{Theorem}
+
+To prove this, we need the following theorem.
 
 \begin{Theorem}[Jordan curve theorem]
     Every closed curve in the plane \(\mathbb{R}^2 \) that does not intersect itself divides the plane into two regions.
 \end{Theorem}
 
+\textit{Proof of \Cref{thm:euler_formula}.} We proceed by induction on \( m = \left|E\right| \).
+In the case that \( m=0 \), G can only be a single vertex, in which we have \( \chi = 1-0+1 = 2 \).
+
+Now let \( m \geq 0 \) and assume that the theorem holds for all natural numbers at most m.
+Let G = (V,E) be a connected planar graph with \(\left|E\right| = m+1\).
+Draw G in the plane and let f be the number of faces in the embedding.
+There are two cases, according to whether G is a tree or not.
+If G is a tree, then \( f =1\) since G has no cycles. But we also have \(\left|E\right| = \left|V\right| - 1\), so
+\[\chi = \left|V\right| - \left|E\right| + f = \left|V\right| - \left|V\right| + 1 + 1 = 2.\]
+If G is not a tree, then G has a cycle, call it \(\sigma\). Form G' by removing exactly one edge \( e \) from \(\sigma\), so
+\[\left|E'\right| = \left|E\right| - 1 = m + 1 - 1 = m.\]
+By the detour lemma, G' is still connected, and it is planar, since removing an edge doesn't introduce any crossings.
+By the inductive hypothesis, the Euler characteristic \( \chi' \) of G' satisfies
+\[\chi' = \left|V\right| - \left|E'\right| + f' = 2,\]
+where \( f' \) is the number of faces in a planar embedding of G'.
+Returning to the drawing of G, the cycle \(\sigma\) is closed curve without intersections in the plane, so it divides
+the plane into two regions (each of which may have multiple faces within them).
+In particular, the removed edge \( e \) forms a border between two distinct daces, and in G',
+these two faces combine into one face. Hence \( f = f' + 1 \).
+Putting everything together, we calculate the Euler characteristic of G satisfies
+\[\chi = \left|V\right| - \left|E\right| + f = \left|V\right| - (\left|E'\right|+1) + (f'+1) + 1 = 2.\quad \qedsymbol\]
+
+Euler's formula tells us that the number of faces in any drawing of G depends entirely on
+the number of vertices and edges in G. We can use this information to give conditions for a graph to be non-planar.
+
 \begin{Theorem}
+    \label{thm:nonplanar_bound}
     Let G = (V,E) be a connected planar graph with \( \left|V\right| \geq 5 \). The
     \[\left|E\right| \leq 3\left|V\right| - 6.\]
     Under the further assumption that G contains no triangles, we have a better bound
     \[\left|E\right| \leq 2\left|V\right| - 4.\]
 \end{Theorem}
 
+\textit{Proof.} The proof is by double counting. Let R be the set
+of all regions into which G divides the plane, so that \( \left|R\right| =f\),
+the number of faces. Consider the set
+\[S = \{(e,r) \subset E \times R: \text{the edge e touches the region r}\}.\]
+We will count \( \left|S\right| \) in two ways. First off, each edge \( e\in E \) touches
+at most two regions, so \( \left|S\right| \leq 2\left|E\right| \).
+On the other hand, every region is bounded by a cycle, and\
+a cycle has at least three edges, so each region \( r \in R \) touches
+at least 3 edges. In other words, \( \left|S\right| \geq 3f \).
+Chaining these into two inequalities, we have
+\[3f \leq \left|S\right| \leq 2\left|E\right|.\]
+But by Euler's formula, we have \( \left|V\right| - \left|E\right| + f = 2 \), so
+\(f = 2 + \left|E\right| - \left|V\right|\), and substituting this
+above, we get
+\[3(2 + \left|E\right| - \left|V\right|) \leq 2\left|E\right|.\]
+Distributing and rearranging terms yields the desired
+inequality \( \left|E\right| \leq 3\left|V\right| - 6 \).
+
+If we have the further assumption that there are no triangles in G,
+then every region must touch at least 4 edges, allowing us
+to conclude the stronger inequality \( 4f \leq 2 \left|E\right| \).
+Then we proceed as above to get
+\[ 4(2 - \left|V\right| + \left|E\right|) \leq 2\left|E\right|,\]
+which can be manipulated to get
+\( \left|E\right| \leq 2\left|V\right| - 4 \). \qedsymbol
+
+The condition that \( \left|V\right| \geq 5 \) is a complete non-issue, since a graph with
+fewer than 5 vertices is a subgraph of \( K_4 \), and we can apply \Cref{prop:planar_subgraph},
+since we already know that \( K_4 \) is planar. As a corollary of the (contrapositive of the) 
+previous theorem, we can give two important examples of nonplanar graphs.
+
 \begin{Corollary}
     The complete graph \( K_5 \) and the complete bipartite graph \( K_{3,3} \) are nonplanar.
 \end{Corollary}
+
+\textit{Proof.} If \((V,E) = K_5\) we have \( \left|V\right| = 5 \) so \( 3 \left|V\right| - 6 = 9 \), but
+\( \left|E\right| = 10 \). So by the contrapositive of the previous theorem, \( K_5 \) is nonplanar.
+
+The graph \( K_{3,3} \) does not contain any triangles, so if it were planar, then the stronger bound
+\( \left|E\right| \leq 2\left|V\right| - 4 \) must hold. But in \((V,E) = K_{3,3}\), we have
+\( \left|V\right| = 6 \) and \( 2\left|V\right| - 4 = 8 \), but \( \left|E\right| = 9 \). So \( K_{3,3} \) is nonplanar. \qedsymbol
+
+This corollary, combined with the contrapositive of \Cref{prop:planar_subgraph}, shows that \( K_n \) is nonplanar
+for all \( n \geq 5 \), and that \( K_{m,n} \) is nonplanar for all \( m,n \geq 3 \). More generally, any graph
+that contains \( K_5 \) or \( K_{3,3} \) as a subgraph is nonplanar.
+
+\marginnote{
+\begin{center}
+    \label{fig:nonplanar_graph}
+    \includegraphics[width=0.4\linewidth]{k_5_w_extra_vertex.png}\\
+\end{center}
+The graph \( K_5 \) with an extra vertex subdividing an edge.}
+However, subgraphs are not exactly the right notion to be considering when talking about planarity.
+To see why, consider the graph to the right.
+
+It is nonplanar, since if it had a planar embedding, then by contracting on of the edges incident on the vertex,
+and bending other edges accordingly, we would obtain a planar embedding of \( K_5 \). On the other hand,
+this graph does not contain \( K_5 \) as a subgraph. We thus introduce the following notion.
+
+We say that a graph \( H \) is a \textit{graph minor} of a graph \( G \) if \( H \) can be obtained from G repeatedly by either
+one of the following operations to the right.
+\marginnote{
+    \begin{itemize}
+        \item deleting an edge;
+        \item deleting a vertex; or
+        \item contracting an edge \( uv \) by removing it and merging
+        \( u \) and \( v \) into a single vertex (and also combining any resulting multiple edges into a single edge).
+    \end{itemize}
+}
+
+Any number of the first two operations simply creates a subgraph. It is the contraction operation that produces interesting
+examples of graph minors. It is easy to see pictorially that contracting edges preserves planarity,
+so any graph minor of a planar graph is planar. We can use this to show, for instance, that the Petersen graph,
+depicted to the right, is nonplanar. Since by contracting each of the five edges connecting the inner star pentagram
+to the other pentagon, we obtain a \( K_{5} \). (Note that \Cref{thm:nonplanar_bound} does not apply to the Petersen graph.)
+
+Not only all graphs that have \( K_5 \) and \( K_{3,3} \) as minors are nonplanar, it turns out that
+there are the only nonplanar graphs.
 
 \begin{Theorem}[Wagner's theorem]
     A graph G is nonplanar if and only if either \(K_5\) or \(K_{3,3}\) is a minor of G.
 \end{Theorem}
 
+It deals with the notion of a \textit{subdivision} of a graph G, subdividing an edge into two edges each time. 
+(We have shown an example of a subdivision of \( K_5 \) )
+
 \begin{Theorem}[Kuratowski's theorem]
     A graph \(G\) is nonplanar if and only if it contains a subdivision of either \(K_5\) or \(K_{3,3}\) as a subgraph.
-    
 \end{Theorem}
+
+It is easy to see that if H is a subdivision of G, then G is a minor of H,
+since we can reobtain G by contracting all the edges created by the subdivision
+operations. So the two theorems above are certainly very closely related, though
+it is not immediately obvious if one should imply the other. The truth is that
+they are equivalent, because it can be shown that any graph with either \( K_5 \) or
+\( K_{3,3} \) as a minor also has a subgraph that is a subdivision of one of them.
+
 
 % end of main text
 
