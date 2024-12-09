@@ -4,6 +4,19 @@
 %\geometry{showframe}% for debugging purposes -- displays the margins
 
 \usepackage{amsmath}
+\usepackage{cleveref}
+\crefname{Proposition}{Proposition}{Propositions}
+\Crefname{Proposition}{Proposition}{Propositions}
+\crefname{Theorem}{Theorem}{Theorems}
+\Crefname{Theorem}{Theorem}{Theorems}
+\crefname{Definition}{Definition}{Definitions}
+\Crefname{Definition}{Definition}{Definitions}
+\crefname{Corollary}{Corollary}{Corollaries}
+\Crefname{Corollary}{Corollary}{Corollaries}
+\crefname{Lemma}{Lemma}{Lemmas}
+\Crefname{Lemma}{Lemma}{Lemmas}
+\crefname{Example}{Example}{Examples}
+\Crefname{Example}{Example}{Examples}
 \usepackage{amsthm}
 
 % Set up the images/graphics package
@@ -75,7 +88,6 @@
     \normalfont\Large\itshape\color{blue}}}
 \makeatother
 
-
 % Sets theorem style
 \usepackage{thmtools}
 \usepackage{transparent}
@@ -83,8 +95,14 @@
 
 \declaretheorem[shaded={bgcolor=Lavender,
     textwidth=30em}]{Definition} % Colorbox-styled Theorem 
-\declaretheorem[shaded={bgcolor=Lavender,
+\declaretheorem[shaded={bgcolor=Thistle,
     textwidth=30em}]{Theorem} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Corollary} % Colorbox-styled Theorem
+\declaretheorem[shaded={bgcolor=PeachPuff,
+    textwidth=30em}]{Proposition} % Colorbox-styled Proposition
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Lemma} % Colorbox-styled Lemma
 \declaretheorem[shaded={rulecolor=Lavender,
     rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{Example-1} % Colorbounded-styled Theorem
 \declaretheorem[thmbox=L]{boxtheorem L} % Theorem box L-size
@@ -457,6 +475,115 @@ good for people just getting into research like me.\\
         where the sum ranges over the entire set of points $\left\{ k_1, k_2, k_3, \dots \right\}   $.
     \end{Definition}
     
+    \subsection{Different kinds of random variables}
+\paragraph{Bernoulli random variable}
+\marginnote{Examples: \\
+\begin{itemize}
+    \item Making application for a job
+    \item Tossing a coin
+    \item Getting tested for Covid-19
+\end{itemize}}
+A bernoulli random variable is related to the occurrence (or non-occurrence)
+of a certain event E. If event E occurs, then X = 1; otherwise, X = 0.
+
+\paragraph{Binomial random variable}
+Before introducing the Binomial Distribution, we need to define the Binomial Experiment.
+\begin{Definition}[Binomial experiment]
+    A experiment is called a binomial experiment if it satisfies the following conditions:
+    \begin{itemize}
+        \item it consists of n independent Bernoulli trials
+        \item the probability of success p remain constant from trial to trial
+        \item We are interested in \( x \) successes out of \( n \) trials.\\
+        Where \( x = 0,1,2,\ldots,n\).
+    \end{itemize}
+\end{Definition}
+\marginnote{Bernoullil trial is a trial with two outcomes, success and failure.
+A success is the outcome of interest. Let's denote the probability of success as \( p \).}
+
+\begin{Definition}[Binomial random variable]
+    Let X be the random variable that counts the number of successes in \( n \) Bernoulli
+    trials, where the probability of success in each trial is \( p \). Then X is a 
+    Binomial random variable with the parameters \( n \) and \( p \), and it's probability distribution is called the Binomial distribution.
+    We say \( X \sim B(n,p) \).
+\end{Definition}
+
+\begin{Theorem}
+    For a binomial random variable \( X \sim B(n,p) \), the probability mass function is given by
+    \[ P(X = x) = \binom{n}{x} p^x (1-p)^{n-x} \]
+\end{Theorem}
+\marginnote{\( x \) measures the number of successes in \( n \) independent Bernoulli trials.}
+
+\paragraph{Geometric random variable}
+Sometimes we are interested in the number of trials needed to get the first success.
+\begin{Definition}[Geometric random variable]
+    A random variable \( X \) is said to have a geometric distribution with parameter \( p \) if
+    it's probability mass function is given by
+    \[ P(X = x) = (1-p)^{x-1} p \]
+    where \( x = 1,2,3,\ldots \), and \( 0 < p < 1 \).
+\end{Definition}
+\marginnote{The random variable \( X \) is the number of trials at
+ which the first success occurs.}
+
+\begin{Theorem}
+    Let X be a random variable with a geometric distribution with parameter \( p \).
+    Then
+    \[P(X=x) = (1-p)^{x-1}p,\]
+    where \( x = 1,2,3,\ldots \) and \( 0 < p < 1 \).
+\end{Theorem}
+
+Note that
+\begin{itemize}
+    \item The Binomial random variable gives the number of successes in the fixed number of trials.
+    \item The Geometric random variable gives the number of trials at which the first success occurs,
+    where the number of trials is not fixed.
+\end{itemize}
+
+\paragraph{Negative Binomial random variable}
+\begin{Definition}[Negative binomial random variable]
+    The negative binomial random variable X gives the trial on which
+    the \( r \)th success occurs in a sequence of independent Bernoulli trials.
+    Each trial has two possible outcomes, success and failure. THe probability
+    of success remains constant from trial to trial.
+\end{Definition}
+
+\begin{Theorem}
+    Let X be negative binomial random variable, then
+    \[ P(X = x) = \binom{x-1}{r-1} p^r (1-p)^{x-r} \]
+    where \( x = r, r+1, r+2, \ldots \) and \( 0 < p < 1 \).
+\end{Theorem}
+
+\paragraph{Poisson random variable}
+\begin{Definition}[Poisson random variable]
+    A random variable \( X \) is said to have a Poisson distribution with parameter \( \lambda \)
+    if it's probability mass function is given by
+    \[ P(X = x) = \frac{e^{-\lambda} \lambda^x}{x!} \]
+    where \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
+\end{Definition}
+
+\begin{Theorem}
+    Let \( X \sim \text{Binom}(n,p)\), where \( n \rightarrow \infty \) and \( p \rightarrow 0 \)
+    and \( np = \lambda \) (constant). Then
+    \[ P(X = x) = \lim_{n \rightarrow \infty} \binom{n}{x} p^x (1-p)^{n-x} = \frac{e^{-\lambda} \lambda^x}{x!} \]
+\end{Theorem}
+
+\text{Proof.}
+\begin{align}
+        \lim_{n \rightarrow \infty} P(X = x) &= \lim_{n \rightarrow \infty} \binom{n}{x} p^x (1-p)^{n-x} \\
+        &= \lim_{n \rightarrow \infty} \binom{n}{x} (\frac{\lambda}{n})^x (1-\frac{\lambda}{n})^{n-x} \\
+    \end{align}
+For \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
+
+\paragraph{Hypergeometric random variable}
+    \begin{Definition}[Hypergeometric random variable]
+        The random variable \( X \) is a hypergeometric random variable with parameters
+        A hypergeometric random variable $X$ represents the number of successes in $n$ draws without replacement from a finite population of size $N$ that contains exactly $K$ successes. It models situations where sampling is done without replacement, and each draw changes the probabilities of subsequent draws.
+
+        The probability mass function is:
+
+        \[ P(X = k) = \frac{\binom{K}{k} \binom{N - K}{n - k}}{\binom{N}{n}} \]
+
+        where $k = 0, 1, 2, \ldots, n$ and $0 \leq k \leq \min(n, K)$.
+    \end{Definition}
 
     \subsection{Probability Distributions of Random Variables}
 
@@ -502,6 +629,18 @@ good for people just getting into research like me.\\
     random variable, including those that do not fall into the discrete or continuous categories.
     The cumulative distribution function give probabilities of left-open right-closed intervals of the form (a,b]:
     \[P(a < X \leq b) = P(X \leq b) - P(X \leq a) = F(b) - F(a)\]
+
+    Note that:
+    \begin{itemize}
+        \item the domain of the CDF is the real line \( (-\infty, +\infty) \) with the range \([0,1]\).
+        \item CDF is a non decreasing function, that is, \( F(x) \leq F(y) \) for \( x \leq y \).
+        \item The CDF is right continuous. It does not jump at x when you approach x from above (\( \lim_{x \to a^+} F(x) = F(a) \)).
+
+    \end{itemize}
+    \marginnote{However, contrary to discrete random variables,
+    the CDF of a continuous random variable is a continuous function (there are no jumps).
+    }
+    
     Knowing these probabilities is enough to determin the distribution of X completely.
 
     \paragraph{Cumulative distribution function of a discrete random variable}
@@ -523,6 +662,7 @@ good for people just getting into research like me.\\
             If F is not differentiable at x, then the value f(x) can be set arbitrarily.
         \end{enumerate}
     \end{Theorem}
+
 
     \subsection{Expectation}
     \paragraph{Expectation of a discrete random variable}
