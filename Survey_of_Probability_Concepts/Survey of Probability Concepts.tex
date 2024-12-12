@@ -474,6 +474,11 @@ good for people just getting into research like me.\\
         \[\sum_{i }^{}P(X=k_i )=1\]
         where the sum ranges over the entire set of points $\left\{ k_1, k_2, k_3, \dots \right\}   $.
     \end{Definition}
+
+    \begin{Definition}[Continuous Random Variable]
+        A random variable X with CDF \( F_X(x) \) is saed to be Continuous
+        if \( F_X(x) \) is a continuous function for all \( x \in \mathbb{R} \).
+    \end{Definition}
     
     \subsection{Different kinds of random variables}
 \paragraph{Bernoulli random variable}
@@ -641,14 +646,21 @@ For \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
     the CDF of a continuous random variable is a continuous function (there are no jumps).
     }
     
-    Knowing these probabilities is enough to determin the distribution of X completely.
+    Knowing these probabilities is enough to determine the distribution of X completely.
 
     \paragraph{Cumulative distribution function of a discrete random variable}
-    \[F(s) = P(X \leq s) = \sum_{k:k\leq s} P(X=k)\]
+    \begin{equation}
+    F(s) = P(X \leq s) = \sum_{k:k\leq s} P(X=k)
+    \end{equation}
     where the sum extends over those possible values k of X that are less than or equal to s.
 
     \paragraph{Cumulative distribution function of a continuous random variable}
-    \[F(s) = P(X \leq s) = \int_{-\infty}^{s }f(x)dx\]
+    \marginnote{It is important to notice the dy here. This is a dummy variable of integration.
+                Conventionally, we do this to avoid confusion with the random variable X.}
+    
+    \begin{equation}
+        F(s) = P(X \leq s) = \int_{-\infty}^{s }f_X(y)dy
+    \end{equation}
     This equation comes from the definition of probability density function.
 
     \begin{Theorem}
@@ -664,7 +676,7 @@ For \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
     \end{Theorem}
 
 
-    \subsection{Expectation}
+    \subsection{Expectation and variance}
     \paragraph{Expectation of a discrete random variable}
     \begin{Definition}
         The expectation or mean of a discrete random variable X is defined by
@@ -683,6 +695,21 @@ For \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
         The expectation or mean of a continuous random variable X with density function f is 
         \[E[X]=\int_{-\infty}^{\infty} x f(x) dx\]
         An alternative symbol is $ \mu = E[X] $.
+    \end{Definition}
+
+    \paragraph{Variance of a continuous random variable}
+    \marginnote{Properties of expectation and variance:\\
+    \begin{flalign*}
+        &E[a] = a  \text{ for any constant a} &\\
+        &E[aX+bY] = aE[X]+bE[Y] &\\
+        &\text{Var}(aX+b) = a^2\text{Var}(X) &
+    \end{flalign*}}
+
+    \begin{Definition}
+        The variance of a continuous random variable X is:
+        \[E(X-\mu)^2 = \int_{-\infty}^{\infty}(x-\mu)^2 f(x)dx\]
+        or
+        \[Var(X) = E(X^2) - [E(X)]^2 = \int_{-\infty}^{\infty}x^2f(x)dx- [E(X)]^2\]
     \end{Definition}
 
     \paragraph{Expectation of a function of a random variable}
@@ -713,8 +740,261 @@ For \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
     \marginnote{The second moment, $ E(X^2) $, is also called the mean square.}
     
 
+    
+    
+    \begin{Theorem}
+        The n th moment about the mean of a continuous random variable X is
+        \[E(X-\mu)^n = \int_{-\infty}^{\infty}(x-\mu)^n f(x)dx\]
+    \end{Theorem}
+
+\subsection{Special continuous distributions}
+\paragraph{Continuous uniform distribution}
+
+\begin{Definition}[Continuous uniform distribution]
+    A random variable \( X \) is said to have a continuous uniform distribution on the interval
+    \([a,b]\), shown as \( X \sim \text{Uniform}(a,b) \),
+    if it's probability density function is given by
+    \[ f_X(x) = \begin{cases}
+        \frac{1}{b-a} & \text{for } a \leq x \leq b \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{Definition}
+
+\marginnote{The continuous uniform distribution with a = 0 and b = 1 is called \textbf{the standard uniform distributio}n.}
+
+The support of continuous random variables is the set of all numbers whose
+probability density function is positive. For the continuous uniform distribution \( X \sim \text{Uniform}(a,b) \),
+the support is the interval [a,b].
+
+\textbf{Properties of the continuous uniform distribution:}
+\marginnote{\textit{Proof.}\\
+
+\begin{align*}
+    E(X) &= \int_{a}^{b} x \frac{1}{b-a} dx = \frac{1}{b-a}\left|x^2\slash 2\right|_{a}^{b} = \frac{a+b}{2}\\
+    E(X^2) &=  \int_{a}^{b} x^2 \frac{1}{b-a} dx = \frac{1}{b-a}\left|x^3\slash 3\right|_{a}^{b}\\
+    &= \frac{1}{3}(b^2+ab+a^2)\\
+    Var(X) &= \frac{1}{3}(b^2+ab+a^2) - \frac{1}{4}(a+b)^2 = \frac{(b-a)^2}{12}\\
+    F_X(x) &= \int_{-\infty}^{x} \frac{1}{b-a} dy\\
+    &= \int_{-\infty}^{a} \frac{1}{b-a} dy +\int_{a}^{x} \frac{1}{b-a}a dy\\
+    &= 0 + \frac{x-a}{b-a}\quad  \text{a < x < b}
+\end{align*}
+}
+
+\begin{itemize}
+    \item \( E(X) = \frac{a+b}{2} \)
+    \item \( Var(X) = \frac{(b-a)^2}{12} \)
+\end{itemize}
+CDF of a continuous uniform distribution is given by
+
+\[ F_X(x) = \begin{cases}
+    0 & \text{for } x < a \\
+    \frac{x-a}{b-a} & \text{for } a \leq x \leq b \\
+    1 & \text{for } x > b
+\end{cases} \]
 
 
+\paragraph{Gamma distribution}
+\begin{Definition}[Gamma function]
+    The gamma function is defined by
+    \[ \Gamma(\alpha) = \int_{0}^{\infty} x^{\alpha - 1} e^{-x} dx \]
+\end{Definition}
+
+\marginnote{Three properties of the gamma function are:\\
+\begin{enumerate}
+    \item \( \Gamma(\alpha) = (\alpha - 1) \Gamma(\alpha - 1) \)
+    \item If n is a positive integer, then\\
+    \( \Gamma(n) = (n-1)! \)
+    \item \( \Gamma(1\slash 2) = \sqrt{\pi} \)
+\end{enumerate}}
+
+
+\begin{Definition}[Gamma distribution]
+    A random variable \( X \) is said to have a gamma distribution with parameters \( \alpha > 0\) and \( \beta > 0\)
+    if it's probability density function is given by
+    \[ f_X(x) = \begin{cases}
+        \frac{\beta^{\alpha} x^{\alpha - 1} e^{-\beta x}}{\Gamma(\alpha)} & \text{for } x > 0 \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{Definition}
+
+\marginnote{\begin{align*}
+    E(X) &= \int_{0}^{+\infty}xf(x) dx\\
+    &= \int_{0}^{+\infty}x \frac{ x^{\alpha - 1} e^{-x \slash \beta}}{\Gamma(\alpha)\beta^{\alpha}} dx\\
+    &= \frac{1}{\Gamma(\alpha)\beta^{\alpha}} \int_{0}^{+\infty} x^{\alpha} e^{-x \slash \beta} dx\\
+    \text{Let } y = x \slash \beta &\text{, then }  dx \slash \beta =  dy\\
+    \int_{0}^{+\infty}xf(x) dx &= \frac{1}{\Gamma(\alpha)\beta^{\alpha}} \int_{0}^{\infty} (\beta y)^{\alpha} e^{-y} \beta dy\\
+    &= \frac{1}{\Gamma(\alpha)}\beta \int_{0}^{\infty} y^{\alpha} e^{-y} dy\\
+    &= \frac{1}{\Gamma(\alpha)}\beta \Gamma(\alpha + 1)\\
+    &= \alpha \beta \frac{1}{\Gamma(\alpha)}\Gamma(\alpha)\\
+\end{align*}}
+
+The expectation is \( E(X) = \alpha \beta \) and the variance is \( Var(X) = \alpha \beta^2 \).
+
+\paragraph{Chi-square distribution}
+Let X follows a gamma distribution with \( \alpha = v/2 \) and \( \beta = 1/2 \), where \( v \) is a
+positive integer. Then, in this special case, X is said to have a chi-square distribution with \( v \) degrees of freedom.
+\begin{Definition}[Chi-square distribution]
+    A random variable \( X \) is said to have a chi-square distribution with \( n \) degrees of freedom 
+    (\( X \sim \chi^2(v) \)), if it's probability density function is given by
+    \[ f_X(x) = \begin{cases}
+        \frac{1}{2^{v/2} \Gamma(v/2)} x^{v/2 - 1} e^{-x/2} & \text{for } x > 0 \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{Definition}
+
+\marginnote{The chi-square distribution is typically used to develop hypothesis tests
+and confidence intervals, and rarely for modeling real-world data.}
+
+The properties of the chi-square distribution are:
+\begin{itemize}
+    \item \( E(X) = \alpha \beta = v \slash 2 \times 2 = v \)
+    \item \( Var(X) = \alpha \beta^2 = v \times 2^2 = 2v \)
+\end{itemize}
+
+\paragraph{Normal distribution}
+\begin{Definition}[Normal distribution]
+    A random variable \( X \) is said to have a normal distribution with parameters \( \mu \) and \( \sigma^2 \),
+    shown as \( X \sim N(\mu, \sigma^2) \), if it's probability density function is given by
+    \[ f_X(x) = \frac{1}{\sqrt{2\pi} \sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}} \]
+\end{Definition}
+\marginnote{Standard normal distribution is a special case if \( \mu = 0 \) and \( \sigma = 1 \).}
+
+\paragraph{Exponential distribution}
+Consider the Gamma density function with shape parameter \( \alpha = 1 \) and scale parameter \( \beta > 0\). 
+Then the random variable X is said to have an exponential distribution.
+\begin{Definition}[Exponential distribution]
+    A random variable \( X \) is said to have an exponential distribution with parameter \( \beta \),
+    shown as \( X \sim \text{Exp}(\beta) \), if it's probability density function is given by
+    \[ f_X(x) = \begin{cases}
+        \frac{1}{\beta} e^{-\frac{1}{\beta} x} & \text{for } x > 0 \\
+        0 & \text{otherwise}
+    \end{cases} \]
+\end{Definition}
+\marginnote{The properties of the exponential distribution are:
+\begin{itemize}
+    \item \( E(X) = \beta \)
+    \item \( Var(X) = \beta^2 \)
+    \item Memoryless property: \( P(X > s+t | X > t) = P(X > s) \)
+\end{itemize}}
+The CDF of the exponential distribution is given by
+\[ F_X(x) = \begin{cases}
+    \int_{0}^{x}\frac{1}{\beta}e^{-y\slash \beta} dy = 1 - e^{-\frac{x}{\beta}} & \text{for } x > 0 \\
+    0 & \text{for } x \leq 0
+\end{cases} \]
+
+\subsection{Moment generating functions}
+\begin{Definition}
+    The moment-generating function (MGF) of the (distribution of the) random variable X is
+    the function of a real parameter t defined by
+    \[ M_X(t) = E[e^{tX}], \]
+    for all \( t \in \mathbb{R} \) for with the expectation \( E[e^{tX}] \) is welled defined.
+\end{Definition}
+
+\paragraph{Moment generating function of a discrete random variable}
+\begin{equation}
+    M_X(t) = E[e^{tX}] = \sum_{all x} e^{tk} P(X = x)
+\end{equation}
+\paragraph{Moment generating function of a continuous random variable}
+\begin{equation}
+    M_X(t) = E[e^{tX}] = \int_{-\infty}^{\infty} e^{tx} f_X(x) dx
+\end{equation}
+
+The PDF (or PMF) of a random variable X can be obtained from its moment generating function and vice versa.
+
+\section{Multivariate probability distributions}
+A multivariate probability distribution describes the joint behavior or two or more random variables.
+\begin{Definition}[Joint probability function]
+    Let X and Y be discrete random variables. The joint probability function of X and Y is the function
+    $ p_{X,Y} $ defined by
+    \[p_{X,Y}(x,y)=P(X=x,Y=y)\]
+    for all possible values x and y of X and Y.
+\end{Definition}
+
+If X and Y are discrete random variables, then we have:
+\begin{itemize}
+    \item \( p_{X,Y}(x,y) \geq 0 \) for all x and y
+    \item \( \sum_x \sum_y p_{X,Y}(x,y) = 1 \)
+\end{itemize}
+Once the joint PMF is determined, it becomes 
+straight forward to compute the probability of any event involving X and Y.
+
+\begin{Definition}[Joint cumulative distribution function]
+    Let X and Y be random variables. The joint cumulative distribution function of X and Y is the function
+    $ F_{X,Y} $ defined by
+    \[F_{X,Y}(x,y)=P(X\leq x, Y\leq y)\]
+    for all possible values x and y of X and Y.
+\end{Definition}
+
+If X and Y are jointly discrete random variables, then we have:
+\begin{equation}
+    F_{X,Y}(x,y) = P(X\leq x, Y\leq y) =
+    \sum_{u\leq x} \sum_{v\leq y} p_{X,Y}(u,v)
+\end{equation}
+where, \( P_{X,Y}(u,v) \) is the joint PMF of X and Y.
+
+Two random variables X and Y are jointly continuous if there exists a continuous function \( f_{X,Y} \) such that
+\begin{equation}
+    F_{X,Y}(x,y) = P(X\leq x, Y\leq y) = \int_{-\infty}^{x} \int_{-\infty}^{y} f_{X,Y}(u,v) du dv
+\end{equation}
+Generally,
+\begin{align*}
+    &P(X,Y)\in A = \int \int_A f_{X,Y}(u,v) du dv\quad \text{or,}\\
+    &P(a_1 \leq X \leq a_2, b_1 \leq Y \leq b_2) = \int_{a_1}^{a_2} \int_{b_1}^{b_2} f_{X,Y}(u,v) du dv
+\end{align*}
+
+\subsection{Marginal probability distributions}
+\begin{Definition}[Marginal probability mass function]
+    Let X and Y be discrete random variables with joint probability mass function $ p_{X,Y} $. The marginal probability mass function of X is the function $ p_X $ defined by
+    \[p_X(x)=P(X=x)=\sum_y P(X=x,Y=y)=\sum_y p_{X,Y}(x,y)\]
+    for all possible values x of X.
+\end{Definition}
+
+\begin{Definition}[Marginal probability density function]
+    Let X and Y be continuous random variables with joint probability density function $ f_{X,Y} $. The marginal probability density function of X is the function $ f_X $ defined by
+    \[f_X(x)=\int_{-\infty}^{\infty} f_{X,Y}(x,y) dy\]
+    for all possible values x of X.
+\end{Definition}
+
+\begin{Definition}[Marginal cumulative distribution function]
+    Let X and Y be random variables with joint cumulative distribution function $ F_{X,Y} $. The marginal cumulative distribution function of X is the function $ F_X $ defined by
+    \begin{align*}
+    F_X(x)&=P(X\leq x)=P(X\leq x, Y\leq \infty)=F_{X,Y}(x,\infty)\\
+    &= \lim_{y \to \infty} F_{X,Y}(x,y) \quad \text{for any possible values x of X.}
+    \end{align*}
+\end{Definition}
+\marginnote{\begin{align*}
+        \lim_{x,y \to \infty} F_{X,Y}(x,y) &= 1\\
+        \lim_{x,y \to -\infty} F_{X,Y}(x,y) &= 0
+    \end{align*}
+}
+
+To obtain PDF we can differentiate the CDF.
+\begin{Definition}[Joint probability density function]
+    Let X and Y be continuous random variables. The joint probability density function of X and Y is the function
+    $ f_{X,Y} $ defined by
+    \[f_{X,Y}(x,y)=\frac{\partial^2}{\partial x \partial y} F_{X,Y}(x,y)\]
+    for all possible values x and y of X and Y.
+\end{Definition}
+
+To obtain PMF from CDF we can differentiate the CDF with respect to x and y.
+But this becomes more complicated in higher dimensions.
+
+\begin{Theorem}
+    Let \( g(Y_1,Y_2)\) be some function of two random variables \( Y_1 \) and \( Y_2 \). Then the
+    expectation of \( g(Y_1,Y_2) \) is
+    \[ E[g(Y_1,Y_2)] = \sum_{y_1} \sum_{y_2} g(y_1,y_2) p_{Y_1,Y_2}(y_1,y_2) \]
+    for discrete random variables and
+    \[ E[g(Y_1,Y_2)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(y_1,y_2) f_{Y_1,Y_2}(y_1,y_2) dy_1 dy_2 \]
+    for continuous random variables.
+\end{Theorem}
+
+\begin{Theorem}
+    Let \( g(Y_1,Y_2)\) be some function of two random variables \( Y_1 \) and \( Y_2 \). Then the
+    expected value of \( E(Y_i) \) is given by
+    \[ E(Y_i) =  \int_{-\infty}^{\infty} y_i f_{Y_i}(y_i) dy_i .\]
+    Generally, the expected value \( E(Y_i^k) \) is given by 
+    \[ E(Y_i^k) =  \int_{-\infty}^{\infty} y_i^k f_{Y_i}(y_i) dy_i \quad \text{i = 1,2}.\]
+\end{Theorem}
 
 \section{Conditional Distributions and Expectation}
 
@@ -899,6 +1179,77 @@ For \( x = 0,1,2,\ldots \) and \( \lambda > 0 \).
     \end{Definition}
 
 
+\subsection{Independence}
+
+\begin{Definition}
+    If \( Y_1, Y_2 \) are discrete random variables with joint 
+    probability mass function \( p_{Y_1,Y_2} \) and marginal probability mass functions
+    \( p_{Y_1} \) and \( p_{Y_2} \), then \( Y_1 \) and \( Y_2 \) are independent if
+    and only if
+    \[ p_{Y_1,Y_2}(y_1,y_2) = p_{Y_1}(y_1)p_{Y_2}(y_2) \]
+    for all pairs of real numbers \( y_1 \) and \( y_2 \).
+\end{Definition}
+
+\begin{Definition}
+    If \( Y_1, Y_2 \) are continuous random variables with joint density function 
+    \( f_{Y_1,Y_2} \) and marginal density functions \( f_{Y_1} \) and \( f_{Y_2} \), respectively.
+    Then \( Y_1 \) and \( Y_2 \) are independent if and only if
+    \[ f_{Y_1,Y_2}(y_1,y_2) = f_{Y_1}(y_1)f_{Y_2}(y_2) \]
+    for all pairs of real numbers \( y_1 \) and \( y_2 \).
+\end{Definition}
+
+\subsection{Moment generating functions}
+Moment generating functions are very important computational tools.
+\begin{Theorem}
+    Suppose that X and Y are independent random variables with moment generating functions
+    \( M_X(t) \) and \( M_Y(t) \), respectively. Then for all real numbers t,
+    \[ M_{X+Y}(t) = M_X(t)M_Y(t) \]
+\end{Theorem}
+\marginnote{This results can be helpful in finding the distribution of the 
+sum of random variables, which can be extremely challenging otherwise.}
+Note that the moment generating function of a random variable is unique.
+So if we have the MGF, we can find its distribution.
+
+\subsection{Covariance}
+\begin{Definition}
+    Let X and Y be random variables defined on the same sample space with the expectation
+    \( E(X) = \mu_X \) and \( E(Y) = \mu_Y \). The covariance of X and Y is defined as
+    \[ \text{Cov}(X,Y) = E[(X-\mu_X)(Y-\mu_Y)] \]
+    if the expectation on the right is finite.
+\end{Definition}
+
+\begin{Theorem}
+    The covariance of X and Y can also be calculated as
+    \[ \text{Cov}(X,Y) = E(XY) - E(X)E(Y) \]
+\end{Theorem}
+
+\section{Tail bounds and limit theorems}
+
+\subsection{Central limit theorem}
+\begin{Theorem}[CLT - Independence]\hfill\\
+    The random variables \( X_1, X_2, \dots, X_n \) are independent iff
+    \begin{itemize}
+        \item \(f_{X_1,X_2,\ldots,X_n}(x_1,x_2,\ldots,x_n) = f_{X_1}(x_1)f_{X_2}(x_2)\ldots f_{X_n}(x_n)\)\\
+        (Continuous case)
+        \item \(\text{Var}(\sum_{i=1}^{n}X_i) = \sum_{i=1}^{n}\text{Var}(X_i)\)\\
+        \item \(M_{X_1+X_2+\ldots+X_n}(t) = M_{X_1}(t)M_{X_2}(t)\ldots M_{X_n}(t)\)\\
+    \end{itemize}
+\end{Theorem}
+\begin{Theorem}[Central limit theorem]\hfill \\
+    Suppose that we have independent and identically distributed random variables \( X_1, X_2, \dots \)
+    with finite mean \( E[X_1] = \mu \) and finite variance \( Var(X_1) = \sigma^2 \).
+    Let \( S_n = X_1 + X_2 + \dots + X_n \). Then for any fixed \( -\infty \leq a \leq b \leq \infty \)
+    we have
+    \[ \lim_{n \to \infty} P\left(a \leq \frac{S_n - n\mu}{\sigma \sqrt{n}} \leq b 
+    \right) = \Phi(b) - \Phi(a) =
+    \int_{a}^{b} \frac{1}{\sqrt{2\pi}} e^{-y^2/2} dy \]
+    where \( \Phi \) is the standard normal distribution function.
+\end{Theorem}
+That said, we find the mean and variance of S as:
+\begin{align*}
+    E[S_n] &= n\mu \\
+    Var(S_n) &= n\sigma^2
+\end{align*}
 
 \section{Time-Homogeneous Markov Chains}
     \subsection{Finite State, Time-Homogeneous Chains}
