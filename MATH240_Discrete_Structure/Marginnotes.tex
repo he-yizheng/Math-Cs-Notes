@@ -129,6 +129,41 @@
 \end{abstract}
 
 % main text
+\section{Set Theory}
+A set is a collection of distinct objects, called its elements or its members.
+
+\paragraph{Set inclusion}
+\begin{Proposition}
+    The sets
+    \[A = \{x \in \mathbb{Z}: \text{there exists } k \in \mathbb{Z} \text{such that } x = 2k + 1\}\]
+    and
+    \[B = \{x \in \mathbb{Z}: \text{there exists } k \in \mathbb{Z} \text{such that } x = 2l + 5\}\]
+    are equal. (Both are different ways of describing the set of all odd integers.)
+\end{Proposition}
+
+\textit{Proof.} Let \( x \in A \). Then there exists \( k \in \mathbb{Z} \) such that \( x = 2k + 1 \).
+Letting \( l = k - 2 \), we found that \( l \) is an integer. Furthermore,
+\[ x = 2k + 1 = 2(k-2) + 5 = 2l + 5. \]
+We have found \( l \) such that \( x = 2l + 5 \), so \( x \in B \). This shows that \( A \subseteq B \).
+
+On the other hand, let \( x \in B \). Then there exists \( l \in \mathbb{Z} \) such that \( x = 2l + 5 \).
+Now we let \( k = l + 2 \); \( k \in \mathbb{Z} \) since \( l \in \mathbb{Z} \). We have
+\[ x = 2l + 5 = 2(l+2) + 1 = 2k + 1. \]
+This shows that \( x \in A \), so \( B \subseteq A \). This combined with the previous
+paragraph show \( A = B \). \qedsymbol
+
+\paragraph{Set operations}
+\begin{itemize}
+    \item The \textit{union} of two sets \( A \) and \( B \), denoted by \( A \cup B \),
+    is the set of all elements that are in \( A \) or in \( B \).
+    \item The \textit{intersection} of two sets \( A \) and \( B \), denoted by \( A \cap B \),
+    is the set of all elements that are in both \( A \) and \( B \).
+    \item The \textit{difference} of two sets \( A \) and \( B \), denoted by \( A \backslash B \),
+    is the set of all elements that are in \( A \) but not in \( B \).
+    \item The \textit{symmetric difference} of two sets \( A \) and \( B \), denoted by \( A \triangle B \),
+    is the set of all elements that are in exactly one of \( A \) and \( B \).
+\end{itemize}
+
 \section{Predicate Logic}
     \begin{Definition}[Predicate]
     A \it predicate \rm is a statement containing some number
@@ -234,6 +269,28 @@ If
     \[\forall a_1, a_2 \in A, a_1 \neq a_2 \rightarrow f(a_1) \neq f(a_2)\]
     or $ a_1 = a_2 \rightarrow f(a_1) = f(a_2) $.
 \end{Definition}
+
+\begin{Proposition}
+    Let \( f:A\to B \) be a function. Then \( f \) is invertible if and only if
+    \( f  \) is bijective.
+\end{Proposition}
+
+\textit{Proof.} First we assume that \( f \) is invertible. So there exists an inverse \( g  \) of \( f  \).
+For each \( b \in B  \), setting \( a = g(b ) \) we have 
+\[ f(a) = f(g(b)) = b. \]
+This prove that \( f \) is surjective. To show that \( f \) is injective, suppose that \( f(a_1) = f(a_2) \).
+By applying \( g \) to both sides, we get \(g(f(a_1)) = g(f(a_2)) \), whence \( a_1 = a_2 \), by definition of \( g \).
+
+Noew assume that \( f \) is bijective. We shall construct an inverse \( g \) of \( f \). Given any \( b \in B \),
+there is some \( a \in A \) such that \( f(a) = b \), from surjectivity of \( f \), and
+this \( a \) is unique, by injectivity of \( f \). So set \( g(b) = a \) (and repeat this process for
+every \( b \in B \)). We have \( f(g(b)) = f(a) = b \), and for every \( a \in A \), by definition of \( g \)
+the element \( g(f(a)) \) is the unique element in \( A \) that gets brought to \( f(a) \) by \( f \), so
+has to be \( a \) itself. \hfill \qedsymbol
+
+Sometimes to prove that two sets have the same cardinality, it is easier to prove that there exists
+a bijection between them.
+
 
 \section{Modular Arithmetic}
 
@@ -816,7 +873,11 @@ they are equivalent, because it can be shown that any graph with either \( K_5 \
 \( K_{3,3} \) as a minor also has a subgraph that is a subdivision of one of them.
 
 \section{Combinatorics}
+
+\subsection{Counting}
+
 \begin{Theorem}[Principle of inclusion and exclusion]
+    \label{thm:inclusion_exclusion}
     Let \( n\geq 2 \) be an integer and let \( A_1, \ldots , A_n \)
     be finite sets. Then
     \[\left|\bigcup_{i}^{n}A_i\right| =\sum_{k=1}^{n}(-1)^{k+1}\left(\sum_{1\leq i_1 < \ldots < i_k \leq n}\left|\bigcap_{j=1}^{k}A_{i_j}\right|\right).\]
@@ -827,20 +888,121 @@ they are equivalent, because it can be shown that any graph with either \( K_5 \
     \[(x+y)^n = \sum_{k=0}^{n}\binom{n}{k}x^{n-k}y^k.\]
 \end{Theorem}
 
+\textit{Proof.} Expanding the left-hand side, we get
+\[(x+y)^n = \underbrace{(x+y)(x+y)\cdots(x+y)}_{n \text{ times}}.\]
+We see that there will be \( 2^n \) different terms after repeatedly using the
+distributive property. Each term will be a product of \( x \) to some power and
+\( y \) to some power, where the powers add up to n. In other words, each term
+will be of the form \( x^{n-k}y^k \) for some \( k \) between 0 and \( n \).
+The number of times that the term \( x^{n-k}y^k \) appears is the number of ways
+to choose \( k \) of the \( n \) factors to be \( y \), which is \( \binom{n}{k} \).
+This gives exactly the right-hand side of the equation. \qedsymbol
+
+\textit{Proof of \Cref{thm:inclusion_exclusion}.}
+Let \( n \geq 2 \) and let \( A_1, A_2, \ldots , A_n \) be finite sets. Recall that
+the identity we want to prove is 
+\[\left|\bigcup_{i=1}^{n}A_i\right| = \sum_{k=1}^{n}(-1)^{k+1}\left(\sum_{1\leq i_1 < \ldots < i_k \leq n}\left|\bigcap_{j=1}^{k}A_{i_j}\right|\right).\]
+Let \( x \) be an element that belongs to the union \( \bigcup_{i=1}^{n} A_i\). Clearly, this contributes
+1 to the left-hand side, so we must show that it contributes exactly 1 to the right-hand side as well.
+We know that \( x \) is a member of at least one of \( A_i \); let \( s\geq 1 \)
+be the number of the sets \( A_i \) that contain \( x \).
+
+Each time \( x \) is a member of some \( A_i \), it contributes +1 to the right-hand side.
+This happens \( \binom{s}{1} \) times. Each time it is a member of \( A_i \) and \( A_j \) for some \( i < j \),
+\( x \) contributes -1 to the right-hand side; this happens \( \binom{s}{2} \) times. generally,
+if \( x \) is a member of \( A_1 \cap A_2 \cap \ldots \cap A_r \), it contributes +1 if \( r \) is odd
+and -1 if \( r \) is even, and this term is repeated \( \binom{s}{r} \). 
+So the total contribution of \( x \) to the right-hand side is
+\[\binom{s}{1} - \binom{s}{2} + \binom{s}{3} - \ldots + (-1)^{s+1}\binom{s}{s}\]
+By the binomial theorem, 
+\[ 0 = (1-1)^s = \binom{s}{0} - \binom{s}{1} + \binom{s}{2} - \ldots + (-1)^s\binom{s}{s}.\]
+We know that \( \binom{s}{0} = 1 \), so by rearranging the terms, we get
+\[\binom{s}{1} - \binom{s}{2} + \binom{s}{3} - \ldots + (-1)^{s+1}\binom{s}{s} =\binom{s}{0} = 1.\]
+This means that the contribution of \( x \) to the right-hand side is 1, as desired. 
+The proof is finished since \( x \) is arbitrary.\qedsymbol
+
+\begin{Example}
+Let \( X = \{1,2,\ldots,100\} \) and we want to count the number of \( n \in \mathbb{X} \)
+with \( \gcd(n,30) = 1\). 
+\end{Example}
+To accomplish this, it turns out to be easier to count the number of \( n \in X \) with \( \gcd(n,30) \geq 2 \)
+(and then we must subtract this number from \( \left|X\right| = 100 \)). For
+any positive integer \( r \) let
+\[ A_r = \{n \in X: r|n\}.\]
+Since \( 30 = 2 \cdot 3 \cdot 5 \), an integer \( n \) has \( \gcd(n,30) \geq 2 \) if and only if
+\( n \in A_2, n \in A_3, \text{ or } n \in A_5 \). By the principle of inclusion and exclusion,
+\[\left|A_2 \cup A_3 \cup A_5\right| = \left|A_2\right| + \left|A_3\right| + \left|A_5\right| - \left|A_2 \cap A_3\right| - 
+\left|A_2 \cap A_5\right| - \left|A_3 \cap A_5\right| + \left|A_2 \cap A_3 \cap A_5\right|.\]
+
+The number of even integers in \( X \) is \( \left|A_2\right| = 50 \), similarly the number of multiples of 3 is 
+\( \left|A_3\right| = \lfloor100 \slash 3 \rfloor= 33 \). In general, \( \left|A_r\right| = \lfloor 100 \slash 4 \rfloor \).
+Furthermore, since \( \gcd(2,3) = 1 \), the intersection \( A_2 \cap A_3 \) is simply \( A_6 \),
+and by analogous reasoning, we see that
+\begin{align*}
+    \left|A_2 \cup A_3 \cup A_5\right| &= \left|A_2\right| + \left|A_3\right| + \left|A_5\right| - \left|A_6\right| 
+    - \left|A_{10}\right| - \left|A_{15}\right| + \left|A_{30}\right|\\
+    &= \lfloor\frac{100}{2}\rfloor + \lfloor\frac{100}{3}\rfloor + \lfloor\frac{100}{5}\rfloor - \lfloor\frac{100}{6}\rfloor
+    - \lfloor\frac{100}{10}\rfloor - \lfloor\frac{100}{15}\rfloor + \lfloor\frac{100}{30}\rfloor\\
+    &= 50 + 33 + 20 - 16 - 10 - 6 + 3 \\
+    &= 74.
+\end{align*}
+We conclude that the number of \( n \in X \) with \( \gcd(n,30) = 1 \) is \( 100 - 74 = 26 \).
+
+\subsection{Permutations and combinations}
+
 \begin{Proposition}
     Let \( n \geq 0 \) be an integer. Then
     \[ \sum_{k=0}^{n}\binom{n}{k}^2 = \binom{2n}{n}.\]
 \end{Proposition}
 
+\textit{Proof.} Let X be set of size 2n. The right-hand side counts the number of subsets of X of size n.
+We count this in a different way. Let A and B be such the \( \left|A\right| = \left|B\right| = n \),
+and \( A\cup B = X \) (so we must have \( A \cap B = \emptyset \)). Then
+choosing a subset of X is the same as choosing \( k \) elements of A, where \( 0 \leq k \leq n \),
+and then choosing the remaining \( n-k \) elements from B. In other words,
+\[\binom{2n}{n} = \sum_{k=0}^{n}\binom{n}{k}\binom{n}{n-k} = \sum_{k=0}^{n}\binom{n}{k}^2.\]
+\hfill \qedsymbol
+
+Now let's explore more identities involving binomial coefficients.
+\marginnote{\includegraphics{Pascel's_triangle_1.png} \\
+Laying out the binomial coefficients in the triangle.
+}
+
+\includegraphics{Pascel's_triangle_2.png}\\
+\label{fig:pascal_triangle}
+\begin{center}
+    Pascal's triangle
+\end{center}
+
+This triangle can easily be drawn by hand by writing 1s along its boundary and filling in the interior
+by adding the two numbers above each cell. Now we shall prove this observation.
+
 \begin{Proposition}[Pascal's identity]
     Let \( n \geq 0 \) and \( k\geq 1 \) be integers. Then
     \[\binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}.\]
 \end{Proposition}
+\marginnote{The only number that appears infinitely many times is 1, since any \( n \in Z \)
+can only appear in the first n + 1 rows of the triangle.\\
+A fun conjecture to think about is the Singmaster's conjecture, but whether the statement is true is still 
+a open problem.}
+
+\textit{Proof.} Set \( X = \{1,2,\ldots,n\} \). We count the number of sets \( Y \subseteq X  \) there 
+are of size \( k  \). Either \( 1 \in Y  \) or \( 1 \notin Y  \). If \( 1 \notin Y  \),
+then there are \( \binom{n-1}{k} \) possibilities for what \( Y \) can be. If \( 1 \in Y  \),
+then there are still \( k-1 \) elements to choose from \( n-1 \) elements, so there are \( \binom{n-1}{k-1} \) possibilities for what \( Y \) can be. 
+Hence the right-hand side counts the number of sets \( Y \subseteq X \) of size \( k \). But
+this is exactly what the left-hand side counts as well. \hfill \qedsymbol
 
 \begin{Proposition}
     For all \( n \in \mathbb{N} \),
     \[\sum_{k=0}^{n}\binom{n}{k} = 2^n.\]
 \end{Proposition}
+
+\textit{Proof.} By the binomial theorem with \( x = y = 1 \), we have
+\[2^n = (1+1)^n = \sum_{k=0}^{n}\binom{n}{k}1^k 1^{n-k}= \sum_{k=0}^{n}\binom{n}{k}.\]
+The proposition can also be proven by noting that the left-hand side counts the number of subsets of
+\( \{1,2,\ldots,n \} \) of size 0, plus the subsets of size 1, and so on up to all subsets of size n.
+But adding up all these numbers gives the number of all subsets of \( \{1,2,\ldots,n \} \), which is \( 2^n \). \hfill \qedsymbol 
 
 \begin{Theorem}[Freshman's dream]
     Let p be a prime number and let \( x,y \in \mathbb{Z}\).
