@@ -4,6 +4,7 @@
 %\geometry{showframe}% for debugging purposes -- displays the margins
 
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{cleveref}
 \crefname{Proposition}{Proposition}{Propositions}
 \Crefname{Proposition}{Proposition}{Propositions}
@@ -164,26 +165,49 @@ paragraph show \( A = B \). \qedsymbol
     is the set of all elements that are in exactly one of \( A \) and \( B \).
 \end{itemize}
 
-\section{Predicate Logic}
-    \begin{Definition}[Predicate]
-    A \it predicate \rm is a statement containing some number
-    of variable coming from a universe \textbf{u}. aaa
-    \end{Definition}
+\section{Logic}
+\subsection{Propositional Logic}
+\textbf{Conditional and biconditional.}  The \textit{conditional}
+logical relation IF q THEN p is denoted by \( p \Rightarrow q \).
+\marginnote{The logical formula of these two conditionals are: \( p \Rightarrow q \equiv \neg p \vee q \) and \( q \Rightarrow p \equiv \neg q \vee p \).}
+Within the conditional statement, p is called the \textit{antecedent}, which is the assumption.
+The \textit{consequent} is q, which is the conclusion. The \textit{biconditional} logical relation
+p IF AND ONLY IF q is denoted by \( p \Leftrightarrow q \). It asserts that variables p and q are logically equivalent.
 
-\subsection{Tutorial}
+\begin{table}
+\centering
+\begin{tabular}{c c c c}
+\hline
+$p$ & $q$ & $p \Rightarrow q$ & $p \Leftrightarrow q$ \\ \hline
+1   & 1   & 1                 & 1                    \\ 
+1   & 0   & 0                 & 0                    \\
+0   & 1   & 1                 & 0                    \\ 
+0   & 0   & 1                 & 1                    \\
+\end{tabular}
+\caption{Truth table for conditional and biconditional relations}
+\end{table}
+
+A formula is called a
+\begin{itemize}
+\item \textit{tautology} if it is true for all possible truth values of its variables.
+\item \textit{contradiction} if it is false for all possible truth values of its variables.
+\item \textit{contingency} if it is neither a tautology nor a contradiction.
+\item \textit{satisfiable} if there is an assignment of truth values to its variables that makes it true.
+\item \textit{falsifiable} if there is an assignment of truth values to its variables that makes it false.
+\end{itemize}
+
+
+\marginnote{\textbf{Tutorial}\\
 \begin{enumerate}
     \item $ p \Rightarrow p $: tautology, since 
     $ \equiv \neg p \vee p = 1$ 
     \item $(p \Rightarrow q) \Rightarrow p$: contingency,
-    true if $ p=q=1 $, false if $ p=0 $. 
-    \marginnote{When $ p = 0 $, $ p \Rightarrow q  $is always true, and 
-    a $ture \Rightarrow false (p)$ is always false.}
-    
+    true if $ p=q=1 $, false if $ p=0 $. \\
+    (When $ p = 0 $, $ p \Rightarrow q  $is always true, and 
+    a $ture \Rightarrow false (p)$ is always false.)
     \item $ (\neg (p \wedge \neg q)) \vee p \equiv 1 $: tautology. 
     \item $ (p \Leftrightarrow q) \wedge (p \Leftrightarrow \neg q )$: contradictory. 
-    \item to be filled
 \end{enumerate}
-
 \begin{Example}
     Prove that a logical formula is satisfiable iff. its 
     negation is falsifiable.
@@ -191,45 +215,64 @@ paragraph show \( A = B \). \qedsymbol
 \textit{Proof.} A logical formula is satisfiable iff there is an assignment of 
 all the variables which makes the formula true. By definition of the negation, this assignment makes the negation of our formula false, 
 which means the negation is falsifiable. Proof of the converse is analogous.
+}
 
-\paragraph{Prove or disprove:}
-\begin{enumerate}
-  \item $ \forall n \in \mathbb{N }, \exists m \in \mathbb{N }, n + m = 0 $ \\
-  False. Let's proof its negation: $ \exists n \in \mathbb{N }, \forall m \in \mathbb{N },
-  n + m \neq 0$, it's true, e.g., we can let $ n = 2 $.
-  \item $ \forall n \in \mathbb{N }, \exists m \in \mathbb{Z }, n + m = 0 $\\
-  Ture, Let $ n \in \mathbb{N } $, then choose $ m = -n \in \mathbb{Z }  $, and we get $ m+n=0 $. 
-  \item $ \forall n \in \mathbb{N }, \exists k \in \mathbb{N }, (k \geq m) \Rightarrow (k \geq 5n) $: \\
-  The statment is equivalent to $ (k < m) \vee (k \geq 5n)$. \\
-  For any $ n \in \mathbb{N }$, choose $m = 5n $, then for all $ k \in \mathbb{N } $, we have that statement is true.
-\end{enumerate}
+\subsection{Predicate Logic}
+    \begin{Definition}[Predicate]
+    A \it predicate \rm is a statement containing some number
+    of variable coming from a universe \textbf{u}. 
+    \end{Definition}
 
-\subsection{Proofing statement of the form $ p \Rightarrow q $}
+\textbf{Negating quantifiers.} By De Morgan's laws, we have
+\[\neg (\forall x \in U, P(x)) \equiv \exists x \in U, \neg P(x),\]
+\[\neg (\exists x \in U, P(x)) \equiv \forall x \in U, \neg P(x).\]
+
+Let's do some example. We express the statement, "There is a nonzero real numnber such that
+every real number is not its inverse or is negative." In the universe \( \mathbb{R} \), ths formula corresponding
+to the statement is
+\[\exists x: (x\neq 0 \wedge (\forall y: xy \neq 1 \vee y < 0)).\]
+If a formula is true then its negation is false. Let's deriv the negation of the formula above:
+\begin{align*}
+    \neg (\exists x: &(x\neq 0 \wedge (\forall y: xy \neq 1 \vee y < 0))) \\
+    &\equiv \forall x: \neg (x\neq 0 \wedge (\forall y: xy \neq 1 \vee y < 0)) \\
+    &\equiv \forall x: (x = 0 \vee \neg (\forall y: xy \neq 1 \vee y < 0)) \\
+    &\equiv \forall x: (x = 0 \vee \exists y: \neg (xy \neq 1 \vee y < 0)) \\
+    &\equiv \forall x: (x = 0 \vee \exists y: xy = 1 \wedge y \geq 0).
+\end{align*}
+Negating a formula in predicate logic is entirely mechanical. The \( \neg \) symbol
+moves from left to right, flipping the quantifiers and negating the predicates as it goes.
+
+
+
+\subsection{Proof Techniques}
+\paragraph{Proofing statement of the form $ p \Rightarrow q $}
     We assume p is true, prove q, which is showing the case that p is true 
     be q is false can't happen.
-    \begin{Example}
-        \textit{prop.} If n is an odd integer, then $n^{2} $ is an odd integer.
-    \end{Example}
+
+    \begin{Proposition}
+        If n is an odd integer, then $n^{2} $ is an odd integer.
+    \end{Proposition}
+
     Write the proposition in predicate formula:
     \[u = \mathbb{Z }, \phantom{x} \forall n: ((\exists k : n = 2k+1) \Rightarrow (\exists n^{2} = 2l+1))\]
     \textit{proof.} Let n be ana integer. Assume that n is odd, that is, there exist k such that $ n = 2k+1 $.\\
     Then, $ n^{2} = (2k+1)^{2} = 2(2k^{2} + 2k) + 1 $. Let $ l = 2k^{2} + 2k $,
     then $ n^{2} = 2l + 1 $, thus, it's odd.
 
-\subsection{To disprove a statement: prove its negation is true}
+\paragraph{To disprove a statement: prove its negation is true}
 
 
-
-\begin{Example}
-    disprove $ \exists x \forall y: x + y \neq 0  $. \\
-    prove $ \forall x \exists y : x+ y = 0 \equiv \neg (\exists x \forall y: x + y \neq 0) $
-\end{Example}
-\textit{proof.} Let $ x \in \mathbb{R } $ be given. Pick $ y = -x  $, then 
+\begin{Proposition}
+    Disprove the statement: $\exists x \forall y: x + y \neq 0  $.
+\end{Proposition}
+\textit{Proof.}  
+    To disprove, we shall prove its negation: $ \forall x \exists y : x+ y = 0 \equiv \neg (\exists x \forall y: x + y \neq 0) $
+    Let $ x \in \mathbb{R } $ be given. Pick $ y = -x  $, then
 $ x + y = 0 $. Q.E.D
 
 \marginnote{Since $ p \wedge \neg p \equiv 0 $}
 
-\subsection{Converse and Contrapositive}
+\paragraph{Converse and Contrapositive}
 
 \begin{Definition}\phantom{x }\\
     \begin{enumerate}
@@ -240,26 +283,40 @@ $ x + y = 0 $. Q.E.D
     \end{enumerate}
 \end{Definition}
 
-\subsection{Proofs by contradiction}
+\paragraph{Proofs by contradiction}
 You assume something is true, and get something nonsense.\\
 \[\neg p \Rightarrow 0 \equiv \neg (\neg p) \vee 0 \equiv p\]
 
-\begin{Example}
-    \textit{prop.} there is no least positive rational number.\\
+\begin{Proposition}
+    There is no least positive rational number.\\
     \[u = \mathbb{Q }: \neg (\exists x : x>0 \wedge (\forall y: y > 0 \Rightarrow x \leq y))\]
-\end{Example}
-\textit{proof.} Suppose, for a contradiction that the proposition is false, that is,
+\end{Proposition}
+
+\textit{Proof.} Suppose, for a contradiction that the proposition is false, that is,
 there exist $  x \in \mathbb{ Q } $ such that $ x>0 $ and for all $ y \in \mathbb{Q } $ with $ y>0, x \leq y  $.\\
 Let $ y = \frac{x }{2}$, we have $ \frac{x }{2} > 0 $ since $ x>0 $. Then $ x \leq y  $, so $ x \leq \frac{x }{2} $.\\
 Divide through by x ( because x > 0) to get $ 1 \leq \frac{1}{2}$.\\
 the contradiction completes the proof. Q.E.D
 
-\subsection{Case Analysis}
-\begin{Example}
-    \textit{prop.} There exists irrational numbers a,b such that a is rational.
-\end{Example}
+\marginnote{\textbf{Tutorial: Prove or disprove:}\\
+\begin{enumerate}
+  \item $ \forall n \in \mathbb{N }, \exists m \in \mathbb{N }, n + m = 0 $ \\
+  False. Let's proof its negation: $ \exists n \in \mathbb{N }, \forall m \in \mathbb{N },
+  n + m \neq 0$, it's true, e.g., we can let $ n = 2 $.
+  \item $ \forall n \in \mathbb{N }, \exists m \in \mathbb{Z }, n + m = 0 $\\
+  Ture, Let $ n \in \mathbb{N } $, then choose $ m = -n \in \mathbb{Z }  $, and we get $ m+n=0 $. 
+  \item $ \forall n \in \mathbb{N }, \exists k \in \mathbb{N }, (k \geq m) \Rightarrow (k \geq 5n) $: \\
+  The statement is equivalent to $ (k < m) \vee (k \geq 5n)$. \\
+  For any $ n \in \mathbb{N }$, choose $m = 5n $, then for all $ k \in \mathbb{N } $, we have that statement is true.
+\end{enumerate}}
 
-If 
+
+\paragraph{Case Analysis}
+
+\begin{Proposition}
+    \textit{prop.} There exists irrational numbers a,b such that \( a^b \) is rational.
+\end{Proposition}
+
 
 \section{Functions}
 \begin{Definition}[Surjective and injective]
@@ -267,8 +324,44 @@ If
     \[\forall b \in B, \exists a \in A, f(a) = b\]
     A function is injective if 
     \[\forall a_1, a_2 \in A, a_1 \neq a_2 \rightarrow f(a_1) \neq f(a_2)\]
-    or $ a_1 = a_2 \rightarrow f(a_1) = f(a_2) $.
+    or $  f(a_1) = f(a_2)  \rightarrow a_1 = a_2$.
 \end{Definition}
+
+\begin{Theorem}
+    Let \( a_1,a_2,\ldots,a_n \) be a finite sequence (repeats allowed) of real numbers. Let
+    \[a = \frac{1}{n} \sum_{i=1}^{n} a_i.\]
+    be the average value of the sequence and let \( m \) 
+    be the maximum value of the sequence attains. Then \( m \geq a \).
+\end{Theorem}
+
+\begin{Theorem}
+    Let A and B be finite sets with \( \left|A\right| = m\) and \( \left|B\right| = n \).
+    For every function \( f:A \to B \), then there is some \( b \in B \) such that
+    there are at least \( \lceil m/n \rceil \) elements in \( A \) that get mapped to \( b \).
+\end{Theorem}
+
+\begin{Corollary}[The pigeonhole principle]
+    Let \( n \geq 2 \). If \( n \) pigeons nest in \( n-1 \) holes, there is at least one hole that contains at least two pigeons.
+    Let \( f:A \to B \) be a function. 
+    If \( \left|A\right| > \left|B\right| \), then \( f \) is not injective.
+\end{Corollary}
+
+\textbf{Bijections.} A function is called \textit{bijective} if it is both surjective and injective.
+
+\begin{Proposition}
+    Let A and B be finite sets. Then
+    \begin{enumerate}
+        \item there exists a bijection \( f:A\to B \) if and only if \( \left|A\right| = \left|B\right| \); and
+        \item if \(\left|A\right| = \left|B\right| \), \( f:A\to B \) then \( f \) is injective if and only if \( f \) is surjective.
+    \end{enumerate}
+\end{Proposition}
+
+\textbf{Invertibility.} A function \( f:A\to B \) is called \textit{invertible} if there exists a function \( g:B\to A \) such that
+\begin{enumerate}
+    \item for all \( a \in A \), \( g(f(a)) = a \); and
+    \item for all \( b \in B \), \( f(g(b)) = b \).
+\end{enumerate}
+If such a function \( g \) exists, it is unique, and we call it the \textit{inverse} of \( f \), denoted by \( f^{-1} \).
 
 \begin{Proposition}
     Let \( f:A\to B \) be a function. Then \( f \) is invertible if and only if
@@ -289,12 +382,142 @@ the element \( g(f(a)) \) is the unique element in \( A \) that gets brought to 
 has to be \( a \) itself. \hfill \qedsymbol
 
 Sometimes to prove that two sets have the same cardinality, it is easier to prove that there exists
-a bijection between them.
+a bijection between them. Here is an example:
+\begin{Proposition}
+    \label{prop:even_odd_cardinality}
+    Let X be a finite nonempty set. Let E be the set of all subsets of X with even cardinality, and
+    let D be the set of all subsets of X with odd cardinality. Then \( \left|E\right| = \left|D\right| \).
+\end{Proposition}
 
+\section{Cardinality}
+We say that A and B are \textit{equipotent} or have the same \textit{cardinality}, 
+if and only if there exists a bijection \( f:A\to B \). We write \( \left|A\right| = \left|B\right| \).
 
-\section{Modular Arithmetic}
+\marginnote{It is possible to remove an infinite number of elements from \( \mathbb{N} \) and end up with something 
+still equipotent with \( \mathbb{N} \).}
 
+\begin{Theorem}
+    We have \( \left|N\right| = \left|Z \right| \).
+\end{Theorem}
+
+We say that a set A is countably infinite if if there exists a bijection \( f:N\to A \), that is
+if \( \left|N\right| = \left|A\right| \). A set is countable if it is finite or countably infinite.
+Otherwise it is called uncountable.
+
+Sometimes it is difficult to come up with a bijection between two sets. Instead,
+we would like to find an injection from B to A.
+
+\begin{Theorem}[Schroder-Bernstein Theorem]
+    If there exists an injective function \( f:A\to B \) and another injective function \( g:B\to A \),
+    then there exists a bijection \( h:A\to B \).
+\end{Theorem}
+
+\begin{Theorem}[Fundamental Theorem of Arithmetic]
+Every positive integer \( n \geq 2 \) can be factored into a product
+\[
+n = p_1^{v_1} p_2^{v_2} \cdots p_k^{v_k},
+\]
+where the \( p_i \) are distinct prime numbers and the \( v_i \) are positive integers.
+ This factorization is unique up to the order of the factors; 
+ that is, apart from the sequence in which the primes appear, there is
+  only one way to factor \( n \) into primes.
+\end{Theorem}
+    
+\begin{Theorem}
+    If A and B are countably infinite sets, then \( A \times B\) is also
+    countably infinite.
+\end{Theorem}
+
+\begin{Corollary}
+    We have \( \left| \mathbb{Z} \times \mathbb{Z} \right| = \left| \mathbb{N} \right| \).
+\end{Corollary}
+
+\begin{Theorem}
+    The set \( \mathbb{Q} \) of rational numbers is countable.
+\end{Theorem}
+
+\begin{Theorem}
+    The set A of all infinite binary sequences is uncountable.
+\end{Theorem}
+
+\section{Relations}
+\begin{Definition}
+A \textit{relation} on a set X is a subset \( R \subseteq X \times X \).
+If \( (a,b) \in R \), we write \( aRb \) and say that a is related to b.
+\end{Definition}
+
+\textbf{Properties of relations.} Let R be a relation on a set X. We say that R is
+\begin{enumerate}
+    \item \textit{reflexive} if \( aRa \) for all \( a \in X \).
+    \item \textit{symmetric} if \( aRb \) implies \( bRa \) for all \( a,b \in X \).
+    \item \textit{transitive} if \( aRb \) and \( bRc \) implies \( aRc \) for all \( a,b,c \in X \).
+\end{enumerate}
+
+\begin{Definition}[Equivalence relations]
+    If R is reflexive, symmetric, and transitive, we say that R is an \textit{equivalence relation}.
+\end{Definition}
+If R is an equivalence relation, often we shall write \( a \sim b \) to mean \( aRb \).
+Sometimes we might even just say that \( \sim \) is the equivalence relation.
+\begin{Definition}[Equivalence class]
+    Let \(R \subseteq X \times X \) be an equivalence relation on a set X. Define the \textit{equivalence class} of an element \( a \in X \) to
+    be the set
+    \[ [a] = \{b \in X: a\sim b\}. \]
+\end{Definition}
+
+\begin{Proposition}
+    Let R be an equivalence relation on A. Then
+    \begin{enumerate}
+        \item for all \( x \in A \), \( x \in [x] \);
+        \item for all \( x,y \in A \), \( x\sim y \) if and only if \( [x] = [y] \);
+        \item for all \( x,y \in A \), \( x \not\sim y \) if and only if \( [x] \cap [y] = \emptyset \).
+    \end{enumerate}
+\end{Proposition}
+
+\begin{Proposition}
+    Let A be a set and let \( \sim \) to be an equivalence relation on A. 
+    Then \(A\slash \sim\) is a partition of A.
+\end{Proposition}
+
+\section{Number Theory}
 \subsection{Division}
+
+\begin{Proposition}
+    For all \( a,b,c \in \mathbb{Z} \),
+    \begin{enumerate}
+        \item if \( a|b \) then \( a|bc \);
+        \item if \( a|b \) and \( a|c \) then \( a|(b+c) \);
+        \item if \( a|b \) and \( b|c \) then \( a|c \);
+        \item if \( a|b \) and \( b\neq 0 \), then \( |a| \leq |b| \); and
+        \item if \( a|b \) and \( b|a \), then \( \left|a\right| = \left|b\right|\).
+    \end{enumerate}
+\end{Proposition}
+
+\begin{Theorem}[Division algorithm]
+    Let \( a , b \in \mathbb{Z} \) with \( b > 0 \). Then there exist unique integers \( q,r \in \mathbb{Z} \) such that
+    \[ a = bq + r \text{ and } 0 \leq r < \left|b\right|.\]
+\end{Theorem}
+
+\textbf{Euclid's algorithm.} 
+Given two nonnegative integers \( a \) and \( b \), not both zero, this algorithm outputs \( \gcd(a,b) \).
+\begin{enumerate}
+    \item[E1.] If \( b = 0 \), output \( a \) and stop.
+    \item[E2.] Since \( b\neq 0 \), by the division algorithm we may write \( a = bq + r \) with \( 0 \leq r < b \).
+    Set \( a \leftarrow b \) and \( b \leftarrow r \), and return to step E1.
+\end{enumerate}
+Why does this algorithm work? The following lemma clarifies the situation.
+\begin{Lemma}
+    Let \( a,b,q,r \in \mathbb{Z} \) be integers such that \( a = bq + r \).
+    Then \( \gcd(a,b) = \gcd(b,r) \).
+\end{Lemma}
+
+\begin{Theorem}[Bezout's identity]
+    Let \( a,b \in \mathbb{Z} \) be nonzero integers with greatest common divisor \( \gcd(a,b) \). 
+    Then there exist integers \( s,t \) such that
+    \[ \gcd(a,b) = sa + tb. \]
+    Moreover, \( \gcd(a,b) \) is the smallest positive integer that can be written in an
+    integer linear combination of \( a \) and \( b \).
+\end{Theorem}
+
 \begin{Proposition}
     Let a and b be nonzero integers. The set
     \[X = \left\{s'a+t'b:s',t'\in \mathbb{Z}\right\}\]
@@ -309,6 +532,35 @@ Conversely, suppose that \( n \in \mathbf{X} \). Then \( n = s'a+t'b \) for some
 Then since \( d \) divides \( a \) and \( b \), we can write \( a=ld \) and \( b=md \) for some integers \( l,m \in \mathbb{Z}\).
 So we have \[n=s'a+t'b=s'ld+t'md=(s'l+t'm)d,\]
 which shows that \( d|n \), since \( s'l+t'm \in \mathbb{Z} \). \qedsymbol
+
+\textbf{Coprime} We say that integers \( a \) and \( b \) are relatively prime or coprime if \( \gcd(a,b) = 1 \).
+
+\begin{Proposition}
+    For all integers \( n>1 \), \( n \) and \( n+1 \) are relatively prime.
+\end{Proposition}
+
+subsection{Primes}
+\begin{Theorem}
+    An integer \( p \) with \( p\geq 2 \) is prime if and only if the only if for
+    all \( a,b \in \mathbb{N} \), \( p|ab \) implies that \( p|a \) or \( p|b \).
+\end{Theorem}
+\marginnote{To illustrate that this theorem, we can also consider \( p=6,a=2 \) and \( b=15 \).
+We have \( p|ab \) since \( 6|30 \), but \( 6 \) does not divide \( 2 \) or \( 15 \).\\
+
+By induction, the theorem can be extended to arbitrary finite products.}
+
+This relates to the definition of a prime number as a number \( p \) such that \( \gcd(p, n) = 1 \) for
+ all integers \( n \) with \( 1 < n < p \). 
+ Since \( p \) shares no common divisors with any number less than 
+ itself (other than 1), it cannot divide a product \( ab \) unless 
+ it divides at least one of \( a \) or \( b \). 
+ This emphasizes the fundamental property of prime numbers in relation to 
+ divisibility and greatest common divisors.
+
+\begin{Corollary}
+    Let \( p \) be prime and \( n \) be a positive integer. If \( a_1, a_2, \ldots,a_n \) are
+    integers such that \( p|a_1a_2\cdots a_n \), then \( p|a_i \) for some \( 1\leq i \leq n \).
+\end{Corollary}
 
 \section{Graph Theory}
 \subsection{Definitions}
@@ -993,6 +1245,17 @@ then there are still \( k-1 \) elements to choose from \( n-1 \) elements, so th
 Hence the right-hand side counts the number of sets \( Y \subseteq X \) of size \( k \). But
 this is exactly what the left-hand side counts as well. \hfill \qedsymbol
 
+\textit{Another proof of \Cref{prop:even_odd_cardinality}} We re-establish the notation of the
+proposition statement. Let X be a finite nonempty set, let E be the set of subsets of X with even cardinality, and let O
+bet the set of subsets with odd cardinality. By the binomial theorem with \( x = -1, y = 1 \), we have
+\begin{align*}
+0 &= (-1+1)^n =  \sum_{k=0}^{n}\binom{n}{k}(-1)^k1^{n-k}\\
+    &= \binom{n}{0} - \binom{n}{1} + \binom{n}{2} - \ldots + (-1)^n\binom{n}{n}\\
+\end{align*}
+Hence 
+\[\binom{n}{0} + \binom{n}{2} + \ldots + \binom{n}{n} = \binom{n}{1} + \binom{n}{3} + \ldots + \binom{n}{n-1}.\]
+but the left-hand side is just \( \left|E\right| \) and the right-hand side is \( \left|O\right| \). \hfill \qedsymbol
+
 \begin{Proposition}
     For all \( n \in \mathbb{N} \),
     \[\sum_{k=0}^{n}\binom{n}{k} = 2^n.\]
@@ -1010,6 +1273,22 @@ But adding up all these numbers gives the number of all subsets of \( \{1,2,\ldo
     \[(x+y)^p=x^p + y^p \pmod{p}.\]
 \end{Theorem}
 
+\textit{Proof.} By the binomial theorem, we have
+\[(x+y)^p = \sum_{k=0}^{p}\binom{p}{k}x^{k}y^{p-k} = x^{p} + y^p + \sum_{k=1}^{p-1}\binom{p}{k}x^{k}y^{p-k}.\]
+Taking this equation modulo p, we are done if we can show that for all \( 1 \leq k \leq p-1 \),
+\[\binom{p}{k} \equiv 0 \pmod{p}.\]
+Let \( 1 \leq k \leq p-1 \) and expand the binomial coefficient:
+\[\binom{p}{k} = \frac{p!}{k!(p-k)!}.\]
+Multiplying both side by \( k!(p-k)!\), we get
+\[k!(p-k)!\binom{p}{k} = p! = p(p-1)!.\]
+This is an integer and the right-hand side is a multiple of \( p \), so the left-hand side is as well.
+Then since \( p \) devides the product \( k!(p-k)! \), either \( p \) divides \( k!(p-k)!\) or it 
+divides \( \binom{p}{k} \). But the former is not possible, since
+\[k!(p-k)! = k(k-1)\cdots 2\cdot 1 \cdot (p-k)(p-k-1)\cdots 2\cdot 1,\]
+and all of the factors on the right-hand side are positive integers less than \( p \).
+Hence \( p \) can not divide any of them, and not divide \( k!(p-k)!\),
+ so it must divide \( \binom{p}{k} \). \hfill \qedsymbol
+
 
 \subsection{Recurrence}
 \begin{Proposition}
@@ -1019,6 +1298,21 @@ But adding up all these numbers gives the number of all subsets of \( \{1,2,\ldo
     we have
     \[ a_n = c\cdot b^n.\]
 \end{Proposition}
+
+In general, we will consider recurrences of the form
+\[ a_n = f_1(n)a_{n-1} + f_2(n)a_{n-2} + \ldots + f_k(n)a_{n-k} + g(n),\]
+where \( f_1, \ldots, f_k,g: \mathbb{N} \to \mathbb{R} \) are functions, and \( k\geq 1 \) is an integer.
+
+These recurrences are said to be \textit{linear of degree k}. If \( g(n) = 0 \),
+the recurrence is said to be \textit{homogeneous}; otherwise, it is \textit{non-homogeneous}.
+
+For \textit{non-homogeneous} recurrences, the same recurrence without the \( g(n) \) term 
+is called the \textit{associated homogeneous recurrence}. If, for all \( 1\leq i \leq k \), the
+function \( f_i \) is a constant function, then the recurrence is said to have \textit{constant coefficients}.
+
+A sequence \( (p_n) \) that satisfies the recurrence is called a \textit{particular solution}.
+A \textit{general solution} is a formula describing all possible solution using some parameters.
+If we specify values for the first few terms, these are call \textit{initial conditions} for the recurrence.
 
 \begin{Theorem}
     Consider the non-homogeneous recurrence
