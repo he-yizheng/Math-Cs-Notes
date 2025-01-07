@@ -1,0 +1,217 @@
+\documentclass{tufte-handout}
+
+%\geometry{showframe}
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cleveref}
+\crefname{Proposition}{Proposition}{Propositions}
+\Crefname{Proposition}{Proposition}{Propositions}
+\crefname{Theorem}{Theorem}{Theorems}
+\Crefname{Theorem}{Theorem}{Theorems}
+\crefname{Definition}{Definition}{Definitions}
+\Crefname{Definition}{Definition}{Definitions}
+\crefname{Corollary}{Corollary}{Corollaries}
+\Crefname{Corollary}{Corollary}{Corollaries}
+\crefname{Lemma}{Lemma}{Lemmas}
+\Crefname{Lemma}{Lemma}{Lemmas}
+\crefname{Example}{Example}{Examples}
+\Crefname{Example}{Example}{Examples}
+\usepackage{amsthm}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% Defines colors
+\usepackage{xcolor}
+\definecolor{blue}{cmyk}{0.63, 0.37, 0, 0.57}     
+\definecolor{ltblue}{RGB}{78,150,179}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+% Package for title style
+\usepackage{sectsty}
+\usepackage[utf8]{inputenc}
+
+% Sets section number style
+\setcounter{secnumdepth}{3} % uncomment this, if desired
+\renewcommand\thesection{\color{white}\arabic{section}}
+
+% Sets title style
+\makeatletter
+  \renewcommand{\paragraph}{\@startsection{paragraph}%
+    {4}{\z@}{-1ex \@plus -1ex \@minus -.3ex}%
+    {0.5ex \@plus .2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\subsection}{\@startsection{subsection}%
+    {3}{-1.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{ltblue}{ltblue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\large\itshape\color{ltblue}}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{-1.01em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{blue}{blue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+% Sets theorem style
+\usepackage{thmtools}
+\usepackage{transparent}
+\definecolor{theb}{rgb}{0.67, 0.80, 0.91}
+
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Definition} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Theorem} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Corollary} % Colorbox-styled Theorem
+\declaretheorem[shaded={bgcolor=PeachPuff,
+    textwidth=30em}]{Proposition} % Colorbox-styled Proposition
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Lemma} % Colorbox-styled Lemma
+\declaretheorem[shaded={rulecolor=Lavender,
+    rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{Example-1} % Colorbounded-styled Theorem
+\declaretheorem[thmbox=L]{boxtheorem L} % Theorem box L-size
+\declaretheorem[thmbox=M]{Example} % Theorem box M-size
+\declaretheorem[thmbox=S]{Formula} % Theorem box S-size
+\declaretheorem[thmbox=S]{Statement} % Theorem box S-size
+
+% set up pdf bookmark depth
+\hypersetup{bookmarksdepth=3}
+
+% ------------------------------------------------------------
+\title{MATH547: Stochastic Processes}
+\author[Matthew He]{Matthew He}
+  % if the \date{} command is left out, the current date will be used
+% Beginning of the document
+\begin{document}
+\maketitle% this prints the handout title, author, and date
+
+% abstract
+\begin{abstract}
+\noindent Abstract
+\end{abstract}
+
+% main text
+\section{Introduction}
+
+\begin{Definition}[Probability space]\hfill\\
+    
+\end{Definition}
+
+
+\subsection{Independence}
+Probability theory is about finding some sort of independence.
+\begin{Definition}[Independence]\hfill\\
+    \textbf{Independence of Events}\\
+    Events \( A_1,A_2,A_3,\ldots,A_n \) are \textit{independent} if
+    and only if:\\
+    For any collection \( I \subseteq \left\{1,2,\ldots,n\right\} \)
+    \[P\left(\bigcap_{j\in I}A_j\right) = \prod_{j\in I}P(A_j).\]
+    \textbf{Independence of Random Variables}\\
+    For random variables \({X}_1, {X}_2, \ldots {X}_n \),
+    taking values in state spaces \({S}_1, {S}_2, \ldots {S}_n \),
+    these are \textit{independent} if and only if:\\
+    for any \( E_1 \subseteq S_1,E_2 \subset S_2, \ldots E_n \subset S_n\)
+    the events \( A_j = \left\{X_j \in E_j\right\} \) for \( 1\leq j \leq n \)
+    are independent.
+\end{Definition}
+
+\subsection{Important theorem}
+\begin{Theorem}[Law of large number (weak)]
+    If \( \left\{X_n\right\}_{n=0}^{\infty} \) are real-valued,
+    independent, identically distributed random variables and
+    \(\mathbb{E}(X_i) = \mu < \infty\), then
+    \[\frac{1}{n} \sum_{j=1}^{n}X_j\rightarrow^{\mathbb{P}}_{n\rightarrow\infty}=\mathbb{E}(Xi)\]
+\end{Theorem}
+
+\begin{Definition}[in-probability concergence]
+    
+\end{Definition}
+
+
+\begin{Theorem}[Law of large number (strong)]
+    If \( \left\{X_n\right\}_{n=0}^{\infty} \) are real-valued,
+    independent, identically distributed random variables and
+    \(\mathbb{E}(X_i) = \mu < \infty\), then
+    \[\frac{1}{n} \sum_{j=1}^{n}X_j\rightarrow^{\text{a.s.}}_{n\rightarrow\infty}=\mathbb{E}(Xi)\]
+\end{Theorem}
+
+\marginnote{Large number theorem tells us value will converge to the expected value. Then
+central limit theorem tells us how close it will be.}
+
+
+\begin{Theorem}[Central limit theorem]
+    If \( \left\{X_n\right\}_{n=0}^{\infty} \) are iid. random variables,
+    with \(\mathbb{E}(X_i) = \mu < \infty\) and \(\text{Var}(X_i) = \sigma^2 < \infty\),
+    then \( \forall t \in \mathbb{R} \),
+    \[\lim_{n\rightarrow\infty}P\left(\frac{\sum_{j=1}^{n}X_j - n\mu}{\sigma\sqrt{n}}\leq t\right) = \Phi(t)\]
+    where \(\Phi(t)\) is the standard normal distribution function.
+\end{Theorem}
+
+\section{Stochastic Processes}
+A stochastic process is a family of random variables indexed by natural numbers (time).
+
+\begin{Definition}[Stochastic process]
+    A stochastic process is a collection of random variables
+    \(\left\{X_t\right\}_{t\in \mathbb{N}_0}\) where \(t\) represents time.
+\end{Definition}
+
+\marginnote{Basic examples:\\
+    1. iid. random variables (e.g. iid. dice rolls)\\
+    2. Random walk} 
+
+\begin{Definition}[Countable state space markov chain]
+    A stochastic process \(\left\{X_j\right\}_{j\in \mathbb{N}_0}\)
+    satisfies the Markov property.
+\end{Definition}
+
+% end of main text
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{0.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{Periwinkle}{Periwinkle}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+\bibliography{marginnotes}
+\bibliographystyle{plainnat}
+
+\end{document}

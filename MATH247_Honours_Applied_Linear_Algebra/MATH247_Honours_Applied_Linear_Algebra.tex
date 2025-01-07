@@ -1,0 +1,219 @@
+\documentclass{tufte-handout}
+
+%\geometry{showframe}
+%\geometry{showframe}% for debugging purposes -- displays the margins
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cleveref}
+\crefname{Proposition}{Proposition}{Propositions}
+\Crefname{Proposition}{Proposition}{Propositions}
+\crefname{Theorem}{Theorem}{Theorems}
+\Crefname{Theorem}{Theorem}{Theorems}
+\crefname{Definition}{Definition}{Definitions}
+\Crefname{Definition}{Definition}{Definitions}
+\crefname{Corollary}{Corollary}{Corollaries}
+\Crefname{Corollary}{Corollary}{Corollaries}
+\crefname{Lemma}{Lemma}{Lemmas}
+\Crefname{Lemma}{Lemma}{Lemmas}
+\crefname{Example}{Example}{Examples}
+\Crefname{Example}{Example}{Examples}
+\usepackage{amsthm}
+
+% Set up the images/graphics package
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+% The following package makes prettier tables.  We're all about the bling!
+\usepackage{booktabs}
+
+% The units package provides nice, non-stacked fractions and better spacing
+% for units.
+\usepackage{units}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+% Small sections of multiple columns
+\usepackage{multicol}
+
+% Provides paragraphs of dummy text
+\usepackage{lipsum}
+
+% Defines colors
+\usepackage{xcolor}
+\definecolor{blue}{cmyk}{0.63, 0.37, 0, 0.57}     
+\definecolor{ltblue}{RGB}{78,150,179}
+
+% These commands are used to pretty-print LaTeX commands
+\newcommand{\doccmd}[1]{\texttt{\textbackslash#1}}% command name -- adds backslash automatically
+\newcommand{\docopt}[1]{\ensuremath{\langle}\textrm{\textit{#1}}\ensuremath{\rangle}}% optional command argument
+\newcommand{\docarg}[1]{\textrm{\textit{#1}}}% (required) command argument
+\newenvironment{docspec}{\begin{quote}\noindent}{\end{quote}}% command specification environment
+\newcommand{\docenv}[1]{\textsf{#1}}% environment name
+\newcommand{\docpkg}[1]{\texttt{#1}}% package name
+\newcommand{\doccls}[1]{\texttt{#1}}% document class name
+\newcommand{\docclsopt}[1]{\texttt{#1}}% document class option name
+
+% Package for title style
+\usepackage{sectsty}
+\usepackage[utf8]{inputenc}
+
+% Sets section number style
+\setcounter{secnumdepth}{3} % uncomment this, if desired
+\renewcommand\thesection{\color{white}\arabic{section}}
+
+% Sets title style
+\makeatletter
+  \renewcommand{\paragraph}{\@startsection{paragraph}%
+    {4}{\z@}{-1ex \@plus -1ex \@minus -.3ex}%
+    {0.5ex \@plus .2ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\subsection}{\@startsection{subsection}%
+    {3}{-1.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{ltblue}{ltblue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\large\itshape\color{ltblue}}}
+\makeatother
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{-1.01em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{blue}{blue}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+% Sets theorem style
+\usepackage{thmtools}
+\usepackage{transparent}
+\definecolor{theb}{rgb}{0.67, 0.80, 0.91}
+
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Definition} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Lavender,
+    textwidth=30em}]{Theorem} % Colorbox-styled Theorem 
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Corollary} % Colorbox-styled Theorem
+\declaretheorem[shaded={bgcolor=PeachPuff,
+    textwidth=30em}]{Proposition} % Colorbox-styled Proposition
+\declaretheorem[shaded={bgcolor=Thistle,
+    textwidth=30em}]{Lemma} % Colorbox-styled Lemma
+\declaretheorem[shaded={rulecolor=Lavender,
+    rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{Example-1} % Colorbounded-styled Theorem
+\declaretheorem[thmbox=L]{boxtheorem L} % Theorem box L-size
+\declaretheorem[thmbox=M]{Example} % Theorem box M-size
+\declaretheorem[thmbox=S]{Formula} % Theorem box S-size
+\declaretheorem[thmbox=S]{Statement} % Theorem box S-size
+
+% set up pdf bookmark depth
+\hypersetup{bookmarksdepth=3}
+
+% ------------------------------------------------------------
+\title{MATH247: Honours Applied Linear Algebra}
+\author[Matthew He]{Matthew He}
+  % if the \date{} command is left out, the current date will be used
+% Beginning of the document
+\begin{document}
+\maketitle% this prints the handout title, author, and date
+
+% abstract
+\begin{abstract}
+\noindent Abstract
+\end{abstract}
+
+% main text
+\section{Preliminaries}
+\subsection{Fields}
+
+\begin{Definition}[Field]
+    A (nonempty) set with two (inner) operations, addition and multiplication:\\
+    \begin{align*}
+      \cdot & : K \times K \mapsto K, \cdot(x,y) = x \cdot y\\
+      + & : K \times K \mapsto K, +(x,y) = x + y
+    \end{align*}
+    is called a \textit{field} if the following axioms hold for all $x,y,z \in K$:\\
+    \begin{align*}
+      &(F1) \quad x+(y+z) = (x+y)+z, \quad x(yz) = (xy)z, \quad
+        \text{ (Associativity)}\\
+      &(F2) \quad x+y = y+x, \quad xy = yx, \quad
+        \text{ (Commutativity)}\\
+      &(F3) \quad x+(y+z) = (x+y)+z, \quad x(yz) = (xy)z, \quad
+        \text{ (Distributivity)}\\
+      &(F4) \quad \exists o \in K \text{ such that } x+o = x,
+        \exists e \in K \text{ such that } x \cdot e = x, \quad
+        \text{ (Neutral elements)}\\
+      &(F5a) \quad \exists a \in K \text{ such that } x+a = o, \quad
+        \text{ (Additive inverses)}\\
+      &(F5b) \quad \exists b \in K \text{ such that } x \cdot b = e, \quad
+        \text{ (Multiplicative inverses)}
+    \end{align*}
+\end{Definition}
+
+\textbf{Subfields}
+Write \( (K,+,\cdot) \) to point out notation for a field.
+
+\begin{Example}[\( \mathbb{F}_2 \) - finite field]
+    Let \( K = \left\{0,1\right\} \) be a set with \( 1 \neq 0 \), and define the
+    operations \( +, \cdot \) as follows:
+    \begin{align*}
+      0+x &= x + 0, \quad 0+1 = 1, \quad 1+0 = 1, \quad 1+1 = 0\\
+      0 \cdot 0 &= 0, \quad 0 \cdot 1 = 0, \quad 1 \cdot 0 = 0, \quad 1 \cdot 1 = 1
+    \end{align*}
+\end{Example}
+
+\begin{Theorem}
+    Let \( (K,+,\cdot) \) be a field. Then for all \( x,y,z \):
+    \begin{align*}
+      &(a) \quad x+y = x+z \Rightarrow y = z \quad (Cancellation)\\
+      &(b) \quad xy=xz \Rightarrow y = z, \forall x \in K \setminus \left\{0\right\}\\
+      &(c) \quad x \cdot o = o\\
+      &(d) \quad x \cdot y = o \Rightarrow x = o \lor y = o \quad \text{(Free of zero divisors)}
+    \end{align*}
+\end{Theorem}
+
+\textit{Proof.}
+(a) Let a be the odd
+
+
+\subsection{The field of complex number}
+Complex numbers \( \mathbb{C} \) is born out of necessity to solve 
+equations like \[x^2 + t = 0.\]
+\begin{Definition}[Complex number]
+We set \[\mathbb{C} = \left\{a+bi|a,b\in \mathbb{R}\right\}\]
+where "i" is the imaginary unit \[ i^2=-1 \quad (\star).\]
+Using ordinary unit for addition and multiplication in \( \mathbb{R} \)
+and \( (\star )\) , \( (\mathbb{C}, + ,\cdot) \) becomes a field containing
+\( \mathbb{R} \) as a subfield.
+\end{Definition}
+
+Given \( z=a+bi \in \mathbb{C}\) we define:
+\begin{align*}
+  &\mathbb{z} = a-bi \quad \text{conjugate}\\
+  & R(z) = a\\
+  & Jm() =b\\
+\end{align*}
+
+\begin{Theorem}
+    Let \( u,v \in \mathbb{C} \)
+\end{Theorem}
+
+% end of main text
+
+\makeatletter
+  \renewcommand{\section}{\@startsection{section}%
+    {3}{0.8em}{-3ex \@plus -1ex \@minus -.2ex}%
+    {1.5ex \@plus .2ex}
+    {\hspace*{-5.5em}\fcolorbox{Periwinkle}{Periwinkle}{\parbox[c][1.0ex][b]{4em}{\phantom{space}}}
+    \normalfont\Large\itshape\color{blue}}}
+\makeatother
+
+\bibliography{marginnotes}
+\bibliographystyle{plainnat}
+
+\end{document}
