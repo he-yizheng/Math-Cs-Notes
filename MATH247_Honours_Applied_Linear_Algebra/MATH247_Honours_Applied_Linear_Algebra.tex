@@ -203,6 +203,159 @@ Given \( z=a+bi \in \mathbb{C}\) we define:
     Let \( u,v \in \mathbb{C} \)
 \end{Theorem}
 
+
+\subsection{Matrices over a field}
+Let \( (K,+,\cdot) \) be a field. Generalizing the concept of a matrix over \( K\in \left\{\mathbb{R,C}\right\} \),
+for \( m,n\in \mathbb{N} \), we define:
+\[
+K^{m \times n} := \left\{ 
+\begin{pmatrix}
+a_{11} & \cdots & a_{1n} \\
+\vdots & \ddots & \vdots \\
+a_{m1} & \cdots & a_{mn}
+\end{pmatrix} 
+\;\middle|\; a_{ij} \in K \; (i = 1, \ldots, m, \; j = 1, \ldots, n)
+\right\}
+\]
+of all $m \times n$ matrices with entries in $K$. \\
+Given a matrix $A \in K^{m \times n}$, we write $a_{ij}$ for its entry in the $i$-th row and $j$-th column or $A[i, j]$.
+
+We make the convention 
+\[
+K^n := K^{n \times 1}.
+\]
+
+Inspired by the case $K \in \{\mathbb{R}, \mathbb{C}\}$, we define the following calculus for matrices in $K^{m \times n}$:
+\begin{itemize}
+    \item \textbf{Addition:} For $A, B \in K^{m \times n}$ we have $(A + B)[i, j] = A[i, j] + B[i, j]$.
+    \item \textbf{Multiplication:} For $A \in K^{m \times n}$ and $B \in K^{n \times p}$ we have 
+    \[
+    (AB)[i, k] = \sum_{j=1}^n A[i, j] B[j, k].
+    \]
+    \item \textbf{Scalar Multiplication:} For $A \in K^{m \times n}$ and $\lambda \in K$ we have $(\lambda A)[i, j] = \lambda A[i, j]$.
+\end{itemize}
+
+The zero matrix in $K^{m \times n}$ is the matrix of all zeros, denoted by $\mathbf{0}_{m \times n}$ or simply $\mathbf{0}$. For $m = n$, we write $\mathbf{0}_n := \mathbf{0}_{n \times n}$.
+
+The matrix units $E_{ij} \in K^{m \times n}$ with
+\[
+E_{ij} =
+\begin{pmatrix}
+\cdots & \cdots & \cdots & \cdots \\
+\cdots & 1 & \cdots & \cdots \\
+\cdots & \cdots & \cdots & \cdots
+\end{pmatrix}
+\]
+(having $1$ at the $(i, j)$-th entry and $0$ elsewhere).
+
+The notion of the transpose of a matrix was also established in MATH 133: For $A \in K^{m \times n}$, its transpose $A^T \in K^{n \times m}$ is defined via 
+\[
+A^T[i, j] = A[j, i] \quad \text{for all } i = 1, \ldots, n \text{ and } j = 1, \ldots, m.
+\]
+
+We call $A \in K^{n \times n}$ a \textbf{square matrix} or simply \textbf{square}. Important classes of square matrices are defined below:
+\begin{itemize}
+    \item A matrix $A \in K^{n \times n}$ is called an \textbf{upper triangular matrix} if 
+    \[
+    a_{ij} = 0 \quad \text{for } i > j \quad (i, j = 1, \ldots, n).
+    \]
+    \item A matrix $A$ is called a \textbf{lower triangular matrix} if 
+    \[
+    a_{ij} = 0 \quad \text{for } i < j \quad (i, j = 1, \ldots, n).
+    \]
+\end{itemize}
+
+A matrix is called a \textbf{diagonal matrix} if and only if it is both upper and lower triangular matrix.
+
+
+A matrix $A = (a_{ij})$ is clearly diagonal if and only if $a_{ij} = 0$ for all $i \neq j$. A special diagonal matrix in $K^{n \times n}$ is the \textbf{identity matrix}
+\[
+I := I_n :=
+\begin{pmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1
+\end{pmatrix}.
+\]
+
+Using the \textbf{Kronecker delta}
+\[
+\delta_{ij} =
+\begin{cases}
+1, & \text{if } i = j, \\
+0, & \text{otherwise},
+\end{cases}
+\]
+we can write $I = (\delta_{ij})$.
+
+For a square matrix $A \in K^{n \times n}$, if there exists $B \in K^{n \times n}$ such that
+\[
+AB = I_n = BA,
+\]
+we say that $A$ is \textbf{invertible} and write $A^{-1} = B$ and call $A^{-1}$ the \textbf{inverse} of $A$, which is uniquely determined already by one of the conditions $AB = I$ or $BA = I$, as we will confirm in Section 4.1.
+
+The following properties are established in MATH 133 for the case $K \in \{\mathbb{R}, \mathbb{C}\}$ and will be used throughout.
+
+\subsubsection*{Theorem 1.2.1 (Matrix calculus)}
+Let $A, A' \in K^{m \times n}$, $B, B' \in K^{n \times r}$, and $C \in K^{r \times s}$. Then the following hold:
+\begin{enumerate}
+    \item[(a)] $A(B + B') = AB + AB'$ and $(B + B')C = BC + B'C$ \hfill \textit{(distributivity)}.
+    \item[(b)] $\lambda(AB) = (\lambda A)B = A(\lambda B)$ for all $\lambda \in K$ \hfill \textit{(homogeneity)}.
+    \item[(c)] $(AB)C = A(BC)$ \hfill \textit{(associativity)}.
+    \item[(d)] $I_m A = AI_n = A$.
+    \item[(e)] $(AB)^T = B^T A^T$.
+    \item[(f)] $A, B$ are invertible, then $(AB)^{-1} = B^{-1}A^{-1}$. In particular, $AB$ is invertible.
+    \item[(g)] If $A$ is invertible, then $(A^T)^{-1} = (A^{-1})^T$. In particular, $A^T$ is invertible.
+\end{enumerate}
+
+\marginnote{This works because the properties of the field \( K \). However,
+matricies over a field is not a field.}
+
+
+\section{Vector spaces}
+We start with the abstract definition of a vector space over a field $K$. Although we are mainly interested in the case $K \in \{\mathbb{R}, \mathbb{C}\}$, it is of some benefit to keep things more general where no extra effort is needed.
+
+As advertised, we will now write $0$ and $1$ for the neutral elements of addition and multiplication in the field $K$.
+
+\subsubsection*{Definition 2.1.1 (Vector space)}
+A nonempty set $V$ is called a \textbf{vector space} over the field $(K, +, \cdot)$ (with additive/multiplicative neutral $0$ and $1$, respectively) if there exist operations
+\[
+\odot : K \times V \to V, \quad (\lambda, x) \mapsto \lambda \odot x \quad \text{(scalar multiplication)}
+\]
+and
+\[
+\oplus : V \times V \to V, \quad (x, y) \mapsto x \oplus y \quad \text{(vector addition)}
+\]
+
+\marginnote{These are all abstract. It says nothings about how the scalar multiplication works and how it looks like.
+We are not defining anything here. We are saying if we have these operations satisfying these properties, then we have a vector space.}
+
+such that the following hold:
+\begin{itemize}
+    \item[(V1)] $(V, \oplus)$ is an \textbf{abelian group}:
+    \begin{itemize}
+        \item[(i)] $(x \oplus y) \oplus z = x \oplus (y \oplus z)$ for all $x, y, z \in V$ \hfill \textit{(associativity)};
+        \item[(ii)] There exists $o \in V$ such that $o \oplus x = x$ for all $x \in V$ \hfill \textit{(neutral element)};
+        \item[(iii)] For every $x \in V$ there exists $-x \in V$ such that $x \oplus (-x) = o$ \hfill \textit{(inverse element)};
+        \item[(iv)] $x \oplus y = y \oplus x$ for all $x, y \in V$ \hfill \textit{(commutativity)}.
+    \end{itemize}
+    \item[(V2)] For all $\lambda, \mu \in K$, $x \in V$ we have
+    \[
+    (\lambda \cdot \mu) \odot x = \lambda \odot (\mu \odot x) \quad \text{\textit{(mixed associativity)}}.
+    \]
+    \item[(V3)] For all $\lambda, \mu \in K$, $x, y \in V$ we have
+    \[
+    \lambda \odot (x \oplus y) = (\lambda \odot x) \oplus (\lambda \odot y) \quad \text{and} \quad (\lambda + \mu) \odot x = (\lambda \odot x) \oplus (\mu \odot x) \quad \text{\textit{(mixed distributivity)}}.
+    \]
+    \item[(V4)] For all $x \in V$ we have
+    \[
+    1 \odot x = x \quad \text{\textit{(identity law)}}.
+    \]
+\end{itemize}
+
+The only correct definition of a vector is it's an element of a vector space.
+
 % end of main text
 
 \makeatletter

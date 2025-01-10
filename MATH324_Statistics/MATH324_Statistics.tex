@@ -134,7 +134,7 @@
 an inference about a population based on information contained
 in a sample from that population and to provide an associated
 measure of goodness for the inference.}
-\section{Estimation}
+\subsection{Estimation}
 Populations are usually characterized by numerical descriptive measures
 called \textbf{parameters}. The objective of many statistical investigations is to
 estimate the value of one or more relevant parameters. We called
@@ -153,6 +153,25 @@ that is intended to enclose the parameter of interest; thus, it is called an \te
     measurements contained in a sample.
 \end{Definition}
 
+\subsection{Inequalities}
+\begin{Definition}[Markov's Inequality]
+    Let X be a random variable and \( h \) be a \textbf{non-negative} function; i.e. \( h:\mathbb{R}\mapsto \mathbb{R} \cup \left\{0\right\}
+     \).\\ Suppose \( \mathbb{E}[h(X)] < \infty\), then for some \( \lambda > 0 \), we have:
+    \[
+        \mathbb{P}(h(x) \geq \lambda) \leq \frac{\mathbb{E}[h(x)]}{\lambda}.
+    \]
+\end{Definition}
+
+Then we have Tchebysheff's Inequality, which is a special case of Markov's Inequality.
+Consider \( h(x)= (x-\mu)^2 \), we have:
+
+\begin{Definition}[Tchebysheff's Inequality]
+    Let X be a random variable with finite mean \( \mu \) and finite variance \( \sigma^2 \). Then for any \( K > 0 \), we have:
+    \[
+        \mathbb{P}(|X - \mu| \geq K\sigma) \leq \frac{1}{K^2}.
+    \]
+    
+\end{Definition}
 
 % end of main text
 
