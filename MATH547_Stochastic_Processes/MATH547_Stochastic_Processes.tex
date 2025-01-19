@@ -128,12 +128,11 @@
 \end{abstract}
 
 % main text
-\section{Introduction}
+\section{Preliminaries}
 
 \begin{Definition}[Probability space]\hfill\\
     
 \end{Definition}
-
 
 \subsection{Independence}
 Probability theory is about finding some sort of independence.
@@ -152,7 +151,14 @@ Probability theory is about finding some sort of independence.
     are independent.
 \end{Definition}
 
-\subsection{Important theorem}
+\subsection{Convergences and limit theorems}
+\begin{Definition}[In-probability convergence]\hfill\\
+    The sequence \( (X_j:j \in \mathbb{N}_0) \) converges in-probability to \( X_0 \) if for all \( \epsilon > 0 \),
+        \[ \lim_{j\rightarrow\infty}P(d(X_j - X_0) > \epsilon) = 0, \]
+        in which case we write \(X_j \xrightarrow[\mathrel{j \to \infty}]{\mathrm{Pr}} X_0\).
+\end{Definition}
+
+
 \begin{Theorem}[Law of large number (weak)]
     If \( \left\{X_n\right\}_{n=0}^{\infty} \) are real-valued,
     independent, identically distributed random variables and
@@ -160,10 +166,23 @@ Probability theory is about finding some sort of independence.
     \[\frac{1}{n} \sum_{j=1}^{n}X_j\rightarrow^{\mathbb{P}}_{n\rightarrow\infty}=\mathbb{E}(Xi)\]
 \end{Theorem}
 
-\begin{Definition}[in-probability concergence]
+\begin{Definition}[Almost sure convergence]\hfill\\
+    The sequence $(X_j : j \in \mathbb{N}_0)$ converges almost surely to $X_0$ if
+\[
+\Pr\left(\limsup_{j \to \infty} d(X_j, X_0) > 0\right) = 0,
+\]
+in which case we write
+\(
+X_j \xrightarrow[\mathrel{j \to \infty}]{\mathrm{a.s.}} X_0.
+\)
+
+In-probability convergence does not rule out rare events.
     
 \end{Definition}
 
+\marginnote{The intuition behind the limsup here? Limsup always exist.}
+
+It is generally the case that in-probability convergence is strictly weaker than almost sure convergence.
 
 \begin{Theorem}[Law of large number (strong)]
     If \( \left\{X_n\right\}_{n=0}^{\infty} \) are real-valued,
@@ -175,6 +194,27 @@ Probability theory is about finding some sort of independence.
 \marginnote{Large number theorem tells us value will converge to the expected value. Then
 central limit theorem tells us how close it will be.}
 
+\begin{Example}[In-probability v.s. almost sure convergence]
+    Suppose \( \left\{X_j\right\}^{\infty} \) be independent  \( \left\{0,1\right\} \) - valued
+    random variables.
+    \[P(X_j=1) = 1\slash j\]
+\end{Example}
+
+In this case, we have 
+\[\lim_{j\rightarrow \infty } P(\left|X_j-0\right| > \epsilon) = P(X_j=1) = 1\slash j = 0,\]
+therefore \(X_j \xrightarrow[\mathrel{j \to \infty}]{\mathrm{Pr}} 0\). However, 
+\[P(\limsup_{j\rightarrow\infty} \left|X_j-0\right| > 0) = P(\limsup_{j\rightarrow\infty} X_j = 1) = 1,\]
+
+\begin{Definition}[Weak convergence]
+    The sequence $(X_j : j \in \mathbb{N}_0)$ converges in law to $X_0$ if for all bounded continuous functions $\varphi : S \to \mathbb{R}$
+\[
+\lim_{j \to \infty} \mathbb{E} \varphi(X_j) = \mathbb{E} \varphi(X_0),
+\]
+in which case we write 
+\(
+X_j \xrightarrow[\mathrel{j \to \infty}]{\mathrm{law}} X_0.
+\)
+\end{Definition}
 
 \begin{Theorem}[Central limit theorem]
     If \( \left\{X_n\right\}_{n=0}^{\infty} \) are iid. random variables,
@@ -183,6 +223,30 @@ central limit theorem tells us how close it will be.}
     \[\lim_{n\rightarrow\infty}P\left(\frac{\sum_{j=1}^{n}X_j - n\mu}{\sigma\sqrt{n}}\leq t\right) = \Phi(t)\]
     where \(\Phi(t)\) is the standard normal distribution function.
 \end{Theorem}
+
+\subsection{Conditional probability and expectation}
+\begin{Definition}[Conditional expectation on random variables]\hfill\\
+    If X takes countably many values and Y is a random variable
+    with either \( Y \geq 0 \) or \( \mathbb{E}\left|Y\right| < \infty \),
+    then,
+    \begin{align*}
+    \mathbb{E}\left[Y|X\right]&=\sum_{X}\mathbb{E}\left[Y|X=x\right]\mathbb{1}(X=x)\\
+    &= \sum_{X}\frac{\mathbb{E}\left[Y|\mathbb{1}(X=x)\right]}{P(X=x)}\mathbb{1}(X=x).
+    \end{align*}
+
+    Or, in measure-theoretic terms, we have:
+    \[\mathbb{E}\left[Y|X\right]=\mathbb{E}\left[Y|\sigma(X)\right]\]
+    
+\end{Definition}
+
+Another case where we can condition:
+
+\begin{Definition}[Conditioning on families of independent random variables]
+    If \( (X_1,X_2,\ldots,X_n) \) are independent random variables in some
+    state space S, and \( Y=f(X_1,X_2,\ldots,X_n) \) for \( f:S^n \mapsto \mathbb{R} \)
+    \[\]
+\end{Definition}
+
 
 \section{Stochastic Processes}
 A stochastic process is a family of random variables indexed by natural numbers (time).
@@ -193,13 +257,26 @@ A stochastic process is a family of random variables indexed by natural numbers 
 \end{Definition}
 
 \marginnote{Basic examples:\\
-    1. iid. random variables (e.g. iid. dice rolls)\\
+    1. iid. randomHello Professor Masset! I was wondering if you would be free to meet up for a quick discussion about the things this term? We could meet whenever works best for you. If you're busy we can also just meet after the lab meeting starts 
+
+    Smile eyes variables (e.g. iid. dice rolls)\\
     2. Random walk} 
+
+\begin{Definition}[Filtration]
+    A \textit{filtration} $(\mathcal{F}_j : j \geq j_0)$ is a sequence of $\sigma$-algebras 
+with the property that they are increasing, so for all $j \geq j_0$, 
+$\mathcal{F}_j \subseteq \mathcal{F}_{j+1}$. A stochastic process 
+$(X_j : j \geq j_0)$ is \textit{adapted} to a filtration if $X_j$ is $\mathcal{F}_j$-measurable for all $j \geq j_0$. 
+Any stochastic process also gives rise to a filtration, its \textit{natural filtration}, 
+just by setting $\mathcal{F}_j = \sigma(X_k : j_0 \leq k \leq j)$.
+\end{Definition}
 
 \begin{Definition}[Countable state space markov chain]
     A stochastic process \(\left\{X_j\right\}_{j\in \mathbb{N}_0}\)
     satisfies the Markov property.
 \end{Definition}
+
+\( \sigma \)-algebra is about information.
 
 % end of main text
 
