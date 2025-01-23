@@ -278,6 +278,17 @@ just by setting $\mathcal{F}_j = \sigma(X_k : j_0 \leq k \leq j)$.
 
 \( \sigma \)-algebra is about information.
 
+\subsubsection*{Why We Can Split the Event}
+We use the law of total probability (or the chain rule for conditional probabilities) to split the event
+$\bigcap_{i=1}^{m+1} \{X_{k+i} \in A_{k+i}\}$ at $X_{k+1}$. By conditioning on $X_{k+1}$, we factor
+the probability and then apply the induction hypothesis for the remaining terms.
+
+\subsubsection*{Explanation of the Induction}
+The key is that for $n=m+1$, we split the event $\bigcap_{i=1}^{m+1}\{X_{k+i} \in A_{k+i}\}$ at $X_{k+1}$, 
+apply the induction hypothesis for the remaining $m$ steps, and then use (a) to reduce the conditioning 
+to $X_k$ alone. This confirms that each additional step depends only on the immediately preceding state.
+
+
 % end of main text
 
 \makeatletter

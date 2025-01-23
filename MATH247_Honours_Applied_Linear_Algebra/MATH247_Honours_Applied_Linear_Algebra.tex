@@ -297,7 +297,7 @@ we say that $A$ is \textbf{invertible} and write $A^{-1} = B$ and call $A^{-1}$ 
 
 The following properties are established in MATH 133 for the case $K \in \{\mathbb{R}, \mathbb{C}\}$ and will be used throughout.
 
-\subsubsection*{Theorem 1.2.1 (Matrix calculus)}
+\begin{Theorem}[Matrix calculus]
 Let $A, A' \in K^{m \times n}$, $B, B' \in K^{n \times r}$, and $C \in K^{r \times s}$. Then the following hold:
 \begin{enumerate}
     \item[(a)] $A(B + B') = AB + AB'$ and $(B + B')C = BC + B'C$ \hfill \textit{(distributivity)}.
@@ -308,6 +308,7 @@ Let $A, A' \in K^{m \times n}$, $B, B' \in K^{n \times r}$, and $C \in K^{r \tim
     \item[(f)] $A, B$ are invertible, then $(AB)^{-1} = B^{-1}A^{-1}$. In particular, $AB$ is invertible.
     \item[(g)] If $A$ is invertible, then $(A^T)^{-1} = (A^{-1})^T$. In particular, $A^T$ is invertible.
 \end{enumerate}
+\end{Theorem}
 
 \marginnote{This works because the properties of the field \( K \). However,
 matricies over a field is not a field.}
@@ -318,7 +319,7 @@ We start with the abstract definition of a vector space over a field $K$. Althou
 
 As advertised, we will now write $0$ and $1$ for the neutral elements of addition and multiplication in the field $K$.
 
-\subsubsection*{Definition 2.1.1 (Vector space)}
+\begin{Definition}[Vector space]
 A nonempty set $V$ is called a \textbf{vector space} over the field $(K, +, \cdot)$ (with additive/multiplicative neutral $0$ and $1$, respectively) if there exist operations
 \[
 \odot : K \times V \to V, \quad (\lambda, x) \mapsto \lambda \odot x \quad \text{(scalar multiplication)}
@@ -327,10 +328,6 @@ and
 \[
 \oplus : V \times V \to V, \quad (x, y) \mapsto x \oplus y \quad \text{(vector addition)}
 \]
-
-\marginnote{These are all abstract. It says nothings about how the scalar multiplication works and how it looks like.
-We are not defining anything here. We are saying if we have these operations satisfying these properties, then we have a vector space.}
-
 such that the following hold:
 \begin{itemize}
     \item[(V1)] $(V, \oplus)$ is an \textbf{abelian group}:
@@ -354,15 +351,57 @@ such that the following hold:
     \]
 \end{itemize}
 
+\end{Definition}
+
+\begin{Lemma}
+    Let \( M \) be a subset of the vector space \( V \) over \( K \).
+    Then the span \( M \) is a subspace of \( V \).
+\end{Lemma}
+
+\begin{Theorem}[Linear hull = linear span]
+    Let \( V \) be a vector space over \( K \) and \( M \subset V  \).
+    \[\text{lin} M = \text{span} M\]
+\end{Theorem}
+
+\begin{Definition}[Sum of subspaces]
+  Let \( V \) be a vector space over \( K \) and let \( U_1, U_2 \subset V  \)
+  be subspaces. Then
+  \[U_1 + U_2 := \left\{u_1 + u_2 | u_i \in U_i\; (i=1,2)\right\}\]
+  is called the (Minkowski) sum of \( U_1 \) and \( U_2 \). If 
+  \( U_1 \cap U_2 = \left\{0\right\}\) then this sum is called
+  direct and we we write \( U_1 \oplus U_2 \).
+\end{Definition}
+
+\begin{Theorem}[Sum of subspaces]
+  Let \( V \) be a vector space over \( K \) and let \( U_1, U_2 \subset V  \)
+  be subspaces. Then the following hold:
+\begin{enumerate}
+    \item \( U_1 + U_2 \) is a subspace of \( V \).
+    \item \( U_1 + U_2 = lin(U_1 \cup U_2)\) 
+\end{enumerate}
+\end{Theorem}
+
+
+\begin{Definition}[Linear independence]Let \( V \) be a vector space over a field \( K \).\\
+
+\textbf{\textit{a}) Finitely many vectors} \( x_1, \dots, x_n \in V \) \textbf{are called} linearly independent \textbf{\textit{if the equation}}
+
+\[
+\sum_{i=1}^{n} \lambda_i x_i = 0, \quad \lambda_i \in K \quad (i = 1, \dots, n)
+\]
+
+\textbf{only has the trivial solution} \( \lambda_1 = \dots = \lambda_n = 0 \).
+
+\textbf{\textit{b}) An arbitrary set} \( M \subset V \) \textbf{is called linearly independent if every collection of finitely many} \underline{(pairwise) different} \textbf{vectors from} \( M \) \textbf{are linearly independent. In addition we let the empty set} \( \emptyset \) \textbf{be linearly independent.}
+
+\end{Definition}
+
+\marginnote{These are all abstract. It says nothings about how the scalar multiplication works and how it looks like.
+We are not defining anything here. We are saying if we have these operations satisfying these properties, then we have a vector space.}
+
 The only correct definition of a vector is it's an element of a vector space.
 
-Linear combinations:
 
-Reducing?
-
-How finite span R^2
-
-linear combinations proof: closed under addition and scalar multiplication?
 % end of main text
 
 \makeatletter
